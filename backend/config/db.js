@@ -5,11 +5,22 @@ const fs = require("fs");
 let isMongoConnected = false;
 let cachedMongoConn = null;
 
+let mongoConnectingPromise = null;
+
 // 1. Connect to MongoDB Atlas (with connection caching for Serverless environments)
 const connectMongoDB = async () => {
-  if (cachedMongoConn && mongoose.connection.readyState === 1) {
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
     isMongoConnected = true;
     return true;
+  }
+  if (mongoose.connection && mongoose.connection.readyState === 2) {
+    await new Promise((resolve) => mongoose.connection.once("open", resolve));
+    isMongoConnected = true;
+    return true;
+  }
+  if (mongoConnectingPromise) {
+    await mongoConnectingPromise;
+    return isMongoConnected;
   }
 
   const mongoURI = process.env.MONGODB_URI || "mongodb+srv://bijayalaxmilenka48_db_user:9AmhLquZMCZ2SAb@ridebuddy.twjpoqm.mongodb.net/bricknbath?retryWrites=true&w=majority&appName=RideBuddy";
@@ -20,9 +31,10 @@ const connectMongoDB = async () => {
 
   try {
     console.log("⏳ Connecting to MongoDB Atlas Cluster...");
-    const conn = await mongoose.connect(mongoURI, {
+    mongoConnectingPromise = mongoose.connect(mongoURI, {
       serverSelectionTimeoutMS: 8000
     });
+    const conn = await mongoConnectingPromise;
     cachedMongoConn = conn;
     isMongoConnected = true;
     console.log(`🍃 Connected to MongoDB Atlas: ${conn.connection.host} (Database: ${conn.connection.name})`);
@@ -30,6 +42,7 @@ const connectMongoDB = async () => {
   } catch (err) {
     console.error("❌ MongoDB Atlas connection error:", err.message);
     isMongoConnected = false;
+    mongoConnectingPromise = null;
     return false;
   }
 };

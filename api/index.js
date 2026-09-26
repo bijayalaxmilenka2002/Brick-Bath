@@ -1,6 +1,6 @@
 // Vercel Serverless Function entry point
-const app = require("../backend/server");
 const { connectMongoDB } = require("../backend/config/db");
+const app = require("../backend/server");
 
 module.exports = async (req, res) => {
   try {

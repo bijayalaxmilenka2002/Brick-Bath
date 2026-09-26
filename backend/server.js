@@ -50,17 +50,19 @@ app.use("/api/auth", authRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/careers", careerRoutes);
 
-// Serve static frontend files from the workspace root
-const frontendPath = path.join(__dirname, "..");
-app.use(express.static(frontendPath));
+if (!process.env.VERCEL) {
+  // Serve static frontend files from the workspace root (Local Development)
+  const frontendPath = path.join(__dirname, "..");
+  app.use(express.static(frontendPath));
 
-// Fallback to index.html for root or client routes (skipping /api)
-app.get("*", (req, res, next) => {
-  if (req.path.startsWith("/api")) {
-    return next();
-  }
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
+  // Fallback to index.html for root or client routes (skipping /api)
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api")) {
+      return next();
+    }
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {

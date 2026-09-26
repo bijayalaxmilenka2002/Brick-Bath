@@ -1,15 +1,20 @@
 const mongoose = require("mongoose");
-const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const fs = require("fs");
 
 let isMongoConnected = false;
+let cachedMongoConn = null;
 
-// 1. Connect to MongoDB Atlas
+// 1. Connect to MongoDB Atlas (with connection caching for Serverless environments)
 const connectMongoDB = async () => {
+  if (cachedMongoConn && mongoose.connection.readyState === 1) {
+    isMongoConnected = true;
+    return true;
+  }
+
   const mongoURI = process.env.MONGODB_URI;
   if (!mongoURI) {
-    console.log("ℹ️  MONGODB_URI not found in .env. Ready for MongoDB Atlas connection string.");
+    console.log("ℹ️  MONGODB_URI not found in environment.");
     return false;
   }
 
@@ -18,40 +23,54 @@ const connectMongoDB = async () => {
     const conn = await mongoose.connect(mongoURI, {
       serverSelectionTimeoutMS: 8000
     });
+    cachedMongoConn = conn;
     isMongoConnected = true;
     console.log(`🍃 Connected to MongoDB Atlas: ${conn.connection.host} (Database: ${conn.connection.name})`);
     return true;
   } catch (err) {
     console.error("❌ MongoDB Atlas connection error:", err.message);
-    console.log("⚠️  Falling back to local SQLite database until Atlas credentials are confirmed.");
     isMongoConnected = false;
     return false;
   }
 };
 
 // Automatically initiate MongoDB Atlas connection
-connectMongoDB();
+connectMongoDB().catch(() => {});
 
-// 2. Local SQLite Engine (Maintains operational resilience)
-const dbPath = process.env.DB_PATH 
-  ? path.resolve(process.env.DB_PATH) 
-  : path.join(__dirname, "../data/bricknbath.sqlite");
+// 2. Local SQLite Engine (Safe initialization for local development, graceful fallback on Vercel)
+let db = null;
 
-const dataDir = path.dirname(dbPath);
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
+try {
+  // If running in Vercel serverless, SQLite is optional and must use /tmp if initialized
+  const isVercel = !!process.env.VERCEL;
+  const dbPath = isVercel 
+    ? path.join("/tmp", "bricknbath.sqlite")
+    : (process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.join(__dirname, "../data/bricknbath.sqlite"));
 
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error("❌ Failed to connect to SQLite database:", err.message);
-  } else {
-    console.log(`✅ SQLite fallback database initialized at: ${dbPath}`);
+  const dataDir = path.dirname(dbPath);
+  if (!fs.existsSync(dataDir)) {
+    try {
+      fs.mkdirSync(dataDir, { recursive: true });
+    } catch (e) {
+      // Read-only filesystem (Vercel)
+    }
   }
-});
+
+  const sqlite3 = require("sqlite3").verbose();
+  db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+      console.warn("⚠️ SQLite fallback notice:", err.message);
+    } else {
+      console.log(`✅ SQLite fallback database initialized at: ${dbPath}`);
+    }
+  });
+} catch (err) {
+  console.log("ℹ️ SQLite native engine omitted or running in serverless cloud mode:", err.message);
+}
 
 const run = (sql, params = []) => {
   return new Promise((resolve, reject) => {
+    if (!db) return resolve({ lastID: 0, changes: 0 });
     db.run(sql, params, function (err) {
       if (err) reject(err);
       else resolve({ lastID: this.lastID, changes: this.changes });
@@ -61,6 +80,7 @@ const run = (sql, params = []) => {
 
 const get = (sql, params = []) => {
   return new Promise((resolve, reject) => {
+    if (!db) return resolve(null);
     db.get(sql, params, (err, row) => {
       if (err) reject(err);
       else resolve(row);
@@ -70,15 +90,17 @@ const get = (sql, params = []) => {
 
 const all = (sql, params = []) => {
   return new Promise((resolve, reject) => {
+    if (!db) return resolve([]);
     db.all(sql, params, (err, rows) => {
       if (err) reject(err);
-      else resolve(rows);
+      else resolve(rows || []);
     });
   });
 };
 
-// Initialize schema tables for SQLite fallback
+// Initialize schema tables for SQLite fallback if active
 const initDatabase = async () => {
+  if (!db) return;
   try {
     await run(`
       CREATE TABLE IF NOT EXISTS inquiries (
@@ -90,15 +112,9 @@ const initDatabase = async () => {
         preferred_date TEXT,
         requirements TEXT,
         status TEXT DEFAULT 'New',
-        tracking_token TEXT UNIQUE,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
-
-    // Ensure tracking_token column exists in existing SQLite databases
-    try {
-      await run(`ALTER TABLE inquiries ADD COLUMN tracking_token TEXT UNIQUE`);
-    } catch (ignoreErr) {}
 
     await run(`
       CREATE TABLE IF NOT EXISTS careers (
@@ -114,11 +130,11 @@ const initDatabase = async () => {
       )
     `);
   } catch (err) {
-    console.error("❌ Error initializing SQLite tables:", err.message);
+    console.warn("Notice initializing SQLite tables:", err.message);
   }
 };
 
-initDatabase();
+initDatabase().catch(() => {});
 
 module.exports = {
   db,
@@ -126,5 +142,5 @@ module.exports = {
   get,
   all,
   connectMongoDB,
-  isMongoActive: () => isMongoConnected
+  isMongoActive: () => isMongoConnected || (mongoose.connection && mongoose.connection.readyState === 1)
 };

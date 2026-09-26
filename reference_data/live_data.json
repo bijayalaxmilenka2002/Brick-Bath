@@ -1,0 +1,208 @@
+{
+  "services": {
+    "success": true,
+    "count": 4,
+    "data": [
+      {
+        "_id": "6a29374a62bd63785127a830",
+        "serviceName": "Signature Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781086007/omywwpenijgjccdqxd6r.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Fully customized design",
+          "Imported finish options",
+          "Premium Luxury accessories",
+          "Designer Storage Solution",
+          "Exclusive Styling Consultation",
+          "White-Glove project Management"
+        ],
+        "description": "<p><strong>Signature Collection \u2013 An ultra-premium offering where bespoke aesthetics, curated accessories, intelligent storage, and expert styling come together to create a bathroom that is uniquely yours</strong>.</p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Bespoke | Iconic | Timeless",
+        "status": true,
+        "createdAt": "2026-06-10T10:07:06.618Z",
+        "updatedAt": "2026-07-28T07:10:14.241Z",
+        "__v": 0,
+        "brands": [
+          "Johnson"
+        ],
+        "collections": [
+          {
+            "name": "Tiles",
+            "quantity": "12",
+            "_id": "6a6855d6ef1a2cb5ac64c3b2"
+          },
+          {
+            "name": "Sanitary ware",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b3"
+          },
+          {
+            "name": "CP Fittings",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b4"
+          },
+          {
+            "name": "Vanity Units",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b5"
+          }
+        ],
+        "deliveryTimeline": "21 Days",
+        "warranty": "10 Years"
+      },
+      {
+        "_id": "6a29359362bd63785127a7de",
+        "serviceName": "Elite Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781085579/qqxbuogembqgmd3kj25i.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Large-format Designer tiles",
+          "Premium jaquar range",
+          "Custom vanity",
+          "Concealed Storage",
+          "Designer Lighting ",
+          "Luxury finishes"
+        ],
+        "description": "<p><strong>Elite Collection \u2013 An exclusive sanctuary of style, curated with premium materials, custom-designed features, and luxurious accents to deliver unparalleled comfort and distinction.</strong></p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p><h3><br></h3>",
+        "note": "Luxury | Personalized | Exclusive",
+        "status": true,
+        "createdAt": "2026-06-10T09:59:47.645Z",
+        "updatedAt": "2026-07-28T07:09:57.180Z",
+        "__v": 0,
+        "brands": [
+          ""
+        ],
+        "collections": [],
+        "deliveryTimeline": "21 Days",
+        "warranty": "7 Years"
+      },
+      {
+        "_id": "6a290c6662bd6378512786e0",
+        "serviceName": "Prestige Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781074989/hzxvkzkysc3dvrpsngr5.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Premium tiles collection",
+          "Enhanced vanity unit",
+          "Designer Mirror",
+          "Premium Accessories",
+          "Better storage Solutions",
+          "Feature Wall Design"
+        ],
+        "description": "<p><strong>Prestige Collection \u2013 Elevate your bathroom with premium tiles, an enhanced vanity unit, designer mirror, elegant accessories, smart storage solutions, and a stunning feature wall design. Thoughtfully curated to create a sophisticated, stylish, and highly functional space.</strong></p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Premium |  Refined | Sophisticates",
+        "status": true,
+        "createdAt": "2026-06-10T07:04:06.299Z",
+        "updatedAt": "2026-07-28T07:10:28.774Z",
+        "__v": 0,
+        "brands": [
+          ""
+        ],
+        "collections": [],
+        "deliveryTimeline": "21 Days",
+        "warranty": "5 Years"
+      },
+      {
+        "_id": "6a22ab39e8e63720ff5cbc25",
+        "serviceName": "Aura Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781007080/gfambk7kt3jtdhfc5nhe.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Complete demolition",
+          "Waterproofing & Jaquar CP Fitting",
+          "Floor & Wall tiles, Vanity Cabinet",
+          "Wall- Mounted Wc",
+          "Basin & Mirror, Bathroom Accessories",
+          "Labour & Supervision ,Grouting & Finishing"
+        ],
+        "description": "<p><strong>Aura Collection \u2013 Where premium design meets complete bathroom transformation, crafted for modern living. Everything your dream bathroom needs, professionally delivered and beautifully installed.</strong> (The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Ideal for Apartments , Rental Homes & Budget Renovations",
+        "status": true,
+        "createdAt": "2026-06-05T10:55:53.946Z",
+        "updatedAt": "2026-07-28T07:10:37.505Z",
+        "__v": 0,
+        "brands": [
+          "Johnson"
+        ],
+        "collections": [
+          {
+            "name": "Tiles",
+            "quantity": "12 Options",
+            "_id": "6a6855edef1a2cb5ac64c3cb"
+          }
+        ],
+        "deliveryTimeline": "21 Days",
+        "warranty": "5 Years"
+      }
+    ]
+  },
+  "testimonials": {
+    "success": true,
+    "count": 5,
+    "data": [
+      {
+        "_id": "6a55e734e1b01da979a07fec",
+        "name": "Sanjay Patel",
+        "location": "Cuttack",
+        "rating": 5,
+        "testimonial": "Outstanding service and exceptional results. The bathroom design perfectly matched our vision, and the installation quality was top-notch. We are extremely satisfied",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:37:24.839Z",
+        "updatedAt": "2026-07-14T07:37:38.061Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e52ae1b01da979a07e95",
+        "name": "Sneha Mishra",
+        "location": "Bhubaneswar",
+        "rating": 5,
+        "testimonial": "The BricknBath team guided us through every step of the renovation process. They completed the project on time and maintained excellent communication throughout",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:28:42.193Z",
+        "updatedAt": "2026-07-14T07:33:08.465Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e4fbe1b01da979a07e8d",
+        "name": "Amit Kumar",
+        "location": "Puri",
+        "rating": 5,
+        "testimonial": "We were impressed by the attention to detail and transparent pricing. Our bathroom now feels like a luxury hotel spa. Highly recommended for anyone planning a renovation",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:27:55.068Z",
+        "updatedAt": "2026-07-14T07:33:14.118Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e4aae1b01da979a07e84",
+        "name": "Priya Das",
+        "location": "Cuttack",
+        "rating": 5,
+        "testimonial": "From design consultation to final installation, the entire experience was smooth and hassle-free. The quality of materials and workmanship exceeded our expectations",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:26:34.308Z",
+        "updatedAt": "2026-07-14T07:33:29.374Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e486e1b01da979a07e7d",
+        "name": "Rajesh Sharma",
+        "location": "Bhubaneswar",
+        "rating": 5,
+        "testimonial": "BricknBath completely transformed our outdated bathroom into a modern and elegant space. The team was professional, punctual, and delivered exactly what was promised.",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:25:58.345Z",
+        "updatedAt": "2026-07-14T07:33:33.066Z",
+        "__v": 0
+      }
+    ]
+  }
+}

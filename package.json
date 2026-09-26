@@ -1,0 +1,29 @@
+{
+  "name": "bricknbath-website",
+  "version": "1.0.0",
+  "description": "Brick & Bath Luxury Bathroom Renovation Portal with Express & SQLite Backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test:db": "node backend/test-db-connection.js"
+  },
+  "keywords": [
+    "bathroom-renovation",
+    "express",
+    "sqlite",
+    "luxury-decor"
+  ],
+  "author": "Brick & Bath",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.2",
+    "nodemailer": "^10.0.10",
+    "sqlite3": "^5.1.7"
+  }
+}

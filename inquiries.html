@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brick & Bath | Luxury Owner Portal & Inquiries Manager</title>
+  <link rel="icon" type="image/png" href="assets/navlogo.3c15008711dbb09cbf59.png">
+  <script>
+    // Immediate redirect to Owner Login page if unauthenticated
+    (function() {
+      const token = sessionStorage.getItem("bnb_owner_token") || localStorage.getItem("bnb_owner_token");
+      if (!token) {
+        window.location.replace("owner-login.html");
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --portal-dark: #0B111A;
+      --portal-surface: #141C2B;
+      --portal-card-bg: #FFFFFF;
+      --portal-bg: #F5F7FA;
+      --portal-border: #E2E8F0;
+      --portal-gold: #C59D42;
+      --portal-gold-light: #E7C873;
+      --portal-gold-dark: #9A7726;
+      --portal-gold-rgb: 197, 157, 66;
+      --portal-text: #1E293B;
+      --portal-muted: #64748B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--portal-bg);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--portal-text);
+      min-height: 100vh;
+      padding-bottom: 5rem;
+    }
+
+    /* Executive Portal Top Bar */
+    .portal-header {
+      background: var(--portal-dark);
+      color: #FFFFFF;
+      padding: 1.1rem 0;
+      border-bottom: 3px solid var(--portal-gold);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .portal-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .portal-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .brand-logo-badge {
+      height: 44px;
+      width: auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(197, 157, 66, 0.3);
+      padding: 4px 8px;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* MongoDB Atlas Status Badge */
+    .backend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .backend-badge.connected {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .backend-badge.fallback {
+      background: rgba(245, 158, 11, 0.15);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 currentColor; }
+      70% { box-shadow: 0 0 0 6px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.6rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .btn-sm {
+      padding: 0.42rem 0.85rem;
+      font-size: 0.8rem;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--portal-gold-light), var(--portal-gold));
+      color: #0B111A;
+      border-color: var(--portal-gold);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(197, 157, 66, 0.25);
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FFF, var(--portal-gold-light));
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #FFFFFF;
+      color: #334155;
+      border-color: #CBD5E1;
+    }
+    .btn-secondary:hover {
+      background: #F1F5F9;
+      border-color: #94A3B8;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0 1.75rem;
+    }
+    .stat-card {
+      background: var(--portal-card-bg);
+      border-radius: 14px;
+      padding: 1.35rem 1.4rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      border: 1px solid var(--portal-border);
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      border-color: var(--portal-gold);
+    }
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(197, 157, 66, 0.12);
+      color: var(--portal-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    .stat-num {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1;
+      font-family: 'Outfit', sans-serif;
+    }
+    .stat-desc {
+      font-size: 0.78rem;
+      color: #64748B;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 0.35rem;
+    }
+
+    /* Main Table Container */
+    .ledger-card {
+      background: var(--portal-card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--portal-border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    .ledger-toolbar {
+      padding: 1.35rem 1.75rem;
+      border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .filters-bar {
+      padding: 1rem 1.75rem;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--portal-border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 270px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.65rem 0.85rem 0.65rem 2.4rem;
+      border: 1.5px solid var(--portal-border);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      outline: none;
+      background: #FFFFFF;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus {
+      border-color: var(--portal-gold);
+    }
+    .search-box i {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94A3B8;
+    }
+
+    .filter-dropdown {
+      padding: 0.65rem 0.9rem;
+      border: 1.5px solid var(--portal-border);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #334155;
+      background: #FFFFFF;
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-dropdown:focus {
+      border-color: var(--portal-gold);
+    }
+
+    /* Table Design */
+    .table-responsive {
+      overflow-x: auto;
+      width: 100%;
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .ledger-table th {
+      background: #F8FAFC;
+      padding: 0.95rem 1.25rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748B;
+      border-bottom: 1px solid var(--portal-border);
+      white-space: nowrap;
+    }
+    .ledger-table td {
+      padding: 1.15rem 1.25rem;
+      border-bottom: 1px solid #F1F5F9;
+      font-size: 0.88rem;
+      vertical-align: top;
+    }
+    .ledger-table tr:hover {
+      background: #FAFCFF;
+    }
+
+    /* Badges */
+    .badge-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .badge-turnkey { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+    .badge-master { background: #E0E7FF; color: #3730A3; border: 1px solid #C7D2FE; }
+    .badge-luxury { background: #F3E8FF; color: #6B21A8; border: 1px solid #E9D5FF; }
+    .badge-general { background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; }
+
+    /* Status Select */
+    .status-badge-select {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .status-new { background: #FEE2E2; color: #991B1B; border-color: #FCA5A5; }
+    .status-contacted { background: #FEF3C7; color: #92400E; border-color: #FCD34D; }
+    .status-scheduled { background: #E0E7FF; color: #3730A3; border-color: #A5B4FC; }
+    .status-converted { background: #DCFCE7; color: #166534; border-color: #86EFAC; }
+    .status-archived { background: #F1F5F9; color: #475569; border-color: #CBD5E1; }
+    .status-deleted { background: #FEE2E2; color: #991B1B; border-color: #F87171; text-decoration: line-through; }
+
+    /* Action Buttons */
+    .action-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-action {
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-action-wa { background: #25D366; color: #FFFFFF; }
+    .btn-action-wa:hover { opacity: 0.9; color: #fff; }
+    .btn-action-call { background: #0284C7; color: #FFFFFF; }
+    .btn-action-call:hover { opacity: 0.9; color: #fff; }
+    .btn-action-del { background: transparent; color: #DC2626; border: 1px solid #FCA5A5; padding: 6px 8px; }
+    .btn-action-del:hover { background: #FEE2E2; }
+
+    /* Notes preview */
+    .inquiry-notes-preview {
+      margin-top: 6px;
+      padding: 6px 10px;
+      background: #FFFBEB;
+      border-left: 3px solid var(--portal-gold);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #78350F;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Modals */
+    .portal-modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 17, 26, 0.75);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.5rem;
+    }
+    .portal-modal-card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 540px;
+      padding: 2.25rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #94A3B8;
+      cursor: pointer;
+    }
+
+    .portal-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0B111A;
+      color: #FFFFFF;
+      border: 1.5px solid var(--portal-gold);
+      border-radius: 12px;
+      padding: 0.9rem 1.4rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .portal-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Executive Portal Header -->
+  <header class="portal-header">
+    <div class="portal-container portal-nav">
+      <div class="brand-section">
+        <a href="index.html" title="Brick & Bath Luxury Website">
+          <img src="assets/brand_emblem.svg" alt="Brick & Bath Emblem" class="brand-logo-badge">
+        </a>
+        <div>
+          <h4 style="margin: 0; font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 800; letter-spacing: 0.02em;">
+            BRICK & BATH • LUXURY OWNER PORTAL
+          </h4>
+          <div style="display:flex; align-items:center; gap:0.6rem; margin-top:3px;">
+            <span id="backendBadge" class="backend-badge connected" title="MongoDB Atlas Cloud: Connected and Active">
+              <span class="pulse-dot"></span>
+              <span id="backendBadgeText">MongoDB Atlas Cloud: Active</span>
+            </span>
+            <span style="font-size: 0.78rem; color: #94A3B8;">
+              Private Consultation Lead Management
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+        <button type="button" onclick="openCredentialsModal()" class="btn btn-sm" style="background: rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
+          <i class="fas fa-key" style="color:var(--portal-gold-light);"></i> Credentials
+        </button>
+        <a href="index.html" class="btn btn-sm" style="background: rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.2);">
+          <i class="fas fa-external-link-alt"></i> Website
+        </a>
+        <button type="button" onclick="handleLogout()" class="btn btn-sm" style="background: #DC2626; color:#fff; border:none; cursor:pointer;" title="Secure Sign Out">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Management Container -->
+  <main class="portal-container" style="margin-top: 1.5rem;">
+    
+    <!-- Top Stat Cards -->
+    <div class="stats-grid">
+      <div class="stat-card" onclick="filterByStatus('active')" title="Click to view all active inquiries">
+        <div class="stat-icon"><i class="fas fa-inbox"></i></div>
+        <div>
+          <div class="stat-num" id="totalCount">0</div>
+          <div class="stat-desc">Total Inquiries</div>
+        </div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('New')" title="Click to filter by New inquiries">
+        <div class="stat-icon" style="background:#FEE2E2; color:#DC2626;"><i class="fas fa-clock"></i></div>
+        <div>
+          <div class="stat-num" id="newCount" style="color:#DC2626;">0</div>
+          <div class="stat-desc">New / Pending</div>
+        </div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('Assessment Scheduled')" title="Click to filter Scheduled Assessments">
+        <div class="stat-icon" style="background:#E0E7FF; color:#4338CA;"><i class="fas fa-calendar-check"></i></div>
+        <div>
+          <div class="stat-num" id="scheduledCount">0</div>
+          <div class="stat-desc">Site Assessments</div>
+        </div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('Converted')" title="Click to filter Converted Clients">
+        <div class="stat-icon" style="background:#DCFCE7; color:#166534;"><i class="fas fa-check-circle"></i></div>
+        <div>
+          <div class="stat-num" id="convertedCount">0</div>
+          <div class="stat-desc">Converted / Confirmed</div>
+        </div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('Quotation Sent')" title="Click to filter Quotations Sent">
+        <div class="stat-icon" style="background:#FFFBEB; color:#B45309;"><i class="fas fa-file-invoice-dollar"></i></div>
+        <div>
+          <div class="stat-num" id="quotationCount" style="color:#B45309;">0</div>
+          <div class="stat-desc">Quotations Sent</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leads Table Card -->
+    <div class="ledger-card">
+      <div class="ledger-toolbar">
+        <div>
+          <h5 style="margin:0; font-weight:800; font-size:1.25rem; color:#0F172A; font-family:'Outfit', sans-serif;">
+            Customer Consultation Ledger
+          </h5>
+          <span style="font-size:0.84rem; color:#64748B;" id="ledgerSubtitle">
+            Live cloud synchronization with MongoDB Atlas database
+          </span>
+        </div>
+        <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+          <button type="button" onclick="generateExecutivePDFReport()" class="btn btn-gold btn-sm" title="Download official Executive PDF Lead Report">
+            <i class="fas fa-file-pdf"></i> Download PDF Report
+          </button>
+          <button type="button" onclick="fetchInquiries(true)" class="btn btn-secondary btn-sm" id="refreshBtn" title="Refresh latest records from MongoDB">
+            <i class="fas fa-sync-alt" id="refreshIcon"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by customer name, phone, city, scope, notes, or ref ID..." oninput="applyFilters()">
+        </div>
+
+        <select id="statusFilter" class="filter-dropdown" onchange="applyFilters()">
+          <option value="all" selected>All Statuses</option>
+          <option value="New">Status: New</option>
+          <option value="Contacted">Status: Contacted</option>
+          <option value="Assessment Scheduled">Status: Assessment Scheduled</option>
+          <option value="Quotation Sent">Status: Quotation Sent</option>
+          <option value="Converted">Status: Converted</option>
+        </select>
+
+        <span id="filterCount" style="font-size:0.84rem; color:#64748B; font-weight:700; margin-left:auto;">
+          Showing 0 of 0
+        </span>
+      </div>
+
+      <!-- Inquiries Table -->
+      <div class="table-responsive">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th style="width: 140px;">Ref ID & Date</th>
+              <th style="width: 175px;">Client Info</th>
+              <th style="width: 155px;">Contact Channels</th>
+              <th>Renovation Scope & Internal Remarks</th>
+              <th style="width: 145px;">Preferred Date</th>
+              <th style="width: 165px;">Status</th>
+              <th style="width: 135px; text-align: right;">Quick Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inquiriesTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center; padding:3.5rem; color:#64748B;">
+                <i class="fas fa-spinner fa-spin" style="font-size:2rem; color:var(--portal-gold); margin-bottom:0.75rem; display:block;"></i>
+                Loading consultations from MongoDB Atlas...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Internal Note Modal -->
+  <div id="noteModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeNoteModal()">
+    <div class="portal-modal-card">
+      <button type="button" class="modal-close-btn" onclick="closeNoteModal()">&times;</button>
+      <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1.25rem;">
+        <div style="width:46px; height:46px; border-radius:12px; background:rgba(197,157,66,0.15); color:var(--portal-gold); display:flex; align-items:center; justify-content:center; font-size:1.25rem;">
+          <i class="fas fa-sticky-note"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 0.2rem; font-size:1.2rem; font-weight:800; color:#0F172A;">Client Follow-up Remarks</h4>
+          <p style="margin:0; font-size:0.82rem; color:#64748B;" id="noteModalSubtitle">Consultation #BNB-2026-0000</p>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display:block; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.45rem;">
+          <i class="fas fa-edit" style="color:var(--portal-gold);"></i> Internal Remarks / Site Assessment Notes
+        </label>
+        <textarea id="ownerNoteText" rows="4" style="width:100%; padding:0.85rem 1rem; border:1.5px solid #CBD5E1; border-radius:12px; font-family:inherit; font-size:0.92rem; outline:none; resize:vertical; background:#F8FAFC;" placeholder="e.g. Spoke with client. Site inspection scheduled for Saturday at 4 PM in Jayadev Vihar. Customer requested Italian marble and Hansgrohe thermostatic shower."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.6rem;">
+        <button type="button" onclick="closeNoteModal()" class="btn btn-secondary">Cancel</button>
+        <button type="button" onclick="saveOwnerNote()" id="saveNoteBtn" class="btn btn-gold">
+          <i class="fas fa-save"></i> Save Note to MongoDB
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteConfirmModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeDeleteModal()">
+    <div class="portal-modal-card" style="max-width: 440px; text-align: center; padding: 2.2rem 1.75rem;">
+      <button type="button" class="modal-close-btn" onclick="closeDeleteModal()">&times;</button>
+      <div style="width: 58px; height: 58px; border-radius: 50%; background: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1.25rem;">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+      <h4 style="margin: 0 0 0.5rem; font-size: 1.3rem; font-weight: 800; color: #0F172A;">Delete Customer Consultation?</h4>
+      <p style="margin: 0 0 1.75rem; font-size: 0.88rem; color: #64748B; line-height: 1.5;" id="deleteModalMessage">
+        Are you sure you want to permanently delete this consultation from your database? This action cannot be undone.
+      </p>
+
+      <div style="display: flex; gap: 0.85rem; justify-content: center;">
+        <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary" style="padding: 0.65rem 1.4rem; font-weight: 600;">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button type="button" id="confirmDeleteBtn" onclick="executeDeleteInquiry()" class="btn" style="background: #DC2626; color: #FFF; border-color: #DC2626; padding: 0.65rem 1.5rem; font-weight: 700;">
+          <i class="fas fa-trash-alt"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credentials & Change Password Modal -->
+  <div id="credentialsModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeCredentialsModal()">
+    <div class="portal-modal-card" style="max-width: 480px; padding: 2.2rem; border-radius: 20px;">
+      <button type="button" class="modal-close-btn" onclick="closeCredentialsModal()">&times;</button>
+      <div style="display:flex; align-items:center; gap:0.85rem; margin-bottom:1.35rem; border-bottom:1px solid #E2E8F0; padding-bottom:1.1rem;">
+        <div style="width:48px; height:48px; border-radius:14px; background:rgba(197,157,66,0.15); color:var(--portal-gold); display:flex; align-items:center; justify-content:center; font-size:1.35rem; flex-shrink:0;">
+          <i class="fas fa-key"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 0.2rem; font-size:1.25rem; font-weight:800; color:#0F172A;">Update Owner Credentials</h4>
+          <p style="margin:0; font-size:0.84rem; color:#64748B;">Change your private owner security password</p>
+        </div>
+      </div>
+
+      <div id="credError" style="display:none; background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:0.85rem 1rem; border-radius:10px; font-size:0.86rem; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-exclamation-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
+          <span id="credErrorText"></span>
+        </div>
+      </div>
+
+      <div id="credSuccess" style="display:none; background:#DCFCE7; border:1px solid #86EFAC; color:#166534; padding:0.85rem 1rem; border-radius:10px; font-size:0.86rem; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-check-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
+          <span id="credSuccessText">Password updated successfully!</span>
+        </div>
+      </div>
+
+      <form id="changeCredsForm" onsubmit="saveNewCredentials(event)">
+        <div style="margin-bottom:1.15rem; text-align:left;">
+          <label style="display:block; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.45rem;">
+            <i class="fas fa-lock" style="color:var(--portal-gold); margin-right:4px;"></i> Current Password <span style="color:#DC2626;">*</span>
+          </label>
+          <div style="position:relative; display:flex; align-items:center;">
+            <input type="password" id="currentPass" style="width:100%; height:44px; padding:0 2.75rem 0 1rem; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; font-family:inherit; font-size:0.95rem; color:#0F172A; outline:none;" required placeholder="Enter current owner password" autocomplete="current-password">
+            <button type="button" onclick="togglePassVisibility('currentPass', this)" style="position:absolute; right:0.6rem; background:none; border:none; color:#94A3B8; cursor:pointer; padding:6px; font-size:1rem;" title="Show/Hide Password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.15rem; text-align:left;">
+          <label style="display:block; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.45rem;">
+            <i class="fas fa-key" style="color:var(--portal-gold); margin-right:4px;"></i> New Password (min 6 characters) <span style="color:#DC2626;">*</span>
+          </label>
+          <div style="position:relative; display:flex; align-items:center;">
+            <input type="password" id="newPass" style="width:100%; height:44px; padding:0 2.75rem 0 1rem; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; font-family:inherit; font-size:0.95rem; color:#0F172A; outline:none;" required minlength="6" placeholder="Enter new password" autocomplete="new-password">
+            <button type="button" onclick="togglePassVisibility('newPass', this)" style="position:absolute; right:0.6rem; background:none; border:none; color:#94A3B8; cursor:pointer; padding:6px; font-size:1rem;" title="Show/Hide Password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.15rem; text-align:left;">
+          <label style="display:block; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.45rem;">
+            <i class="fas fa-check-double" style="color:var(--portal-gold); margin-right:4px;"></i> Confirm New Password <span style="color:#DC2626;">*</span>
+          </label>
+          <div style="position:relative; display:flex; align-items:center;">
+            <input type="password" id="confirmPass" style="width:100%; height:44px; padding:0 2.75rem 0 1rem; background:#F8FAFC; border:1.5px solid #CBD5E1; border-radius:10px; font-family:inherit; font-size:0.95rem; color:#0F172A; outline:none;" required minlength="6" placeholder="Re-enter new password" autocomplete="new-password">
+            <button type="button" onclick="togglePassVisibility('confirmPass', this)" style="position:absolute; right:0.6rem; background:none; border:none; color:#94A3B8; cursor:pointer; padding:6px; font-size:1rem;" title="Show/Hide Password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="background:#FFFBEB; border-left:3px solid var(--portal-gold); padding:0.75rem 0.95rem; border-radius:6px; font-size:0.8rem; color:#78350F; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-shield-alt" style="color:var(--portal-gold);"></i>
+          <span>Password will be securely updated in your environment configuration and active session.</span>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" onclick="closeCredentialsModal()" class="btn btn-secondary" style="padding:0.65rem 1.4rem; font-weight:600;">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="submit" id="saveCredsBtn" class="btn btn-gold" style="padding:0.65rem 1.5rem; font-weight:700;">
+            <i class="fas fa-check"></i> Update Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let allInquiries = [];
+    let isFetching = false;
+    let activeInquiryForNote = null;
+    let pendingDeleteId = null;
+
+    // --- JWT Authentication Check ---
+    function getAuthToken() {
+      return sessionStorage.getItem("bnb_owner_token") || localStorage.getItem("bnb_owner_token");
+    }
+
+    function setAuthToken(token) {
+      if (token) {
+        sessionStorage.setItem("bnb_owner_token", token);
+        localStorage.setItem("bnb_owner_token", token);
+      } else {
+        sessionStorage.removeItem("bnb_owner_token");
+        localStorage.removeItem("bnb_owner_token");
+      }
+    }
+
+    function getAuthHeaders() {
+      const token = getAuthToken();
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+
+    function checkAuthGate() {
+      const token = getAuthToken();
+      if (!token) {
+        window.location.replace("owner-login.html");
+      } else {
+        fetchInquiries();
+      }
+    }
+
+    function handleLogout() {
+      setAuthToken(null);
+      window.location.replace("owner-login.html");
+    }
+
+    // --- Fetch Inquiries from MongoDB Atlas ---
+    async function fetchInquiries(isManual = false) {
+      if (isFetching) return;
+      isFetching = true;
+
+      const refreshIcon = document.getElementById("refreshIcon");
+      if (refreshIcon && isManual) refreshIcon.classList.add("fa-spin");
+
+      try {
+        const res = await fetch("/api/inquiries", {
+          headers: getAuthHeaders()
+        });
+
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
+
+        if (res.ok) {
+          const data = await res.json();
+          allInquiries = data.data || data.inquiries || [];
+          updateBackendBadge(data.storageEngine === "MongoDB Atlas" || data.source === "mongodb", data.storageEngine);
+        }
+
+        updateStatCards();
+        applyFilters();
+      } catch (err) {
+        console.warn("Backend API temporarily unreachable:", err);
+      } finally {
+        isFetching = false;
+        if (refreshIcon) refreshIcon.classList.remove("fa-spin");
+      }
+    }
+
+    function updateBackendBadge(isMongo, engineName) {
+      const badge = document.getElementById("backendBadge");
+      const badgeText = document.getElementById("backendBadgeText");
+      const subtitle = document.getElementById("ledgerSubtitle");
+
+      if (!badge || !badgeText) return;
+
+      if (isMongo) {
+        badge.className = "backend-badge connected";
+        badgeText.textContent = "MongoDB Atlas Cloud: Active";
+        if (subtitle) subtitle.textContent = `Live cloud synchronization with MongoDB Atlas cluster (${allInquiries.length} records)`;
+      } else {
+        badge.className = "backend-badge fallback";
+        badgeText.textContent = "Local SQLite Fallback";
+        if (subtitle) subtitle.textContent = "Running on local database. Set MONGODB_URI in .env to connect Atlas.";
+      }
+    }
+
+    // --- Stat Counters ---
+    function updateStatCards() {
+      const totalCount = document.getElementById("totalCount");
+      const newCount = document.getElementById("newCount");
+      const scheduledCount = document.getElementById("scheduledCount");
+      const convertedCount = document.getElementById("convertedCount");
+      const quotationCount = document.getElementById("quotationCount");
+
+      if (totalCount) totalCount.textContent = allInquiries.length;
+      if (newCount) {
+        newCount.textContent = allInquiries.filter(i => (i.status || "New").toLowerCase() === "new").length;
+      }
+      if (scheduledCount) {
+        scheduledCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "assessment scheduled").length;
+      }
+      if (convertedCount) {
+        convertedCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "converted").length;
+      }
+      if (quotationCount) {
+        quotationCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "quotation sent").length;
+      }
+    }
+
+    // --- Filters & Search ---
+    function applyFilters() {
+      const search = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
+      const statusVal = document.getElementById("statusFilter")?.value || "all";
+      const countEl = document.getElementById("filterCount");
+
+      const filtered = allInquiries.filter(item => {
+        const matchesSearch = !search ||
+          (item.id && item.id.toLowerCase().includes(search)) ||
+          (item.refId && item.refId.toLowerCase().includes(search)) ||
+          (item.name && item.name.toLowerCase().includes(search)) ||
+          (item.phone && item.phone.includes(search)) ||
+          (item.city && item.city.toLowerCase().includes(search)) ||
+          (item.requirements && item.requirements.toLowerCase().includes(search)) ||
+          (item.notes && item.notes.toLowerCase().includes(search));
+
+        let matchesStatus = true;
+        const curStatus = (item.status || "New").toLowerCase();
+
+        if (statusVal !== "all") {
+          matchesStatus = curStatus === statusVal.toLowerCase();
+        }
+
+        return matchesSearch && matchesStatus;
+      });
+
+      if (countEl) {
+        countEl.textContent = `Showing ${filtered.length} of ${allInquiries.length}`;
+      }
+
+      renderTable(filtered);
+    }
+
+    function filterByStatus(status) {
+      const statusFilter = document.getElementById("statusFilter");
+      if (statusFilter) {
+        statusFilter.value = status;
+        applyFilters();
+        const ledger = document.querySelector(".ledger-card");
+        if (ledger) ledger.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+
+    // --- Render Table ---
+    function renderTable(items) {
+      const tbody = document.getElementById("inquiriesTableBody");
+      if (!tbody) return;
+
+      if (items.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; padding:3.5rem; color:#64748B;">
+              <i class="fas fa-inbox" style="font-size:2.5rem; color:#CBD5E1; margin-bottom:0.75rem; display:block;"></i>
+              <strong style="font-size:1.05rem; color:#0F172A;">No consultations found matching criteria.</strong><br>
+              <span style="font-size:0.86rem; color:#94A3B8;">Clients who book consultations through your website will appear here in real time.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = items.map(item => {
+        const d = item.createdAt || item.receivedAt ? new Date(item.createdAt || item.receivedAt) : null;
+        const dateStr = (d && !isNaN(d.getTime())) ? d.toLocaleString("en-IN", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }) : "Recent";
+
+        const curStatus = item.status || "New";
+        const isDeleted = curStatus.toLowerCase() === "deleted";
+
+        let statusCss = "status-new";
+        if (isDeleted) statusCss = "status-deleted";
+        else if (curStatus === "Contacted") statusCss = "status-contacted";
+        else if (curStatus === "Assessment Scheduled") statusCss = "status-scheduled";
+        else if (curStatus === "Converted") statusCss = "status-converted";
+        else if (curStatus === "Quotation Sent") statusCss = "status-contacted";
+
+        const cleanPhone = (item.phone || "").replace(/[^0-9]/g, "");
+        const waPhone = cleanPhone.length === 10 ? "91" + cleanPhone : cleanPhone;
+        
+        const waText = encodeURIComponent(`Namaskar ${item.name}, thank you for contacting Brick & Bath regarding your luxury bathroom renovation inquiry (${item.refId}). When would be a convenient time to schedule your free 3D photorealistic design assessment?`);
+
+        return `
+          <tr id="row-${escapeHTML(item.id)}" style="${isDeleted ? 'opacity:0.75; background:#FEF2F2;' : ''}">
+            <td>
+              <strong style="color:var(--portal-gold-dark); font-size:0.92rem; display:block; font-weight:800;">#${escapeHTML(item.refId || item.id)}</strong>
+              <span style="font-size:0.75rem; color:#94A3B8;">${dateStr}</span>
+            </td>
+            <td>
+              <div style="font-weight:700; color:#0F172A; font-size:0.94rem;">${escapeHTML(item.name || "Client")}</div>
+              <div style="font-size:0.78rem; color:#64748B;"><i class="fas fa-map-marker-alt" style="color:var(--portal-gold);"></i> ${escapeHTML(item.city || "Bhubaneswar")}</div>
+            </td>
+            <td>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                ${item.phone ? `
+                  <a href="tel:${escapeHTML(item.phone)}" class="btn-action btn-action-call" style="padding:3px 8px; font-size:0.78rem;">
+                    <i class="fas fa-phone-alt"></i> ${escapeHTML(item.phone)}
+                  </a>
+                ` : '<span style="color:#94A3B8;">--</span>'}
+              </div>
+            </td>
+            <td>
+              <div style="font-weight:700; color:#0F172A; margin-bottom:3px; font-size:0.9rem;">
+                ${escapeHTML(item.requirements || "Turnkey Luxury Bathroom Renovation")}
+              </div>
+              ${item.notes ? `
+                <div class="inquiry-notes-preview">
+                  <span><i class="fas fa-sticky-note"></i> <strong>Note:</strong> ${escapeHTML(item.notes)}</span>
+                  ${!isDeleted ? `<button type="button" onclick="openNoteModal('${escapeHTML(item.id)}')" style="background:none; border:none; cursor:pointer; color:#78350F; font-size:0.78rem; text-decoration:underline;">Edit</button>` : ''}
+                </div>
+              ` : `
+                ${!isDeleted ? `
+                  <button type="button" onclick="openNoteModal('${escapeHTML(item.id)}')" style="background:none; border:none; cursor:pointer; color:#94A3B8; font-size:0.75rem; margin-top:4px; padding:0; display:inline-flex; align-items:center; gap:3px;">
+                    <i class="fas fa-plus-circle"></i> Add internal note
+                  </button>
+                ` : ''}
+              `}
+            </td>
+            <td>
+              <span style="font-size:0.84rem; color:#334155; font-weight:600;">
+                <i class="fas fa-calendar-alt" style="color:var(--portal-gold); margin-right:4px;"></i>
+                ${escapeHTML(item.preferredDate || "Earliest Available")}
+              </span>
+            </td>
+            <td>
+              <select class="status-badge-select ${statusCss}" onchange="updateInquiryStatus('${escapeHTML(item.id)}', this.value, this)">
+                <option value="New" ${curStatus === 'New' ? 'selected' : ''}>New</option>
+                <option value="Contacted" ${curStatus === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                <option value="Assessment Scheduled" ${curStatus === 'Assessment Scheduled' ? 'selected' : ''}>Assessment Scheduled</option>
+                <option value="Quotation Sent" ${curStatus === 'Quotation Sent' ? 'selected' : ''}>Quotation Sent</option>
+                <option value="Converted" ${curStatus === 'Converted' ? 'selected' : ''}>Converted</option>
+              </select>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-btn-group" style="justify-content: flex-end;">
+                <a href="https://wa.me/${waPhone}?text=${waText}" target="_blank" class="btn-action btn-action-wa" title="Reply on WhatsApp">
+                  <i class="fab fa-whatsapp"></i> Chat
+                </a>
+                <button type="button" class="btn-action btn-action-del" onclick="deleteInquiryRow('${escapeHTML(item.id)}')" title="Delete inquiry">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // --- Toast Notification Helper ---
+    function showToast(htmlContent, duration = 3500) {
+      let toast = document.getElementById("portalToast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "portalToast";
+        toast.className = "portal-toast";
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i class="fas fa-bell" style="color:var(--portal-gold); font-size:1.15rem;"></i> <div>${htmlContent}</div>`;
+      toast.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, duration);
+    }
+
+    // --- Status Update ---
+    async function updateInquiryStatus(id, newStatus, selectEl) {
+      selectEl.className = "status-badge-select " + (
+        newStatus === "Contacted" ? "status-contacted" :
+        newStatus === "Assessment Scheduled" ? "status-scheduled" :
+        newStatus === "Converted" ? "status-converted" :
+        newStatus === "Quotation Sent" ? "status-contacted" : "status-new"
+      );
+
+      try {
+        const res = await fetch("/api/inquiries", {
+          method: "PATCH",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ id, status: newStatus })
+        });
+
+        if (res.ok) {
+          allInquiries = allInquiries.map(i => {
+            if (i.id === id) {
+              return { ...i, status: newStatus };
+            }
+            return i;
+          });
+
+          updateStatCards();
+          applyFilters();
+          showToast(`Status updated to "${newStatus}"`);
+        }
+      } catch (err) {
+        console.warn("MongoDB Atlas update failed:", err);
+      }
+    }
+
+    // --- Internal Notes Modal ---
+    function openNoteModal(id) {
+      activeInquiryForNote = id;
+      const item = allInquiries.find(i => i.id === id);
+      document.getElementById("noteModalSubtitle").textContent = `Consultation #${item ? (item.refId || item.id) : id} — ${item ? item.name : ''}`;
+      document.getElementById("ownerNoteText").value = item?.notes || "";
+      document.getElementById("noteModal").style.display = "flex";
+      document.getElementById("ownerNoteText").focus();
+    }
+
+    function closeNoteModal() {
+      document.getElementById("noteModal").style.display = "none";
+      activeInquiryForNote = null;
+    }
+
+    async function saveOwnerNote() {
+      if (!activeInquiryForNote) return;
+      const noteText = document.getElementById("ownerNoteText").value.trim();
+      const saveBtn = document.getElementById("saveNoteBtn");
+
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving to Atlas...';
+
+      try {
+        await fetch("/api/inquiries", {
+          method: "PATCH",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ id: activeInquiryForNote, notes: noteText })
+        });
+
+        allInquiries = allInquiries.map(i => i.id === activeInquiryForNote ? { ...i, notes: noteText } : i);
+        applyFilters();
+        closeNoteModal();
+      } catch (err) {
+        alert("Failed to save note to MongoDB Atlas.");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Note to MongoDB';
+      }
+    }
+
+    // --- Delete Inquiry Logic ---
+    function deleteInquiryRow(id) {
+      pendingDeleteId = id;
+      const item = allInquiries.find(i => i.id === id);
+      const msgEl = document.getElementById("deleteModalMessage");
+      if (msgEl) {
+        msgEl.innerHTML = `Are you sure you want to permanently delete consultation <strong style="color:var(--portal-gold-dark);">#${escapeHTML(item?.refId || id)}</strong> from "${escapeHTML(item?.name || 'Client')}"?<br><br><span style="font-size:0.84rem; color:#DC2626;">This will permanently remove this record from your MongoDB Atlas database.</span>`;
+      }
+      document.getElementById("deleteConfirmModal").style.display = "flex";
+    }
+
+    function closeDeleteModal() {
+      document.getElementById("deleteConfirmModal").style.display = "none";
+      pendingDeleteId = null;
+    }
+
+    async function executeDeleteInquiry() {
+      if (!pendingDeleteId) return;
+      const id = pendingDeleteId;
+      const btn = document.getElementById("confirmDeleteBtn");
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+      }
+
+      try {
+        const res = await fetch(`/api/inquiries/${encodeURIComponent(id)}`, {
+          method: "DELETE",
+          headers: getAuthHeaders()
+        });
+
+        if (res.ok) {
+          allInquiries = allInquiries.filter(i => i.id !== id);
+          updateStatCards();
+          applyFilters();
+        } else {
+          alert("Failed to delete inquiry from database.");
+        }
+      } catch (e) {
+        console.warn("Delete error:", e);
+        alert("Network error while deleting inquiry.");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+        }
+        closeDeleteModal();
+      }
+    }
+
+    // --- Credentials & Change Password Logic ---
+    function togglePassVisibility(inputId, btnEl) {
+      const input = document.getElementById(inputId);
+      const icon = btnEl.querySelector("i");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "fas fa-eye-slash";
+      } else {
+        input.type = "password";
+        icon.className = "fas fa-eye";
+      }
+    }
+
+    function openCredentialsModal() {
+      const modal = document.getElementById("credentialsModal");
+      const errBox = document.getElementById("credError");
+      const succBox = document.getElementById("credSuccess");
+      if (errBox) errBox.style.display = "none";
+      if (succBox) succBox.style.display = "none";
+      document.getElementById("currentPass").value = "";
+      document.getElementById("newPass").value = "";
+      document.getElementById("confirmPass").value = "";
+      modal.style.display = "flex";
+      setTimeout(() => document.getElementById("currentPass").focus(), 100);
+    }
+
+    function closeCredentialsModal() {
+      document.getElementById("credentialsModal").style.display = "none";
+    }
+
+    async function saveNewCredentials(e) {
+      e.preventDefault();
+      const currentPassword = document.getElementById("currentPass").value;
+      const newPassword = document.getElementById("newPass").value;
+      const confirmPassword = document.getElementById("confirmPass").value;
+      const errBox = document.getElementById("credError");
+      const errText = document.getElementById("credErrorText");
+      const succBox = document.getElementById("credSuccess");
+      const btn = document.getElementById("saveCredsBtn");
+
+      if (errBox) errBox.style.display = "none";
+      if (succBox) succBox.style.display = "none";
+
+      if (newPassword !== confirmPassword) {
+        if (errBox && errText) {
+          errText.textContent = "New password and Confirm password do not match.";
+          errBox.style.display = "block";
+        }
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        if (errBox && errText) {
+          errText.textContent = "New password must be at least 6 characters long.";
+          errBox.style.display = "block";
+        }
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+
+      try {
+        const res = await fetch("/api/auth/change-password", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          if (data.token) {
+            setAuthToken(data.token);
+          }
+          if (succBox) succBox.style.display = "block";
+          setTimeout(() => {
+            closeCredentialsModal();
+          }, 1500);
+        } else {
+          if (errBox && errText) {
+            errText.textContent = data.message || "Failed to update password.";
+            errBox.style.display = "block";
+          }
+        }
+      } catch (err) {
+        if (errBox && errText) {
+          errText.textContent = "Could not reach server to update password.";
+          errBox.style.display = "block";
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> Update Password';
+      }
+    }
+
+
+    // --- Executive Printable PDF Report ---
+    function generateExecutivePDFReport() {
+      if (!allInquiries || allInquiries.length === 0) {
+        alert("No consultation records to generate report.");
+        return;
+      }
+
+      const activeLeads = allInquiries.filter(i => (i.status || "").toLowerCase() !== "deleted");
+      const newLeads = activeLeads.filter(i => (i.status || "New").toLowerCase() === "new");
+      const scheduledLeads = activeLeads.filter(i => ["assessment scheduled", "contacted", "quotation sent"].includes((i.status || "").toLowerCase()));
+      const convertedLeads = activeLeads.filter(i => (i.status || "").toLowerCase() === "converted");
+      const deletedLeads = allInquiries.filter(i => (i.status || "").toLowerCase() === "deleted");
+
+      const generatedOn = new Date().toLocaleString("en-IN", {
+        dateStyle: "full",
+        timeStyle: "medium"
+      });
+
+      const reportHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Brick & Bath - Executive Client Consultations & Renovation Report</title>
+  <style>
+    @page { size: A4 portrait; margin: 12mm 15mm; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #0F172A; margin: 0; padding: 20px; font-size: 11pt; line-height: 1.4; }
+    .report-header { border-bottom: 3px solid #C59D42; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .brand-title { font-size: 18pt; font-weight: 800; color: #C59D42; margin: 0 0 3px; letter-spacing: 0.02em; }
+    .brand-sub { font-size: 8.5pt; color: #475569; margin: 0; line-height: 1.4; }
+    .meta-box { text-align: right; font-size: 8.5pt; color: #64748B; }
+    .kpi-grid { display: flex; gap: 10px; margin-bottom: 20px; }
+    .kpi-card { flex: 1; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px; background: #F8FAFC; text-align: center; }
+    .kpi-val { font-size: 16pt; font-weight: 800; color: #0F172A; margin-bottom: 2px; }
+    .kpi-lbl { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: #64748B; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 8.5pt; }
+    th { background: #F1F5F9; color: #334155; font-weight: 700; text-transform: uppercase; padding: 7px 9px; border: 1px solid #E2E8F0; text-align: left; }
+    td { padding: 7px 9px; border: 1px solid #E2E8F0; vertical-align: top; }
+    tr:nth-child(even) { background: #F8FAFC; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 7.5pt; font-weight: 700; }
+    .badge-new { background: #FEE2E2; color: #991B1B; }
+    .badge-contacted { background: #FEF3C7; color: #92400E; }
+    .badge-converted { background: #DCFCE7; color: #166534; }
+    .no-print-toolbar { position: fixed; top: 12px; right: 16px; display: flex; gap: 8px; background: #fff; padding: 8px 12px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid #ddd; z-index: 1000; }
+    .btn-print { background: #C59D42; color: #0B111A; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-close { background: #64748B; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    @media print { .no-print-toolbar { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="no-print-toolbar">
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <button class="btn-close" onclick="window.close()">Close Window</button>
+  </div>
+
+  <div class="report-header">
+    <div>
+      <h1 class="brand-title">BRICK & BATH LUXURY RENOVATIONS</h1>
+      <p class="brand-sub">
+        <strong>Experience Center:</strong> Jayadev Vihar, Bhubaneswar, Odisha - 751013<br>
+        Toll Free: 1800-212-0151 • contact@bricknbath.com • www.bricknbath.com
+      </p>
+    </div>
+    <div class="meta-box">
+      <strong>OFFICIAL LEAD REPORT</strong><br>
+      Generated: ${generatedOn}<br>
+      Database: <strong>MongoDB Atlas Cloud</strong>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-val">${allInquiries.length}</div>
+      <div class="kpi-lbl">Total Consultations</div>
+    </div>
+    <div class="kpi-card" style="border-top: 3px solid #DC2626;">
+      <div class="kpi-val" style="color:#DC2626;">${newLeads.length}</div>
+      <div class="kpi-lbl">New Leads</div>
+    </div>
+    <div class="kpi-card" style="border-top: 3px solid #D97706;">
+      <div class="kpi-val" style="color:#D97706;">${scheduledLeads.length}</div>
+      <div class="kpi-lbl">In Discussion / Scheduled</div>
+    </div>
+    <div class="kpi-card" style="border-top: 3px solid #16A34A;">
+      <div class="kpi-val" style="color:#16A34A;">${convertedLeads.length}</div>
+      <div class="kpi-lbl">Converted Projects</div>
+    </div>
+    <div class="kpi-card" style="border-top: 3px solid #64748B;">
+      <div class="kpi-val" style="color:#64748B;">${deletedLeads.length}</div>
+      <div class="kpi-lbl">Archived in Atlas</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:12pt; margin:16px 0 8px;">Active Renovation Consultations (${activeLeads.length})</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:85px;">Ref ID</th>
+        <th style="width:110px;">Client Name</th>
+        <th style="width:95px;">Mobile</th>
+        <th style="width:85px;">Location</th>
+        <th>Renovation Scope & Remarks</th>
+        <th style="width:80px;">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${activeLeads.map(i => `
+        <tr>
+          <td><strong>#${i.refId || i.id}</strong></td>
+          <td><strong>${escapeHTML(i.name)}</strong></td>
+          <td>${escapeHTML(i.phone)}</td>
+          <td>${escapeHTML(i.city || 'Bhubaneswar')}</td>
+          <td>
+            <strong>${escapeHTML(i.requirements || '')}</strong>
+            ${i.notes ? `<div style="margin-top:3px; color:#B45309;">Note: ${escapeHTML(i.notes)}</div>` : ''}
+          </td>
+          <td><span class="badge ${i.status === 'New' ? 'badge-new' : 'badge-contacted'}">${i.status || 'New'}</span></td>
+        </tr>
+      `).join('') || '<tr><td colspan="6" style="text-align:center;">No active inquiries.</td></tr>'}
+    </tbody>
+  </table>
+</body>
+</html>
+      `;
+
+      const w = window.open("", "_blank");
+      if (w) {
+        w.document.open();
+        w.document.write(reportHtml);
+        w.document.close();
+      }
+    }
+
+    function escapeHTML(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      checkAuthGate();
+    });
+  </script>
+</body>
+</html>

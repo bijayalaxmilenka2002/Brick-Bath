@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="5 15 198 210" width="100%" height="100%">
+  <defs>
+    <!-- Exact Website Luxury Gold Metallic Gradient -->
+    <linearGradient id="logoGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5C77A" />
+      <stop offset="35%" stop-color="#DFB15B" />
+      <stop offset="75%" stop-color="#C8893A" />
+      <stop offset="100%" stop-color="#A46922" />
+    </linearGradient>
+
+    <!-- Warm Obsidian Architectural Charcoal Gradient -->
+    <linearGradient id="obsidianGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#243041" />
+      <stop offset="100%" stop-color="#141C28" />
+    </linearGradient>
+
+    <!-- Subtle Luminous Gold Glow Filter -->
+    <filter id="goldLuster" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#C8893A" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- Left Top: House Roof Silhouette (Gable Slope Up to Apex) -->
+  <polygon 
+    points="10,75 95,20 95,114 10,114" 
+    fill="url(#obsidianGrad)" 
+    stroke="url(#logoGoldGrad)" 
+    stroke-width="1.8" 
+    stroke-linejoin="round"
+  />
+
+  <!-- Left Bottom: Bathroom Washbasin Container with Smooth Rounded Bottom-Left -->
+  <path 
+    d="M 10,122 L 95,122 L 95,220 L 46,220 C 22,220 10,198 10,174 Z" 
+    fill="url(#obsidianGrad)" 
+    stroke="url(#logoGoldGrad)" 
+    stroke-width="1.8" 
+    stroke-linejoin="round"
+  />
+
+  <!-- Inside Basin Container: Luxury Porcelain Bowl -->
+  <path 
+    d="M 23,168 Q 52.5,204 82,168 Z" 
+    fill="#F8FAFC" 
+    stroke="#DFB15B" 
+    stroke-width="1.2"
+  />
+  <!-- Basin Gold Rim Line -->
+  <line x1="21" y1="168" x2="84" y2="168" stroke="url(#logoGoldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Luxury Gooseneck Faucet in Website Gold -->
+  <path 
+    d="M 38,168 L 38,138 C 38,128 58,128 58,138 L 58,148" 
+    fill="none" 
+    stroke="url(#logoGoldGrad)" 
+    stroke-width="4.5" 
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+    filter="url(#goldLuster)"
+  />
+  <!-- Faucet Spout Accent Ring -->
+  <line x1="55" y1="148" x2="61" y2="148" stroke="url(#logoGoldGrad)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Gold Water Drop Falling into Basin -->
+  <path 
+    d="M 58,154 C 55,157 54,159.5 54,161.5 C 54,163.8 56,165 58,165 C 60,165 62,163.8 62,161.5 C 62,159.5 61,157 58,154 Z" 
+    fill="url(#logoGoldGrad)" 
+    filter="url(#goldLuster)"
+  />
+
+  <!-- Right Side: 4 Architectural Slatted Pillars (Gold Gradient, Symmetrical Roof Slope Down) -->
+  <!-- Pillar 1 (Tallest, Near Apex) -->
+  <polygon 
+    points="103,25 122,38 122,220 103,220" 
+    fill="url(#logoGoldGrad)" 
+    filter="url(#goldLuster)"
+  />
+
+  <!-- Pillar 2 -->
+  <polygon 
+    points="128,42 147,54 147,220 128,220" 
+    fill="url(#logoGoldGrad)" 
+    filter="url(#goldLuster)"
+  />
+
+  <!-- Pillar 3 -->
+  <polygon 
+    points="153,58 172,71 172,220 153,220" 
+    fill="url(#logoGoldGrad)" 
+    filter="url(#goldLuster)"
+  />
+
+  <!-- Pillar 4 (Rightmost, Shortest) -->
+  <polygon 
+    points="178,75 197,87 197,220 178,220" 
+    fill="url(#logoGoldGrad)" 
+    filter="url(#goldLuster)"
+  />
+</svg>

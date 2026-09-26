@@ -1,0 +1,477 @@
+{
+  "bricknbath-service/get-all-services": {
+    "success": true,
+    "count": 4,
+    "data": [
+      {
+        "_id": "6a29374a62bd63785127a830",
+        "serviceName": "Signature Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781086007/omywwpenijgjccdqxd6r.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Fully customized design",
+          "Imported finish options",
+          "Premium Luxury accessories",
+          "Designer Storage Solution",
+          "Exclusive Styling Consultation",
+          "White-Glove project Management"
+        ],
+        "description": "<p><strong>Signature Collection \u2013 An ultra-premium offering where bespoke aesthetics, curated accessories, intelligent storage, and expert styling come together to create a bathroom that is uniquely yours</strong>.</p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Bespoke | Iconic | Timeless",
+        "status": true,
+        "createdAt": "2026-06-10T10:07:06.618Z",
+        "updatedAt": "2026-07-28T07:10:14.241Z",
+        "__v": 0,
+        "brands": [
+          "Johnson"
+        ],
+        "collections": [
+          {
+            "name": "Tiles",
+            "quantity": "12",
+            "_id": "6a6855d6ef1a2cb5ac64c3b2"
+          },
+          {
+            "name": "Sanitary ware",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b3"
+          },
+          {
+            "name": "CP Fittings",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b4"
+          },
+          {
+            "name": "Vanity Units",
+            "quantity": "3",
+            "_id": "6a6855d6ef1a2cb5ac64c3b5"
+          }
+        ],
+        "deliveryTimeline": "21 Days",
+        "warranty": "10 Years"
+      },
+      {
+        "_id": "6a29359362bd63785127a7de",
+        "serviceName": "Elite Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781085579/qqxbuogembqgmd3kj25i.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Large-format Designer tiles",
+          "Premium jaquar range",
+          "Custom vanity",
+          "Concealed Storage",
+          "Designer Lighting ",
+          "Luxury finishes"
+        ],
+        "description": "<p><strong>Elite Collection \u2013 An exclusive sanctuary of style, curated with premium materials, custom-designed features, and luxurious accents to deliver unparalleled comfort and distinction.</strong></p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p><h3><br></h3>",
+        "note": "Luxury | Personalized | Exclusive",
+        "status": true,
+        "createdAt": "2026-06-10T09:59:47.645Z",
+        "updatedAt": "2026-07-28T07:09:57.180Z",
+        "__v": 0,
+        "brands": [
+          ""
+        ],
+        "collections": [],
+        "deliveryTimeline": "21 Days",
+        "warranty": "7 Years"
+      },
+      {
+        "_id": "6a290c6662bd6378512786e0",
+        "serviceName": "Prestige Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781074989/hzxvkzkysc3dvrpsngr5.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Premium tiles collection",
+          "Enhanced vanity unit",
+          "Designer Mirror",
+          "Premium Accessories",
+          "Better storage Solutions",
+          "Feature Wall Design"
+        ],
+        "description": "<p><strong>Prestige Collection \u2013 Elevate your bathroom with premium tiles, an enhanced vanity unit, designer mirror, elegant accessories, smart storage solutions, and a stunning feature wall design. Thoughtfully curated to create a sophisticated, stylish, and highly functional space.</strong></p><p>(The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Premium |  Refined | Sophisticates",
+        "status": true,
+        "createdAt": "2026-06-10T07:04:06.299Z",
+        "updatedAt": "2026-07-28T07:10:28.774Z",
+        "__v": 0,
+        "brands": [
+          ""
+        ],
+        "collections": [],
+        "deliveryTimeline": "21 Days",
+        "warranty": "5 Years"
+      },
+      {
+        "_id": "6a22ab39e8e63720ff5cbc25",
+        "serviceName": "Aura Collection",
+        "serviceImages": [
+          "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781007080/gfambk7kt3jtdhfc5nhe.png"
+        ],
+        "priceStartingFrom": 0,
+        "features": [
+          "Complete demolition",
+          "Waterproofing & Jaquar CP Fitting",
+          "Floor & Wall tiles, Vanity Cabinet",
+          "Wall- Mounted Wc",
+          "Basin & Mirror, Bathroom Accessories",
+          "Labour & Supervision ,Grouting & Finishing"
+        ],
+        "description": "<p><strong>Aura Collection \u2013 Where premium design meets complete bathroom transformation, crafted for modern living. Everything your dream bathroom needs, professionally delivered and beautifully installed.</strong> (The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+        "note": "Ideal for Apartments , Rental Homes & Budget Renovations",
+        "status": true,
+        "createdAt": "2026-06-05T10:55:53.946Z",
+        "updatedAt": "2026-07-28T07:10:37.505Z",
+        "__v": 0,
+        "brands": [
+          "Johnson"
+        ],
+        "collections": [
+          {
+            "name": "Tiles",
+            "quantity": "12 Options",
+            "_id": "6a6855edef1a2cb5ac64c3cb"
+          }
+        ],
+        "deliveryTimeline": "21 Days",
+        "warranty": "5 Years"
+      }
+    ]
+  },
+  "bricknbath-testimonial": {
+    "success": true,
+    "count": 5,
+    "data": [
+      {
+        "_id": "6a55e734e1b01da979a07fec",
+        "name": "Sanjay Patel",
+        "location": "Cuttack",
+        "rating": 5,
+        "testimonial": "Outstanding service and exceptional results. The bathroom design perfectly matched our vision, and the installation quality was top-notch. We are extremely satisfied",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:37:24.839Z",
+        "updatedAt": "2026-07-14T07:37:38.061Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e52ae1b01da979a07e95",
+        "name": "Sneha Mishra",
+        "location": "Bhubaneswar",
+        "rating": 5,
+        "testimonial": "The BricknBath team guided us through every step of the renovation process. They completed the project on time and maintained excellent communication throughout",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:28:42.193Z",
+        "updatedAt": "2026-07-14T07:33:08.465Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e4fbe1b01da979a07e8d",
+        "name": "Amit Kumar",
+        "location": "Puri",
+        "rating": 5,
+        "testimonial": "We were impressed by the attention to detail and transparent pricing. Our bathroom now feels like a luxury hotel spa. Highly recommended for anyone planning a renovation",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:27:55.068Z",
+        "updatedAt": "2026-07-14T07:33:14.118Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e4aae1b01da979a07e84",
+        "name": "Priya Das",
+        "location": "Cuttack",
+        "rating": 5,
+        "testimonial": "From design consultation to final installation, the entire experience was smooth and hassle-free. The quality of materials and workmanship exceeded our expectations",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:26:34.308Z",
+        "updatedAt": "2026-07-14T07:33:29.374Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55e486e1b01da979a07e7d",
+        "name": "Rajesh Sharma",
+        "location": "Bhubaneswar",
+        "rating": 5,
+        "testimonial": "BricknBath completely transformed our outdated bathroom into a modern and elegant space. The team was professional, punctual, and delivered exactly what was promised.",
+        "status": "approved",
+        "createdAt": "2026-07-14T07:25:58.345Z",
+        "updatedAt": "2026-07-14T07:33:33.066Z",
+        "__v": 0
+      }
+    ]
+  },
+  "bricknbath-bathroom-transform/get-all": {
+    "success": true,
+    "count": 3,
+    "data": [
+      {
+        "_id": "6a55e0b7e1b01da979a07d20",
+        "beforeImage": "https://res.cloudinary.com/dlipppf4f/image/upload/v1784012891/pj5rpwnujlczjpcmvvem.png",
+        "afterImage": "https://res.cloudinary.com/dlipppf4f/image/upload/v1784012963/dfwonc2gkwdle9xhscxh.png",
+        "createdAt": "2026-07-14T07:09:43.324Z",
+        "updatedAt": "2026-07-14T07:09:43.324Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a55c496dabf0a1ac2d76d94",
+        "beforeImage": "https://res.cloudinary.com/dlipppf4f/image/upload/v1784005740/ciihcfpaedpggm0clyxc.png",
+        "afterImage": "https://res.cloudinary.com/dlipppf4f/image/upload/v1784005777/egxkv3lx04ebvgro7ucw.png",
+        "createdAt": "2026-07-14T05:09:42.205Z",
+        "updatedAt": "2026-07-14T05:09:42.205Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a4264bd5992a710d21dc586",
+        "beforeImage": "https://res.cloudinary.com/du5dn8hhw/image/upload/v1782736540/fay8cnicptlkhvzmeaij.avif",
+        "afterImage": "https://res.cloudinary.com/du5dn8hhw/image/upload/v1782736619/dt0lvnoog9n9sagodkmp.jpg",
+        "createdAt": "2026-06-29T12:27:41.832Z",
+        "updatedAt": "2026-06-29T12:37:02.189Z",
+        "__v": 0
+      }
+    ]
+  },
+  "bricknbath-faq/all": {
+    "success": true,
+    "count": 12,
+    "data": [
+      {
+        "_id": "6a28fd6462bd637851277dc1",
+        "question": "What services does Bricknbath provide?",
+        "answer": "Bricknbath offers complete bathroom renovation solutions, including: \n\u2022Bathroom design consultation  \n\u2022Demolition and removal of existing fixtures  \n\u2022Tiling work  \n\u2022Plumbing modifications  \n\u2022Electrical and lighting upgrades  \n\u2022Installation of Sanitaryware and Bath fittings  \n\u2022Glass partition installation  \n\u2022Final finishing and quality inspection",
+        "isActive": true,
+        "createdAt": "2026-06-10T06:00:04.088Z",
+        "updatedAt": "2026-06-10T06:00:04.088Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fd3b62bd637851277db6",
+        "question": "What is Bricknbath?",
+        "answer": "Bricknbath is a specialized bathroom renovation service powered by Bricknbar. We transform \nold, outdated bathrooms into modern, functional, and luxurious spaces through professionally \nmanaged renovation packages.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:59:23.845Z",
+        "updatedAt": "2026-06-10T05:59:23.845Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fbb762bd637851277d88",
+        "question": "How do I book a bathroom renovation consultation?",
+        "answer": "Booking a consultation is simple: \n\u2022Call us at 1800-212-0151\n\u2022Visit Bricknbath.com  \n\u2022Submit your requirements through our website  \nOur renovation experts will contact you to discuss your project and schedule a site visit if \nrequired.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:52:55.078Z",
+        "updatedAt": "2026-07-10T11:38:58.205Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb9f62bd637851277d84",
+        "question": "Which cities do you currently serve?",
+        "answer": "Our service availability depends on the project location. Please contact our team to confirm \nwhether renovation services are available in your city.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:52:31.143Z",
+        "updatedAt": "2026-06-10T05:52:31.143Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb8862bd637851277d7f",
+        "question": "Is there any warranty on renovation work?",
+        "answer": "Yes. We stand behind the quality of our workmanship. Warranty terms may vary depending \non the renovation package and products selected. Our team will provide complete warranty \ndetails before project execution.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:52:08.949Z",
+        "updatedAt": "2026-06-10T05:52:08.949Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb7562bd637851277d79",
+        "question": "Do you offer luxury bathroom renovation packages?",
+        "answer": "Yes. Bricknbath specializes in premium and luxury bathroom transformations featuring high-\nend finishes, modern lighting, designer fittings, elegant glass partitions, and customized \ndesign solutions.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:51:49.236Z",
+        "updatedAt": "2026-06-10T05:51:49.236Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb5c62bd637851277d73",
+        "question": "Do you provide design consultation before renovation?",
+        "answer": "Yes. Our experts assess your existing bathroom, understand your requirements, and \nrecommend layouts, materials, fixtures, and finishes that best match your style and budget.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:51:24.379Z",
+        "updatedAt": "2026-06-10T05:51:24.379Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb3562bd637851277d6b",
+        "question": "How long does a bathroom renovation take?",
+        "answer": "Most bathroom renovation projects are completed within 7 to 21 days, depending on the \ncomplexity of the work and the materials selected.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:50:45.285Z",
+        "updatedAt": "2026-06-10T05:50:45.285Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fb1962bd637851277d65",
+        "question": "How much does a bathroom renovation cost?",
+        "answer": "The renovation cost depends on factors such as bathroom size, scope of work, product \nselection, and design preferences. We offer multiple renovation packages to suit different \nbudgets and requirements. Contact us for a customized quotation.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:50:17.715Z",
+        "updatedAt": "2026-06-10T05:50:17.715Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28faaa62bd637851277825",
+        "question": "Can I choose my own products for renovation?",
+        "answer": "Yes. You can either select products from Bricknbar's extensive collection or choose products \nbased on your design preferences and budget. Our experts will help ensure compatibility with \nyour renovation requirements.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:48:26.395Z",
+        "updatedAt": "2026-06-10T05:48:26.395Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fa8862bd63785127781f",
+        "question": "How can I purchase bathroom products?",
+        "answer": "You can explore and purchase bathroom products through Bricknbar: \n\u2022Website: https://bricknbar.com  \n\u2022Phone: +91 97777 72782  \nOur team can also guide you in selecting products suitable for your renovation project.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:47:52.576Z",
+        "updatedAt": "2026-06-10T05:47:52.576Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a28fa4262bd637851277816",
+        "question": "Do you sell bathroom products directly through Bricknbath?",
+        "answer": "Bricknbath - Powered by Bricknbar primarily focuses on bathroom renovation services. \nFor purchasing bathroom products such as sanitaryware, faucets, bath fittings, tiles, bathtubs, \nvanities, mirrors, and accessories, please visit Bricknbar's website or contact our team for \nassistance.",
+        "isActive": true,
+        "createdAt": "2026-06-10T05:46:42.301Z",
+        "updatedAt": "2026-06-10T05:46:42.301Z",
+        "__v": 0
+      }
+    ]
+  },
+  "bricknbath-service-banners/all": {
+    "success": true,
+    "count": 3,
+    "data": [
+      {
+        "_id": "6a28093fec6e9576f5acfc14",
+        "bannerName": "Generic Banner",
+        "image": "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781008526/pgxw3jjsfra0dzu21ota.png",
+        "createdAt": "2026-06-09T12:38:23.590Z",
+        "updatedAt": "2026-06-09T12:38:23.590Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a27a616b4909393d172c11f",
+        "bannerName": "Aura Collection",
+        "image": "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781006455/ptbjpape9cxtnurjeb96.png",
+        "service": {
+          "_id": "6a22ab39e8e63720ff5cbc25",
+          "serviceName": "Aura Collection",
+          "serviceImages": [
+            "https://res.cloudinary.com/dqxlte6wf/image/upload/v1781007080/gfambk7kt3jtdhfc5nhe.png"
+          ],
+          "priceStartingFrom": 0,
+          "features": [
+            "Complete demolition",
+            "Waterproofing & Jaquar CP Fitting",
+            "Floor & Wall tiles, Vanity Cabinet",
+            "Wall- Mounted Wc",
+            "Basin & Mirror, Bathroom Accessories",
+            "Labour & Supervision ,Grouting & Finishing"
+          ],
+          "description": "<p><strong>Aura Collection \u2013 Where premium design meets complete bathroom transformation, crafted for modern living. Everything your dream bathroom needs, professionally delivered and beautifully installed.</strong> (The image displayed above is for illustrative purposes only. The final design will be customized according to your requirements and site conditions, and will be presented after a detailed consultation with our design team.)</p>",
+          "note": "Ideal for Apartments , Rental Homes & Budget Renovations",
+          "status": true,
+          "createdAt": "2026-06-05T10:55:53.946Z",
+          "updatedAt": "2026-07-28T07:10:37.505Z",
+          "__v": 0,
+          "brands": [
+            "Johnson"
+          ],
+          "collections": [
+            {
+              "name": "Tiles",
+              "quantity": "12 Options",
+              "_id": "6a6855edef1a2cb5ac64c3cb"
+            }
+          ],
+          "deliveryTimeline": "21 Days",
+          "warranty": "5 Years"
+        },
+        "createdAt": "2026-06-09T05:35:18.253Z",
+        "updatedAt": "2026-06-09T12:01:19.385Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a27a5fbb4909393d172c11a",
+        "bannerName": "gchgch",
+        "image": "https://res.cloudinary.com/du5dn8hhw/image/upload/v1780983286/cuyr0kikfdlvl36cniok.jpg",
+        "createdAt": "2026-06-09T05:34:51.128Z",
+        "updatedAt": "2026-06-09T05:34:51.128Z",
+        "__v": 0
+      }
+    ]
+  },
+  "bricknbath-career/get-all-jobs": {
+    "success": true,
+    "count": 3,
+    "data": [
+      {
+        "_id": "6a3272b062bd6378512b01e1",
+        "jobTitle": "Quality Inspector",
+        "department": "Operation",
+        "location": "Bhubaneswar",
+        "experience": "5-10 Years",
+        "employmentType": "Full-Time",
+        "salary": "",
+        "description": "Waterproofing Expert\n\u2022 Strong Plumbing & Tiling Knowledge\n\u2022 Documentation & CRM Friendly\n\u2022 Can Inspect 10\u201315 Bathrooms Per Day\n",
+        "skills": [],
+        "status": "Active",
+        "createdAt": "2026-06-17T10:10:56.629Z",
+        "updatedAt": "2026-06-17T10:10:56.629Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a326d6b62bd6378512b0131",
+        "jobTitle": "Site Technical Officer (STO)",
+        "department": "CRM",
+        "location": "Bhubaneswar",
+        "experience": "3-8+ Years",
+        "employmentType": "Full-Time",
+        "salary": "",
+        "description": "Waterproofing\n\u2022 Plumbing (CPVC/UPVC)\n\u2022 Electrical\n\u2022 Tiling\n\u2022 Sanitary Installation\n\u2022 Glass & Vanity Installation",
+        "skills": [
+          "Daily site supervision",
+          "Contractor coordination",
+          "Measurement Verification",
+          "Quality inspection  ",
+          "Customer Updates ",
+          "Daily Inspection"
+        ],
+        "status": "Active",
+        "createdAt": "2026-06-17T09:48:27.912Z",
+        "updatedAt": "2026-06-17T10:07:43.347Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a326bdd62bd6378512b00f2",
+        "jobTitle": "Operation Manager",
+        "department": "Operation",
+        "location": "Bhubaneswar",
+        "experience": "5+ Years",
+        "employmentType": "Full-Time",
+        "salary": "",
+        "description": "\u2022 End-to-end project execution\n\u2022 Team allocation and management\n\u2022 Procurement and vendor coordination\n\u2022 Quality control\n\u2022 Customer escalation handling\n\u2022 Project profitability management\n",
+        "skills": [
+          " Real Estate Projects",
+          "Interior, Renovation, Construction Projects"
+        ],
+        "status": "Active",
+        "createdAt": "2026-06-17T09:41:49.731Z",
+        "updatedAt": "2026-06-17T09:42:37.529Z",
+        "__v": 0
+      }
+    ]
+  }
+}

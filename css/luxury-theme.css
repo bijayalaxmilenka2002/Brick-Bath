@@ -1,0 +1,331 @@
+/* ===================================================================
+   BRICKNBATH LUXURY DESIGN SYSTEM
+   Theme: Contemporary Architectural Luxury & Warm Gold Aesthetics
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  /* Core Luxury Color Palette */
+  --gold-primary: #C8893A;
+  --gold-light: #DFB15B;
+  --gold-bright: #F5C77A;
+  --gold-dark: #9A6321;
+  --gold-muted: rgba(200, 137, 58, 0.15);
+  --gold-border: rgba(200, 137, 58, 0.35);
+  --gold-border-subtle: rgba(200, 137, 58, 0.18);
+  --gold-glow: rgba(200, 137, 58, 0.25);
+  --gold-gradient: linear-gradient(135deg, #DFB15B 0%, #C8893A 50%, #A46922 100%);
+  --gold-gradient-hover: linear-gradient(135deg, #F3C97C 0%, #DFB15B 50%, #B87A2B 100%);
+
+  /* Rich Obsidian & Dark Canvas */
+  --bg-darkest: #070A0F;
+  --bg-dark: #0D131C;
+  --bg-surface: #141C28;
+  --bg-surface-elevated: #1B2535;
+  --bg-card: rgba(20, 28, 40, 0.85);
+  --bg-glass: rgba(13, 19, 28, 0.78);
+  --bg-glass-card: rgba(22, 31, 46, 0.65);
+
+  /* Light Alabaster Canvas (For Light Accents & Alternate Sections) */
+  --bg-light: #F9F8F5;
+  --bg-light-surface: #FFFFFF;
+  --bg-light-muted: #F2EFE9;
+
+  /* Typography Colors */
+  --text-pure: #FFFFFF;
+  --text-primary: #F3F4F6;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-gold: #DFB15B;
+  --text-dark: #0F172A;
+  --text-dark-muted: #475569;
+
+  /* Status Colors */
+  --success: #10B981;
+  --success-bg: rgba(16, 185, 129, 0.12);
+  --accent-blue: #38BDF8;
+
+  /* Typography Fonts */
+  --font-serif: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
+  --font-display: 'Cinzel', 'Bodoni Moda', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Elevations & Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 10px 30px rgba(200, 137, 58, 0.22);
+  --shadow-gold-hover: 0 14px 40px rgba(200, 137, 58, 0.38);
+
+  /* Borders & Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-darkest);
+  color: var(--text-primary);
+  line-height: 1.65;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle architectural ambient background glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: -150px;
+  left: 20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(200, 137, 58, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 10%;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layout Containers */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Spacing */
+section {
+  padding: 6.5rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 4.25rem 0;
+  }
+}
+
+/* Headings & Typography */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-pure);
+  line-height: 1.25;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--gold-light);
+  background: var(--gold-muted);
+  border: 1px solid var(--gold-border);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 1rem;
+}
+
+.section-tag svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--text-pure);
+}
+
+.section-title span.highlight {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-center .section-subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Luxury Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.875rem 1.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.btn-gold {
+  background: var(--gold-gradient);
+  color: #0B0E14;
+  font-weight: 500;
+  box-shadow: 0 4px 18px rgba(200, 137, 58, 0.28);
+}
+
+.btn-gold:hover {
+  background: var(--gold-gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 137, 58, 0.38);
+  color: #000;
+}
+
+.btn-outline-gold {
+  background: rgba(200, 137, 58, 0.05);
+  border: 1px solid rgba(200, 137, 58, 0.26);
+  color: var(--gold-light);
+  backdrop-filter: blur(8px);
+  font-weight: 500;
+}
+
+.btn-outline-gold:hover {
+  background: var(--gold-primary);
+  border-color: var(--gold-primary);
+  color: #080B10;
+  transform: translateY(-2px);
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  backdrop-filter: blur(12px);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text-pure);
+  transform: translateY(-2px);
+}
+
+.btn-sm {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+.btn-lg {
+  padding: 1.05rem 2.35rem;
+  font-size: 1.05rem;
+}
+
+/* Glassmorphism Card Utility */
+.glass-card {
+  background: var(--bg-glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--gold-border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.glass-card:hover {
+  border-color: var(--gold-border);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(200, 137, 58, 0.12);
+}
+
+/* Subtle Gold Divider */
+.gold-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-border) 50%, transparent 100%);
+  margin: 3rem 0;
+}
+
+/* Badges */
+.badge-gold {
+  background: var(--gold-muted);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-bright);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}

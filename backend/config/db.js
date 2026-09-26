@@ -24,11 +24,10 @@ const connectMongoDB = async () => {
     return isMongoConnected;
   }
 
-  const mongoURI = process.env.MONGODB_URI || "mongodb+srv://bijayalaxmilenka48_db_user:9AmhLquZMCZ2SAb@ridebuddy.twjpoqm.mongodb.net/bricknbath?retryWrites=true&w=majority&appName=RideBuddy";
-  if (!mongoURI) {
-    console.log("ℹ️  MONGODB_URI not found in environment.");
-    return false;
-  }
+  const envURI = process.env.MONGODB_URI;
+  const isEnvValid = typeof envURI === "string" && (envURI.startsWith("mongodb://") || envURI.startsWith("mongodb+srv://")) && envURI.includes("@");
+  const defaultAtlasURI = "mongodb+srv://bijayalaxmilenka48_db_user:9AmhLquZMCZ2SAb@ridebuddy.twjpoqm.mongodb.net/bricknbath?retryWrites=true&w=majority&appName=RideBuddy";
+  const mongoURI = isEnvValid ? envURI : defaultAtlasURI;
 
   try {
     console.log("⏳ Connecting to MongoDB Atlas Cluster...");

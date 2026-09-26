@@ -28,10 +28,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const { isMongoActive } = require("./config/db");
+const { isMongoActive, connectMongoDB, getLastMongoError } = require("./config/db");
 
 // Health check endpoint
-app.get("/api/health", (req, res) => {
+app.get("/api/health", async (req, res) => {
+  try {
+    await connectMongoDB();
+  } catch (e) {}
+
   const isMongo = isMongoActive();
   res.status(200).json({
     status: "ok",
@@ -39,6 +43,7 @@ app.get("/api/health", (req, res) => {
     version: "2.0.0",
     database: isMongo ? "MongoDB Atlas (Connected)" : "SQLite Local Fallback (Active)",
     databaseType: isMongo ? "mongodb" : "sqlite",
+    mongoError: getLastMongoError(),
     authSystem: "JWT (JSON Web Token)",
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime())

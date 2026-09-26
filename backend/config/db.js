@@ -6,6 +6,7 @@ let isMongoConnected = false;
 let cachedMongoConn = null;
 
 let mongoConnectingPromise = null;
+let lastMongoError = null;
 
 // 1. Connect to MongoDB Atlas (with connection caching for Serverless environments)
 const connectMongoDB = async () => {
@@ -37,10 +38,12 @@ const connectMongoDB = async () => {
     const conn = await mongoConnectingPromise;
     cachedMongoConn = conn;
     isMongoConnected = true;
+    lastMongoError = null;
     console.log(`🍃 Connected to MongoDB Atlas: ${conn.connection.host} (Database: ${conn.connection.name})`);
     return true;
   } catch (err) {
     console.error("❌ MongoDB Atlas connection error:", err.message);
+    lastMongoError = err.message;
     isMongoConnected = false;
     mongoConnectingPromise = null;
     return false;
@@ -155,5 +158,6 @@ module.exports = {
   get,
   all,
   connectMongoDB,
-  isMongoActive: () => isMongoConnected || (mongoose.connection && mongoose.connection.readyState === 1)
+  isMongoActive: () => isMongoConnected || (mongoose.connection && mongoose.connection.readyState === 1),
+  getLastMongoError: () => lastMongoError
 };

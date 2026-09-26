@@ -12,7 +12,7 @@ const connectMongoDB = async () => {
     return true;
   }
 
-  const mongoURI = process.env.MONGODB_URI;
+  const mongoURI = process.env.MONGODB_URI || "mongodb+srv://bijayalaxmilenka48_db_user:9AmhLquZMCZ2SAb@ridebuddy.twjpoqm.mongodb.net/bricknbath?retryWrites=true&w=majority&appName=RideBuddy";
   if (!mongoURI) {
     console.log("ℹ️  MONGODB_URI not found in environment.");
     return false;

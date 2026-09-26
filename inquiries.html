@@ -340,9 +340,32 @@
     .status-new { background: #FEE2E2; color: #991B1B; border-color: #FCA5A5; }
     .status-contacted { background: #FEF3C7; color: #92400E; border-color: #FCD34D; }
     .status-scheduled { background: #E0E7FF; color: #3730A3; border-color: #A5B4FC; }
+    .status-quotation { background: #FFF7ED; color: #C2410C; border-color: #FDBA74; }
     .status-converted { background: #DCFCE7; color: #166534; border-color: #86EFAC; }
     .status-archived { background: #F1F5F9; color: #475569; border-color: #CBD5E1; }
     .status-deleted { background: #FEE2E2; color: #991B1B; border-color: #F87171; text-decoration: line-through; }
+
+    .stat-card.active-filter {
+      border: 2px solid var(--portal-gold) !important;
+      box-shadow: 0 6px 20px rgba(197, 157, 66, 0.28) !important;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%) !important;
+      transform: translateY(-2px);
+      position: relative;
+    }
+    .stat-card.active-filter::after {
+      content: "FILTER ACTIVE";
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--portal-gold-dark);
+      background: rgba(197, 157, 66, 0.15);
+      border: 1px solid rgba(197, 157, 66, 0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
 
     /* Action Buttons */
     .action-btn-group {
@@ -490,39 +513,46 @@
     
     <!-- Top Stat Cards -->
     <div class="stats-grid">
-      <div class="stat-card" onclick="filterByStatus('active')" title="Click to view all active inquiries">
+      <div class="stat-card active-filter" data-status="all" onclick="filterByStatus('all')" title="Click to view all consultations">
         <div class="stat-icon"><i class="fas fa-inbox"></i></div>
         <div>
           <div class="stat-num" id="totalCount">0</div>
           <div class="stat-desc">Total Inquiries</div>
         </div>
       </div>
-      <div class="stat-card" onclick="filterByStatus('New')" title="Click to filter by New inquiries">
+      <div class="stat-card" data-status="New" onclick="filterByStatus('New')" title="Click to filter New consultation leads">
         <div class="stat-icon" style="background:#FEE2E2; color:#DC2626;"><i class="fas fa-clock"></i></div>
         <div>
           <div class="stat-num" id="newCount" style="color:#DC2626;">0</div>
           <div class="stat-desc">New / Pending</div>
         </div>
       </div>
-      <div class="stat-card" onclick="filterByStatus('Assessment Scheduled')" title="Click to filter Scheduled Assessments">
+      <div class="stat-card" data-status="Contacted" onclick="filterByStatus('Contacted')" title="Click to filter Contacted leads">
+        <div class="stat-icon" style="background:#FEF3C7; color:#B45309;"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <div class="stat-num" id="contactedCount" style="color:#B45309;">0</div>
+          <div class="stat-desc">Contacted</div>
+        </div>
+      </div>
+      <div class="stat-card" data-status="Assessment Scheduled" onclick="filterByStatus('Assessment Scheduled')" title="Click to filter Scheduled Assessments">
         <div class="stat-icon" style="background:#E0E7FF; color:#4338CA;"><i class="fas fa-calendar-check"></i></div>
         <div>
           <div class="stat-num" id="scheduledCount">0</div>
           <div class="stat-desc">Site Assessments</div>
         </div>
       </div>
-      <div class="stat-card" onclick="filterByStatus('Converted')" title="Click to filter Converted Clients">
+      <div class="stat-card" data-status="Quotation Sent" onclick="filterByStatus('Quotation Sent')" title="Click to filter Quotations Sent">
+        <div class="stat-icon" style="background:#FFF7ED; color:#EA580C;"><i class="fas fa-file-invoice-dollar"></i></div>
+        <div>
+          <div class="stat-num" id="quotationCount" style="color:#EA580C;">0</div>
+          <div class="stat-desc">Quotations Sent</div>
+        </div>
+      </div>
+      <div class="stat-card" data-status="Converted" onclick="filterByStatus('Converted')" title="Click to filter Converted Clients">
         <div class="stat-icon" style="background:#DCFCE7; color:#166534;"><i class="fas fa-check-circle"></i></div>
         <div>
           <div class="stat-num" id="convertedCount">0</div>
           <div class="stat-desc">Converted / Confirmed</div>
-        </div>
-      </div>
-      <div class="stat-card" onclick="filterByStatus('Quotation Sent')" title="Click to filter Quotations Sent">
-        <div class="stat-icon" style="background:#FFFBEB; color:#B45309;"><i class="fas fa-file-invoice-dollar"></i></div>
-        <div>
-          <div class="stat-num" id="quotationCount" style="color:#B45309;">0</div>
-          <div class="stat-desc">Quotations Sent</div>
         </div>
       </div>
     </div>
@@ -825,50 +855,86 @@
       }
     }
 
+    // --- Helper for Status Class ---
+    function getStatusClass(status) {
+      const s = (status || "").toLowerCase().trim();
+      if (s === "contacted") return "status-contacted";
+      if (s === "assessment scheduled") return "status-scheduled";
+      if (s === "quotation sent") return "status-quotation";
+      if (s === "converted") return "status-converted";
+      if (s === "deleted") return "status-deleted";
+      return "status-new";
+    }
+
     // --- Stat Counters ---
     function updateStatCards() {
       const totalCount = document.getElementById("totalCount");
       const newCount = document.getElementById("newCount");
+      const contactedCount = document.getElementById("contactedCount");
       const scheduledCount = document.getElementById("scheduledCount");
-      const convertedCount = document.getElementById("convertedCount");
       const quotationCount = document.getElementById("quotationCount");
+      const convertedCount = document.getElementById("convertedCount");
 
       if (totalCount) totalCount.textContent = allInquiries.length;
       if (newCount) {
-        newCount.textContent = allInquiries.filter(i => (i.status || "New").toLowerCase() === "new").length;
+        newCount.textContent = allInquiries.filter(i => (i.status || "New").toLowerCase().trim() === "new").length;
+      }
+      if (contactedCount) {
+        contactedCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase().trim() === "contacted").length;
       }
       if (scheduledCount) {
-        scheduledCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "assessment scheduled").length;
-      }
-      if (convertedCount) {
-        convertedCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "converted").length;
+        scheduledCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase().trim() === "assessment scheduled").length;
       }
       if (quotationCount) {
-        quotationCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase() === "quotation sent").length;
+        quotationCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase().trim() === "quotation sent").length;
+      }
+      if (convertedCount) {
+        convertedCount.textContent = allInquiries.filter(i => (i.status || "").toLowerCase().trim() === "converted").length;
       }
     }
 
     // --- Filters & Search ---
     function applyFilters() {
       const search = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
-      const statusVal = document.getElementById("statusFilter")?.value || "all";
+      const statusFilterEl = document.getElementById("statusFilter");
+      const statusVal = statusFilterEl ? statusFilterEl.value : "all";
       const countEl = document.getElementById("filterCount");
 
+      // Highlight active stat card
+      document.querySelectorAll(".stat-card").forEach(card => {
+        const cardStatus = card.getAttribute("data-status");
+        if (cardStatus) {
+          if ((statusVal === "all" && cardStatus === "all") || (cardStatus.toLowerCase() === statusVal.toLowerCase())) {
+            card.classList.add("active-filter");
+          } else {
+            card.classList.remove("active-filter");
+          }
+        }
+      });
+
       const filtered = allInquiries.filter(item => {
+        const idStr = String(item.id || "").toLowerCase();
+        const refStr = String(item.refId || "").toLowerCase();
+        const nameStr = String(item.name || "").toLowerCase();
+        const phoneStr = String(item.phone || "").toLowerCase();
+        const cityStr = String(item.city || "").toLowerCase();
+        const reqStr = String(item.requirements || "").toLowerCase();
+        const notesStr = String(item.notes || "").toLowerCase();
+
         const matchesSearch = !search ||
-          (item.id && item.id.toLowerCase().includes(search)) ||
-          (item.refId && item.refId.toLowerCase().includes(search)) ||
-          (item.name && item.name.toLowerCase().includes(search)) ||
-          (item.phone && item.phone.includes(search)) ||
-          (item.city && item.city.toLowerCase().includes(search)) ||
-          (item.requirements && item.requirements.toLowerCase().includes(search)) ||
-          (item.notes && item.notes.toLowerCase().includes(search));
+          idStr.includes(search) ||
+          refStr.includes(search) ||
+          nameStr.includes(search) ||
+          phoneStr.includes(search) ||
+          cityStr.includes(search) ||
+          reqStr.includes(search) ||
+          notesStr.includes(search);
 
         let matchesStatus = true;
-        const curStatus = (item.status || "New").toLowerCase();
+        const curStatus = (item.status || "New").toLowerCase().trim();
 
         if (statusVal !== "all") {
-          matchesStatus = curStatus === statusVal.toLowerCase();
+          matchesStatus = curStatus === statusVal.toLowerCase().trim();
         }
 
         return matchesSearch && matchesStatus;
@@ -883,12 +949,17 @@
 
     function filterByStatus(status) {
       const statusFilter = document.getElementById("statusFilter");
-      if (statusFilter) {
-        statusFilter.value = status;
-        applyFilters();
-        const ledger = document.querySelector(".ledger-card");
-        if (ledger) ledger.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
+      if (!statusFilter) return;
+
+      const currentVal = statusFilter.value;
+      // Toggle logic: if already filtered by this status and user clicks again, reset to 'all'
+      const targetVal = (currentVal.toLowerCase() === status.toLowerCase() && status.toLowerCase() !== "all") ? "all" : status;
+
+      statusFilter.value = targetVal;
+      applyFilters();
+
+      const ledger = document.querySelector(".ledger-card");
+      if (ledger) ledger.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
     // --- Render Table ---
@@ -902,7 +973,7 @@
             <td colspan="7" style="text-align:center; padding:3.5rem; color:#64748B;">
               <i class="fas fa-inbox" style="font-size:2.5rem; color:#CBD5E1; margin-bottom:0.75rem; display:block;"></i>
               <strong style="font-size:1.05rem; color:#0F172A;">No consultations found matching criteria.</strong><br>
-              <span style="font-size:0.86rem; color:#94A3B8;">Clients who book consultations through your website will appear here in real time.</span>
+              <span style="font-size:0.86rem; color:#94A3B8;">Click another status tab above or clear search filters to view more leads.</span>
             </td>
           </tr>
         `;
@@ -918,21 +989,17 @@
 
         const curStatus = item.status || "New";
         const isDeleted = curStatus.toLowerCase() === "deleted";
-
-        let statusCss = "status-new";
-        if (isDeleted) statusCss = "status-deleted";
-        else if (curStatus === "Contacted") statusCss = "status-contacted";
-        else if (curStatus === "Assessment Scheduled") statusCss = "status-scheduled";
-        else if (curStatus === "Converted") statusCss = "status-converted";
-        else if (curStatus === "Quotation Sent") statusCss = "status-contacted";
+        const statusCss = getStatusClass(curStatus);
 
         const cleanPhone = (item.phone || "").replace(/[^0-9]/g, "");
         const waPhone = cleanPhone.length === 10 ? "91" + cleanPhone : cleanPhone;
         
         const waText = encodeURIComponent(`Namaskar ${item.name}, thank you for contacting Brick & Bath regarding your luxury bathroom renovation inquiry (${item.refId}). When would be a convenient time to schedule your free 3D photorealistic design assessment?`);
 
+        const itemId = escapeHTML(item.id || item.refId);
+
         return `
-          <tr id="row-${escapeHTML(item.id)}" style="${isDeleted ? 'opacity:0.75; background:#FEF2F2;' : ''}">
+          <tr id="row-${itemId}" style="${isDeleted ? 'opacity:0.75; background:#FEF2F2;' : ''}">
             <td>
               <strong style="color:var(--portal-gold-dark); font-size:0.92rem; display:block; font-weight:800;">#${escapeHTML(item.refId || item.id)}</strong>
               <span style="font-size:0.75rem; color:#94A3B8;">${dateStr}</span>
@@ -957,11 +1024,11 @@
               ${item.notes ? `
                 <div class="inquiry-notes-preview">
                   <span><i class="fas fa-sticky-note"></i> <strong>Note:</strong> ${escapeHTML(item.notes)}</span>
-                  ${!isDeleted ? `<button type="button" onclick="openNoteModal('${escapeHTML(item.id)}')" style="background:none; border:none; cursor:pointer; color:#78350F; font-size:0.78rem; text-decoration:underline;">Edit</button>` : ''}
+                  ${!isDeleted ? `<button type="button" onclick="openNoteModal('${itemId}')" style="background:none; border:none; cursor:pointer; color:#78350F; font-size:0.78rem; text-decoration:underline;">Edit</button>` : ''}
                 </div>
               ` : `
                 ${!isDeleted ? `
-                  <button type="button" onclick="openNoteModal('${escapeHTML(item.id)}')" style="background:none; border:none; cursor:pointer; color:#94A3B8; font-size:0.75rem; margin-top:4px; padding:0; display:inline-flex; align-items:center; gap:3px;">
+                  <button type="button" onclick="openNoteModal('${itemId}')" style="background:none; border:none; cursor:pointer; color:#94A3B8; font-size:0.75rem; margin-top:4px; padding:0; display:inline-flex; align-items:center; gap:3px;">
                     <i class="fas fa-plus-circle"></i> Add internal note
                   </button>
                 ` : ''}
@@ -974,7 +1041,7 @@
               </span>
             </td>
             <td>
-              <select class="status-badge-select ${statusCss}" onchange="updateInquiryStatus('${escapeHTML(item.id)}', this.value, this)">
+              <select class="status-badge-select ${statusCss}" data-current-status="${curStatus}" onchange="updateInquiryStatus('${itemId}', this.value, this)">
                 <option value="New" ${curStatus === 'New' ? 'selected' : ''}>New</option>
                 <option value="Contacted" ${curStatus === 'Contacted' ? 'selected' : ''}>Contacted</option>
                 <option value="Assessment Scheduled" ${curStatus === 'Assessment Scheduled' ? 'selected' : ''}>Assessment Scheduled</option>
@@ -987,7 +1054,7 @@
                 <a href="https://wa.me/${waPhone}?text=${waText}" target="_blank" class="btn-action btn-action-wa" title="Reply on WhatsApp">
                   <i class="fab fa-whatsapp"></i> Chat
                 </a>
-                <button type="button" class="btn-action btn-action-del" onclick="deleteInquiryRow('${escapeHTML(item.id)}')" title="Delete inquiry">
+                <button type="button" class="btn-action btn-action-del" onclick="deleteInquiryRow('${itemId}')" title="Delete inquiry">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
@@ -1016,41 +1083,75 @@
 
     // --- Status Update ---
     async function updateInquiryStatus(id, newStatus, selectEl) {
-      selectEl.className = "status-badge-select " + (
-        newStatus === "Contacted" ? "status-contacted" :
-        newStatus === "Assessment Scheduled" ? "status-scheduled" :
-        newStatus === "Converted" ? "status-converted" :
-        newStatus === "Quotation Sent" ? "status-contacted" : "status-new"
-      );
+      const oldStatus = selectEl.getAttribute("data-current-status") || selectEl.value;
+      
+      // Update UI styling immediately
+      selectEl.className = "status-badge-select " + getStatusClass(newStatus);
+      selectEl.setAttribute("data-current-status", newStatus);
+
+      // Optimistically update in-memory inquiries array (coercing IDs to string)
+      allInquiries = allInquiries.map(i => {
+        if (String(i.id) === String(id) || String(i.refId) === String(id)) {
+          return { ...i, status: newStatus };
+        }
+        return i;
+      });
+
+      // Instantly refresh stat card numbers
+      updateStatCards();
+
+      showToast(`Saving status as <strong>"${newStatus}"</strong>...`, 1200);
 
       try {
         const res = await fetch("/api/inquiries", {
           method: "PATCH",
           headers: getAuthHeaders(),
-          body: JSON.stringify({ id, status: newStatus })
+          body: JSON.stringify({ id: id, status: newStatus })
         });
 
         if (res.ok) {
+          showToast(`✅ Status updated to <strong>"${newStatus}"</strong>`);
+          
+          // If a status filter is currently active that doesn't include the new status,
+          // smoothly re-filter the table
+          const currentFilter = document.getElementById("statusFilter")?.value || "all";
+          if (currentFilter !== "all" && currentFilter.toLowerCase() !== newStatus.toLowerCase()) {
+            applyFilters();
+          }
+        } else {
+          // Revert on server error
+          selectEl.value = oldStatus;
+          selectEl.className = "status-badge-select " + getStatusClass(oldStatus);
+          selectEl.setAttribute("data-current-status", oldStatus);
           allInquiries = allInquiries.map(i => {
-            if (i.id === id) {
-              return { ...i, status: newStatus };
+            if (String(i.id) === String(id) || String(i.refId) === String(id)) {
+              return { ...i, status: oldStatus };
             }
             return i;
           });
-
           updateStatCards();
-          applyFilters();
-          showToast(`Status updated to "${newStatus}"`);
+          showToast(`❌ Could not update status on server. Reverted.`, 4000);
         }
       } catch (err) {
-        console.warn("MongoDB Atlas update failed:", err);
+        console.warn("Status update failed:", err);
+        selectEl.value = oldStatus;
+        selectEl.className = "status-badge-select " + getStatusClass(oldStatus);
+        selectEl.setAttribute("data-current-status", oldStatus);
+        allInquiries = allInquiries.map(i => {
+          if (String(i.id) === String(id) || String(i.refId) === String(id)) {
+            return { ...i, status: oldStatus };
+          }
+          return i;
+        });
+        updateStatCards();
+        showToast(`❌ Network error while saving status.`, 4000);
       }
     }
 
     // --- Internal Notes Modal ---
     function openNoteModal(id) {
       activeInquiryForNote = id;
-      const item = allInquiries.find(i => i.id === id);
+      const item = allInquiries.find(i => String(i.id) === String(id) || String(i.refId) === String(id));
       document.getElementById("noteModalSubtitle").textContent = `Consultation #${item ? (item.refId || item.id) : id} — ${item ? item.name : ''}`;
       document.getElementById("ownerNoteText").value = item?.notes || "";
       document.getElementById("noteModal").style.display = "flex";
@@ -1077,7 +1178,7 @@
           body: JSON.stringify({ id: activeInquiryForNote, notes: noteText })
         });
 
-        allInquiries = allInquiries.map(i => i.id === activeInquiryForNote ? { ...i, notes: noteText } : i);
+        allInquiries = allInquiries.map(i => (String(i.id) === String(activeInquiryForNote) || String(i.refId) === String(activeInquiryForNote)) ? { ...i, notes: noteText } : i);
         applyFilters();
         closeNoteModal();
       } catch (err) {
@@ -1091,7 +1192,7 @@
     // --- Delete Inquiry Logic ---
     function deleteInquiryRow(id) {
       pendingDeleteId = id;
-      const item = allInquiries.find(i => i.id === id);
+      const item = allInquiries.find(i => String(i.id) === String(id) || String(i.refId) === String(id));
       const msgEl = document.getElementById("deleteModalMessage");
       if (msgEl) {
         msgEl.innerHTML = `Are you sure you want to permanently delete consultation <strong style="color:var(--portal-gold-dark);">#${escapeHTML(item?.refId || id)}</strong> from "${escapeHTML(item?.name || 'Client')}"?<br><br><span style="font-size:0.84rem; color:#DC2626;">This will permanently remove this record from your MongoDB Atlas database.</span>`;
@@ -1121,7 +1222,7 @@
         });
 
         if (res.ok) {
-          allInquiries = allInquiries.filter(i => i.id !== id);
+          allInquiries = allInquiries.filter(i => String(i.id) !== String(id) && String(i.refId) !== String(id));
           updateStatCards();
           applyFilters();
         } else {

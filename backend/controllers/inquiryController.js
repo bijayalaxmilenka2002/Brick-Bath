@@ -287,15 +287,17 @@ const getInquiryByRefId = async (req, res) => {
 // 4. Update inquiry status or notes
 const updateInquiryStatus = async (req, res) => {
   try {
-    const id = req.params.id || req.body.id;
+    const rawId = req.params.id || req.body.id;
     const { status, notes } = req.body;
 
-    if (!id) {
+    if (!rawId) {
       return res.status(400).json({
         success: false,
         message: "Inquiry ID is required."
       });
     }
+
+    const cleanId = String(rawId).replace(/^#/, "").trim();
 
     if (!status && notes === undefined) {
       return res.status(400).json({
@@ -309,11 +311,18 @@ const updateInquiryStatus = async (req, res) => {
     if (notes !== undefined) updateFields.notes = notes;
 
     if (isMongoActive()) {
-      let existingDoc;
-      if (id.match(/^[0-9a-fA-F]{24}$/)) {
-        existingDoc = await Inquiry.findById(id);
-      } else {
-        existingDoc = await Inquiry.findOne({ refId: id });
+      let existingDoc = null;
+      if (cleanId.match(/^[0-9a-fA-F]{24}$/)) {
+        existingDoc = await Inquiry.findById(cleanId);
+      }
+      if (!existingDoc) {
+        existingDoc = await Inquiry.findOne({
+          $or: [
+            { refId: cleanId },
+            { refId: `BNB-2026-${cleanId}` },
+            { refId: `#${cleanId}` }
+          ]
+        });
       }
 
       if (!existingDoc) {
@@ -337,7 +346,10 @@ const updateInquiryStatus = async (req, res) => {
       });
     } else {
       // SQLite fallback logic
-      const existingRow = await get(`SELECT * FROM inquiries WHERE id = ? OR ref_id = ?`, [id, id]);
+      const existingRow = await get(
+        `SELECT * FROM inquiries WHERE id = ? OR ref_id = ? OR ref_id = ?`,
+        [cleanId, cleanId, `BNB-2026-${cleanId}`]
+      );
       if (!existingRow) {
         return res.status(404).json({
           success: false,

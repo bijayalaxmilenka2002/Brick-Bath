@@ -112,6 +112,7 @@ Traditional bathroom remodeling is plagued by vendor fragmentation, uncertain pr
   * 🟠 **`Quotation Sent`** — Architectural proposal and 3D render delivered.
   * 🟢 **`Converted`** — Turnkey contract signed, site work initialized.
 * **Live Database Search & Dynamic Filtering:** Filter by status, date, budget, or search customer name, phone, or reference ID.
+* **Manual Walk-in & In-Person Client Registration:** Direct modal gateway for owners to capture showroom walk-in visitors, on-site measurement consultations, and direct phone leads with customized initial stages, collection tiers, budget estimates, and private notes.
 * **Internal Architect Notes:** Add private project remarks, site constraints, and material specifications directly to each client file.
 * **One-Click Instant Communications:** Direct click-to-call and pre-filled WhatsApp responses for rapid follow-ups.
 * **One-Click CSV/Excel Data Export:** Download customer records for offline reporting and spreadsheet analysis.

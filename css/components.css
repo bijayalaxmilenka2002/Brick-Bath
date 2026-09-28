@@ -509,7 +509,7 @@
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
   gap: 3.5rem;
   align-items: center;
   position: relative;
@@ -641,53 +641,89 @@
   line-height: 1.35;
 }
 
-/* Hero Visual Showcase Slideshow - Architectural Two-Tier Presentation */
+/* Hero Visual Showcase Slideshow - Architectural Expanded Stage */
 .hero-visual-card {
   position: relative;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  background: rgba(14, 22, 34, 0.95);
+  border-radius: 24px;
+  overflow: visible;
+  border: 1px solid rgba(197, 157, 66, 0.35);
+  box-shadow: 0 32px 80px -10px rgba(0, 0, 0, 0.85), 0 0 50px rgba(197, 157, 66, 0.16);
+  background: rgba(11, 17, 26, 0.95);
   display: flex;
   flex-direction: column;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-visual-card:hover {
+  border-color: rgba(197, 157, 66, 0.55);
+  box-shadow: 0 36px 90px -10px rgba(0, 0, 0, 0.9), 0 0 60px rgba(197, 157, 66, 0.22);
+}
+
+.hero-visual-glow {
+  position: absolute;
+  inset: -30px;
+  background: radial-gradient(ellipse at 60% 45%, rgba(197, 157, 66, 0.2) 0%, transparent 68%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 40px;
 }
 
 .hero-showcase-slider {
   user-select: none;
 }
 
-/* Floating Suite Selector - Clean Jewelry Capsule at Top of Photo */
-.hero-slider-tabs {
+/* Floating Suite Selector Header Bar */
+.hero-slider-header-bar {
   position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+  top: 16px;
+  left: 18px;
+  right: 18px;
+  z-index: 12;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hero-slider-tabs {
+  pointer-events: auto;
   display: inline-flex;
-  gap: 3px;
-  background: rgba(7, 10, 15, 0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 3px 5px;
+  gap: 4px;
+  background: rgba(7, 10, 15, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 4px 6px;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  max-width: 90%;
+  border: 1px solid rgba(197, 157, 66, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 }
 
 .hero-tab-btn {
   background: transparent;
   border: 1px solid transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.75rem;
-  font-weight: 450;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
   letter-spacing: 0.03em;
-  padding: 4px 13px;
+  padding: 5px 14px;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all 0.25s ease;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-tab-btn .tab-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.25s ease;
 }
 
 .hero-tab-btn:hover {
@@ -696,20 +732,81 @@
 
 .hero-tab-btn.active {
   color: #070A0F;
-  background: linear-gradient(135deg, #e5b974 0%, #c8893a 100%);
+  background: linear-gradient(135deg, #F5D794 0%, #C59D42 50%, #9E7427 100%);
   border-color: transparent;
-  font-weight: 500;
-  box-shadow: 0 2px 10px rgba(200, 137, 58, 0.35);
+  font-weight: 700;
+  box-shadow: 0 2px 14px rgba(197, 157, 66, 0.45);
 }
 
-/* Upper Visual Stage (Expanded 500px Unobstructed Photography) */
+.hero-tab-btn.active .tab-dot {
+  background: #070A0F;
+  transform: scale(1.2);
+}
+
+/* Autoplay Play/Pause Controller */
+.hero-autoplay-toggle {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(7, 10, 15, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 157, 66, 0.3);
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+.hero-autoplay-toggle:hover {
+  background: rgba(197, 157, 66, 0.2);
+  border-color: var(--gold-light);
+  color: #FFFFFF;
+}
+
+.hero-autoplay-toggle svg {
+  width: 11px;
+  height: 11px;
+  fill: var(--gold-bright);
+}
+
+/* Linear Autoplay Progress Track & Bar */
+.hero-progress-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 14;
+  overflow: hidden;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.hero-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #9E7427 0%, #D4AF37 50%, #F5DEB3 100%);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
+  will-change: width;
+}
+
+/* Upper Visual Stage (Expanded 600px Height Viewport) */
 .hero-stage-viewport {
   position: relative;
-  height: 500px;
+  height: 600px;
   width: 100%;
   overflow: hidden;
   background: #0B111A;
-  border-radius: var(--radius-xl);
+  border-radius: 24px;
 }
 
 .hero-slides-wrapper {
@@ -723,7 +820,7 @@
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.7s;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
   z-index: 1;
 }
 
@@ -745,8 +842,8 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  transform: scale(1.03);
-  transition: transform 6s cubic-bezier(0.25, 1, 0.5, 1);
+  transform: scale(1.04);
+  transition: transform 7s cubic-bezier(0.25, 1, 0.5, 1);
   background-color: #0B111A;
 }
 
@@ -754,48 +851,193 @@
   transform: scale(1.0);
 }
 
+/* Visualized Slide Info Card Overlay */
+.hero-slide-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 9;
+  pointer-events: auto;
+}
+
+.caption-glass-card {
+  background: linear-gradient(135deg, rgba(11, 17, 26, 0.88) 0%, rgba(7, 10, 15, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(197, 157, 66, 0.35);
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.15rem 1.4rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
+  transform: translateY(18px);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.hero-slide.active .caption-glass-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.caption-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.caption-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: rgba(197, 157, 66, 0.16);
+  color: var(--gold-light);
+  border: 1px solid rgba(197, 157, 66, 0.35);
+}
+
+.caption-badge.popular-badge {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+.caption-badge.presidential-badge {
+  background: rgba(168, 85, 247, 0.2);
+  color: #C084FC;
+  border-color: rgba(168, 85, 247, 0.45);
+}
+
+.caption-timeline {
+  font-size: 0.75rem;
+  color: #CBD5E1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.caption-timeline svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--gold-light);
+  flex-shrink: 0;
+}
+
+.caption-title {
+  font-size: 1.35rem;
+  color: #FFFFFF;
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+
+.caption-desc {
+  font-size: 0.835rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0 0 0.65rem;
+}
+
+.caption-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.65rem;
+}
+
+.caption-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.caption-tags span {
+  font-size: 0.72rem;
+  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+}
+
+.caption-cta-link {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.caption-cta-link:hover {
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
 /* Subtle Stage Chevrons */
 .hero-slider-nav-btn {
   position: absolute;
-  top: 50%;
+  top: calc(45% - 20px);
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(7, 10, 15, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(200, 137, 58, 0.35);
-  color: var(--gold-bright);
+  background: rgba(7, 10, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 157, 66, 0.4);
+  color: var(--gold-light);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 6;
+  z-index: 10;
   transition: all 0.25s ease;
-  opacity: 0.85;
+  opacity: 0.88;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-slider-nav-btn:hover {
   opacity: 1;
-  background: var(--gold-primary);
+  background: var(--gold-gradient);
   color: #070A0F;
-  border-color: var(--gold-bright);
-  box-shadow: 0 0 14px rgba(200, 137, 58, 0.5);
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(197, 157, 66, 0.55);
   transform: translateY(-50%) scale(1.08);
 }
 
 .hero-slider-nav-btn.prev-btn {
-  left: 14px;
+  left: 16px;
 }
 
 .hero-slider-nav-btn.next-btn {
-  right: 14px;
+  right: 16px;
 }
 
 .hero-slider-nav-btn svg {
   width: 18px;
   height: 18px;
+}
+
+/* Slide Counter Badge */
+.hero-slide-counter {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: none;
 }
 
 /* -------------------------------------------------------------

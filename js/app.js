@@ -61,7 +61,7 @@ function initMobileDrawer() {
 }
 
 /* -------------------------------------------------------------
-   2.5 HERO BATHROOM TYPES & FACILITIES SLIDESHOW (CONTINUOUS AUTOMATIC)
+   2.5 HERO BATHROOM TYPES & FACILITIES SLIDESHOW (ENHANCED AUTOPLAY & VISUALS)
    ------------------------------------------------------------- */
 function initHeroSlideshow() {
   const slider = document.getElementById("hero-showcase-slider");
@@ -71,13 +71,18 @@ function initHeroSlideshow() {
   const tabs = slider.querySelectorAll(".hero-tab-btn");
   const prevBtn = document.getElementById("hero-slider-prev");
   const nextBtn = document.getElementById("hero-slider-next");
+  const progressBar = document.getElementById("hero-progress-bar");
+  const toggleBtn = document.getElementById("hero-autoplay-toggle");
+  const currentNumEl = document.getElementById("current-slide-num");
 
   if (!slides.length) return;
 
   let currentIndex = 0;
   const totalSlides = slides.length;
-  const slideDuration = 4000; // 4 seconds per slide for a smooth automatic showcase
+  const slideDuration = 4500; // 4.5 seconds per slide
   let autoPlayTimer = null;
+  let isPlaying = true;
+  let isHovered = false;
 
   // Preload all bathroom design images into browser memory immediately
   const heroImageUrls = [
@@ -91,10 +96,28 @@ function initHeroSlideshow() {
     img.src = url;
   });
 
+  function startProgressBar() {
+    if (!progressBar) return;
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
+    void progressBar.offsetWidth; // Force DOM reflow
+    if (isPlaying && !isHovered) {
+      progressBar.style.transition = `width ${slideDuration}ms linear`;
+      progressBar.style.width = "100%";
+    }
+  }
+
+  function pauseProgressBar() {
+    if (!progressBar) return;
+    const computedWidth = window.getComputedStyle(progressBar).width;
+    progressBar.style.transition = "none";
+    progressBar.style.width = computedWidth;
+  }
+
   function updateSlide(index) {
     currentIndex = (index + totalSlides) % totalSlides;
 
-    // Update active slide with smooth cross-fade and scale
+    // Update active slide with smooth cross-fade & Ken Burns zoom
     slides.forEach((slide, i) => {
       slide.classList.toggle("active", i === currentIndex);
     });
@@ -106,8 +129,21 @@ function initHeroSlideshow() {
       tab.setAttribute("aria-selected", isActive ? "true" : "false");
     });
 
+    // Update slide counter
+    if (currentNumEl) {
+      currentNumEl.textContent = String(currentIndex + 1).padStart(2, "0");
+    }
+
     // Reset automatic slide cycle
-    restartAutoPlay();
+    if (isPlaying && !isHovered) {
+      restartAutoPlay();
+    } else {
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+      if (progressBar) {
+        progressBar.style.transition = "none";
+        progressBar.style.width = "0%";
+      }
+    }
   }
 
   function nextSlide() {
@@ -116,13 +152,62 @@ function initHeroSlideshow() {
 
   function restartAutoPlay() {
     if (autoPlayTimer) clearInterval(autoPlayTimer);
+    startProgressBar();
     autoPlayTimer = setInterval(nextSlide, slideDuration);
   }
+
+  function stopAutoPlay() {
+    if (autoPlayTimer) {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = null;
+    }
+    pauseProgressBar();
+  }
+
+  // Play / Pause Toggle Controller
+  if (toggleBtn) {
+    const pauseIcon = toggleBtn.querySelector(".pause-icon");
+    const playIcon = toggleBtn.querySelector(".play-icon");
+    const statusText = toggleBtn.querySelector(".autoplay-status-text");
+
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        if (pauseIcon) pauseIcon.style.display = "block";
+        if (playIcon) playIcon.style.display = "none";
+        if (statusText) statusText.textContent = "Auto";
+        toggleBtn.setAttribute("aria-label", "Pause Slideshow");
+        restartAutoPlay();
+      } else {
+        if (pauseIcon) pauseIcon.style.display = "none";
+        if (playIcon) playIcon.style.display = "block";
+        if (statusText) statusText.textContent = "Paused";
+        toggleBtn.setAttribute("aria-label", "Play Slideshow");
+        stopAutoPlay();
+      }
+    });
+  }
+
+  // Hover to pause preview cleanly so user can admire features
+  slider.addEventListener("mouseenter", () => {
+    isHovered = true;
+    if (isPlaying) {
+      stopAutoPlay();
+    }
+  });
+
+  slider.addEventListener("mouseleave", () => {
+    isHovered = false;
+    if (isPlaying) {
+      restartAutoPlay();
+    }
+  });
 
   // Start the automatic slideshow immediately
   restartAutoPlay();
 
-  // Tab Buttons Click (immediate switch + continues auto cycle)
+  // Tab Buttons Click (immediate switch + resets cycle)
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const target = parseInt(tab.dataset.slideTarget, 10);
@@ -132,7 +217,7 @@ function initHeroSlideshow() {
     });
   });
 
-  // Navigation Arrows (immediate switch + continues auto cycle)
+  // Navigation Arrows (immediate switch + resets cycle)
   if (prevBtn) {
     prevBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -152,6 +237,8 @@ function initHeroSlideshow() {
   let touchStartY = 0;
 
   slider.addEventListener("touchstart", (e) => {
+    isHovered = true;
+    stopAutoPlay();
     if (e.changedTouches && e.changedTouches[0]) {
       touchStartX = e.changedTouches[0].clientX;
       touchStartY = e.changedTouches[0].clientY;
@@ -159,6 +246,8 @@ function initHeroSlideshow() {
   }, { passive: true });
 
   slider.addEventListener("touchend", (e) => {
+    isHovered = false;
+    if (isPlaying) restartAutoPlay();
     if (e.changedTouches && e.changedTouches[0]) {
       const touchEndX = e.changedTouches[0].clientX;
       const touchEndY = e.changedTouches[0].clientY;
@@ -182,16 +271,20 @@ function initHeroSlideshow() {
       updateSlide(currentIndex - 1);
     } else if (e.key === "ArrowRight") {
       updateSlide(currentIndex + 1);
+    } else if (e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      if (toggleBtn) toggleBtn.click();
     }
   });
 
-  // Page visibility: safely pause when browser tab is inactive and resume when active
+  // Page visibility: cleanly pause when browser tab is inactive and resume when active
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       if (autoPlayTimer) clearInterval(autoPlayTimer);
     } else {
-      resetProgressBar();
-      restartAutoPlay();
+      if (isPlaying && !isHovered) {
+        restartAutoPlay();
+      }
     }
   });
 }

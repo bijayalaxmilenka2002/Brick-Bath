@@ -488,7 +488,7 @@
   min-height: calc(100vh - 120px);
   display: flex;
   align-items: center;
-  padding: 3.2rem 0 2.5rem 0;
+  padding: 1.6rem 0 2rem 0;
   background-color: var(--bg-darkest);
   overflow: hidden;
 }
@@ -509,8 +509,8 @@
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.36fr);
-  gap: 2.8rem;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.44fr);
+  gap: 2.5rem;
   align-items: center;
   position: relative;
   z-index: 1;
@@ -660,7 +660,7 @@
   display: flex;
   flex-direction: column;
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  margin-top: -12px;
+  margin-top: -24px;
 }
 
 .hero-visual-card:hover {
@@ -685,7 +685,7 @@
 /* Floating Suite Selector Header Bar - Only Image Names */
 .hero-slider-header-bar {
   position: absolute;
-  top: 18px;
+  top: 14px;
   left: 0;
   right: 0;
   z-index: 12;
@@ -739,7 +739,7 @@
 .hero-stage-viewport {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9.15;
+  aspect-ratio: 16 / 10.2;
   max-height: none;
   overflow: hidden;
   background: transparent;
@@ -777,7 +777,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 12%;
   display: block;
   background-color: transparent;
 }

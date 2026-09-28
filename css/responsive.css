@@ -182,7 +182,7 @@
   }
 
   .hero-stage-viewport {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9.15;
     height: auto;
     min-height: 240px;
     border-radius: 20px;
@@ -452,7 +452,9 @@
   }
 
   .hero-stage-viewport {
-    height: 320px;
+    height: auto;
+    aspect-ratio: 16 / 9.15;
+    min-height: 240px;
   }
 
   .hero-slider-tabs {
@@ -522,7 +524,9 @@
 /* Extra Small Screens (Max 360px) */
 @media (max-width: 360px) {
   .hero-stage-viewport {
-    height: 270px;
+    height: auto;
+    aspect-ratio: 16 / 9.15;
+    min-height: 200px;
   }
 
   .hero-slider-tabs {

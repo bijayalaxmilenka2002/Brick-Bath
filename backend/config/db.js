@@ -131,6 +131,11 @@ const initDatabase = async () => {
       )
     `);
 
+    // Ensure columns exist in SQLite fallback
+    try { await run(`ALTER TABLE inquiries ADD COLUMN notes TEXT DEFAULT ''`); } catch (e) {}
+    try { await run(`ALTER TABLE inquiries ADD COLUMN source TEXT DEFAULT 'Website Form'`); } catch (e) {}
+    try { await run(`ALTER TABLE inquiries ADD COLUMN email TEXT DEFAULT ''`); } catch (e) {}
+
     await run(`
       CREATE TABLE IF NOT EXISTS careers (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

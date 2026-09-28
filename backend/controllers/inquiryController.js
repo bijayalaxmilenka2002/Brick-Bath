@@ -5,7 +5,21 @@ const { sendInquiryNotification } = require("../services/emailService");
 // 1. Create new inquiry / consultation booking (MongoDB Atlas / SQLite fallback)
 const createInquiry = async (req, res) => {
   try {
-    const { name, phone, city, preferredDate, requirements, refId } = req.body;
+    const { 
+      name, 
+      phone, 
+      email,
+      city, 
+      preferredDate, 
+      requirements, 
+      refId,
+      status: reqStatus,
+      notes: reqNotes,
+      source: reqSource,
+      budget,
+      bathroomType,
+      collectionTier
+    } = req.body;
 
     if (!name || !phone) {
       return res.status(400).json({
@@ -27,8 +41,24 @@ const createInquiry = async (req, res) => {
     const finalRefId = refId || `BNB-2026-${Math.floor(1000 + Math.random() * 9000)}`;
     const finalCity = city ? city.trim() : "Bhubaneswar";
     const finalDate = preferredDate || "Earliest Available";
-    const finalReqs = requirements ? requirements.trim() : "Turnkey Luxury Bathroom Renovation";
-    const status = "New";
+    
+    // Construct rich requirements text if components are passed
+    let finalReqs = (requirements && requirements.trim()) ? requirements.trim() : "";
+    if (!finalReqs) {
+      const parts = [];
+      if (bathroomType) parts.push(bathroomType);
+      if (collectionTier) parts.push(collectionTier);
+      if (budget) parts.push(`Budget: ${budget}`);
+      finalReqs = parts.length > 0 ? parts.join(" • ") : "Turnkey Luxury Bathroom Renovation";
+    }
+
+    // Determine initial lifecycle status
+    const validStatuses = ["New", "Contacted", "Assessment Scheduled", "Quotation Sent", "Converted"];
+    const finalStatus = (reqStatus && validStatuses.includes(reqStatus.trim())) ? reqStatus.trim() : "New";
+
+    const finalNotes = (reqNotes && reqNotes.trim()) ? reqNotes.trim() : "";
+    const finalSource = (reqSource && reqSource.trim()) ? reqSource.trim() : "Website Form";
+    const finalEmail = (email && email.trim()) ? email.trim() : "";
 
     let inquiryData = null;
 
@@ -38,10 +68,16 @@ const createInquiry = async (req, res) => {
         refId: finalRefId,
         name: name.trim(),
         phone: cleanPhone,
+        email: finalEmail,
         city: finalCity,
         preferredDate: finalDate,
         requirements: finalReqs,
-        status: status
+        status: finalStatus,
+        notes: finalNotes,
+        source: finalSource,
+        budget: budget || "",
+        bathroomType: bathroomType || "",
+        collectionTier: collectionTier || ""
       });
 
       const savedDoc = await newInquiryDoc.save();
@@ -50,19 +86,23 @@ const createInquiry = async (req, res) => {
         refId: savedDoc.refId,
         name: savedDoc.name,
         phone: savedDoc.phone,
+        email: savedDoc.email || "",
         city: savedDoc.city,
         preferredDate: savedDoc.preferredDate,
         requirements: savedDoc.requirements,
         status: savedDoc.status,
+        notes: savedDoc.notes || "",
+        source: savedDoc.source || "Website Form",
+        budget: savedDoc.budget || "",
         createdAt: savedDoc.createdAt
       };
-      console.log(`🍃 Inquiry saved to MongoDB Atlas: ${finalRefId} (${name})`);
+      console.log(`🍃 Inquiry saved to MongoDB Atlas: ${finalRefId} (${name}) [Source: ${finalSource}]`);
     } else {
       // Fallback: Save to SQLite
       const result = await run(
-        `INSERT INTO inquiries (ref_id, name, phone, city, preferred_date, requirements, status)
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [finalRefId, name.trim(), cleanPhone, finalCity, finalDate, finalReqs, status]
+        `INSERT INTO inquiries (ref_id, name, phone, email, city, preferred_date, requirements, status, notes, source)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [finalRefId, name.trim(), cleanPhone, finalEmail, finalCity, finalDate, finalReqs, finalStatus, finalNotes, finalSource]
       );
 
       const createdInquiry = await get(`SELECT * FROM inquiries WHERE id = ?`, [result.lastID]);
@@ -71,13 +111,17 @@ const createInquiry = async (req, res) => {
         refId: createdInquiry.ref_id,
         name: createdInquiry.name,
         phone: createdInquiry.phone,
+        email: createdInquiry.email || "",
         city: createdInquiry.city,
         preferredDate: createdInquiry.preferred_date,
         requirements: createdInquiry.requirements,
         status: createdInquiry.status,
+        notes: createdInquiry.notes || "",
+        source: createdInquiry.source || "Website Form",
+        budget: budget || "",
         createdAt: createdInquiry.created_at
       };
-      console.log(`💾 Inquiry saved to SQLite database: ${finalRefId} (${name})`);
+      console.log(`💾 Inquiry saved to SQLite database: ${finalRefId} (${name}) [Source: ${finalSource}]`);
     }
 
     // Trigger email notification to owner asynchronously (doesn't delay user's response)
@@ -125,11 +169,16 @@ const getAllInquiries = async (req, res) => {
         refId: d.refId,
         name: d.name,
         phone: d.phone,
+        email: d.email || "",
         city: d.city,
         preferredDate: d.preferredDate,
         requirements: d.requirements,
         status: d.status,
         notes: d.notes || "",
+        source: d.source || "Website Form",
+        budget: d.budget || "",
+        bathroomType: d.bathroomType || "",
+        collectionTier: d.collectionTier || "",
         createdAt: d.createdAt,
         receivedAt: d.createdAt
       }));
@@ -160,11 +209,14 @@ const getAllInquiries = async (req, res) => {
         refId: r.ref_id,
         name: r.name,
         phone: r.phone,
+        email: r.email || "",
         city: r.city,
         preferredDate: r.preferred_date,
         requirements: r.requirements,
         status: r.status,
         notes: r.notes || "",
+        source: r.source || "Website Form",
+        budget: r.budget || "",
         createdAt: r.created_at,
         receivedAt: r.created_at
       }));
@@ -506,21 +558,24 @@ const exportCSV = async (req, res) => {
         ref_id: d.refId,
         name: d.name,
         phone: d.phone,
+        email: d.email || "",
         city: d.city,
+        source: d.source || "Website Form",
         preferred_date: d.preferredDate,
         requirements: d.requirements,
         status: d.status,
+        notes: d.notes || "",
         created_at: d.createdAt
       }));
     } else {
       rows = await all(`SELECT * FROM inquiries ORDER BY id DESC`);
     }
 
-    let csv = "Reference ID,Client Name,Phone,City,Preferred Date,Requirements,Status,Received Date\n";
+    let csv = "Reference ID,Client Name,Phone,Email,City,Lead Source,Preferred Date,Requirements,Status,Internal Notes,Received Date\n";
 
     rows.forEach((r) => {
       const escape = (str) => `"${(str || "").toString().replace(/"/g, '""')}"`;
-      csv += `${escape(r.ref_id)},${escape(r.name)},${escape(r.phone)},${escape(r.city)},${escape(r.preferred_date)},${escape(r.requirements)},${escape(r.status)},${escape(r.created_at)}\n`;
+      csv += `${escape(r.ref_id)},${escape(r.name)},${escape(r.phone)},${escape(r.email)},${escape(r.city)},${escape(r.source)},${escape(r.preferred_date)},${escape(r.requirements)},${escape(r.status)},${escape(r.notes)},${escape(r.created_at)}\n`;
     });
 
     res.setHeader("Content-Type", "text/csv; charset=utf-8");

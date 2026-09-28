@@ -467,6 +467,89 @@
       opacity: 1;
       pointer-events: auto;
     }
+
+    /* Lead Channel / Source Badges */
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .source-walkin {
+      background: rgba(197, 157, 66, 0.15);
+      color: #9A7726;
+      border: 1px solid rgba(197, 157, 66, 0.35);
+    }
+    .source-phone {
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284C7;
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+    .source-site {
+      background: rgba(139, 92, 246, 0.12);
+      color: #7C3AED;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+    }
+    .source-web {
+      background: rgba(100, 116, 139, 0.1);
+      color: #64748B;
+      border: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    /* Form Grid in Walk-in Modal */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+    .lead-input-group {
+      margin-bottom: 1.1rem;
+      text-align: left;
+    }
+    .lead-input-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 0.35rem;
+    }
+    .lead-input-control {
+      width: 100%;
+      height: 42px;
+      padding: 0 0.85rem;
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: #0F172A;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .lead-input-control:focus {
+      border-color: var(--portal-gold);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(197, 157, 66, 0.15);
+    }
+    .row-highlight {
+      animation: highlightGlow 3s ease-out;
+    }
+    @keyframes highlightGlow {
+      0% { background: rgba(197, 157, 66, 0.35); }
+      50% { background: rgba(197, 157, 66, 0.18); }
+      100% { background: transparent; }
+    }
   </style>
 </head>
 <body>
@@ -495,6 +578,9 @@
       </div>
 
       <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+        <button type="button" onclick="openNewLeadModal()" class="btn btn-gold btn-sm" style="box-shadow: 0 4px 12px rgba(197, 157, 66, 0.35); cursor:pointer;" title="Register Walk-in Client">
+          <i class="fas fa-user-plus"></i> + Walk-in Client
+        </button>
         <button type="button" onclick="openCredentialsModal()" class="btn btn-sm" style="background: rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
           <i class="fas fa-key" style="color:var(--portal-gold-light);"></i> Credentials
         </button>
@@ -569,8 +655,11 @@
           </span>
         </div>
         <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
-          <button type="button" onclick="generateExecutivePDFReport()" class="btn btn-gold btn-sm" title="Download official Executive PDF Lead Report">
-            <i class="fas fa-file-pdf"></i> Download PDF Report
+          <button type="button" onclick="openNewLeadModal()" class="btn btn-gold btn-sm" id="addNewLeadBtn" title="Register Showroom Walk-in or Direct Phone Client">
+            <i class="fas fa-user-plus"></i> + Add Walk-in Client
+          </button>
+          <button type="button" onclick="generateExecutivePDFReport()" class="btn btn-secondary btn-sm" title="Download official Executive PDF Lead Report">
+            <i class="fas fa-file-pdf"></i> PDF Report
           </button>
           <button type="button" onclick="fetchInquiries(true)" class="btn btn-secondary btn-sm" id="refreshBtn" title="Refresh latest records from MongoDB">
             <i class="fas fa-sync-alt" id="refreshIcon"></i> Refresh
@@ -625,6 +714,169 @@
       </div>
     </div>
   </main>
+
+  <!-- Register Walk-in / In-Person Client Modal -->
+  <div id="newLeadModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeNewLeadModal()">
+    <div class="portal-modal-card" style="max-width: 680px; padding: 2.2rem; border-radius: 20px;">
+      <button type="button" class="modal-close-btn" onclick="closeNewLeadModal()">&times;</button>
+      
+      <div style="display:flex; align-items:center; gap:0.9rem; margin-bottom:1.35rem; border-bottom:1px solid #E2E8F0; padding-bottom:1.1rem;">
+        <div style="width:52px; height:52px; border-radius:14px; background:rgba(197,157,66,0.15); color:var(--portal-gold); display:flex; align-items:center; justify-content:center; font-size:1.45rem; flex-shrink:0;">
+          <i class="fas fa-handshake"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 0.2rem; font-size:1.35rem; font-weight:800; color:#0F172A; font-family:'Outfit', sans-serif;">
+            Register In-Person / Walk-in Client
+          </h4>
+          <p style="margin:0; font-size:0.84rem; color:#64748B;">
+            Record showroom visits, on-site laser measurements, and direct phone inquiries
+          </p>
+        </div>
+      </div>
+
+      <div id="manualLeadError" style="display:none; background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:0.85rem 1rem; border-radius:10px; font-size:0.86rem; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-exclamation-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
+          <span id="manualLeadErrorText"></span>
+        </div>
+      </div>
+
+      <div id="manualLeadSuccess" style="display:none; background:#DCFCE7; border:1px solid #86EFAC; color:#166534; padding:0.85rem 1rem; border-radius:10px; font-size:0.86rem; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <i class="fas fa-check-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
+          <span id="manualLeadSuccessText">Client consultation saved successfully to MongoDB Atlas!</span>
+        </div>
+      </div>
+
+      <form id="manualLeadForm" onsubmit="submitManualClientLead(event)">
+        <!-- Row 1: Name and Phone -->
+        <div class="form-grid-2">
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-user" style="color:var(--portal-gold); margin-right:4px;"></i> Client Full Name <span style="color:#DC2626;">*</span>
+            </label>
+            <input type="text" id="manualName" class="lead-input-control" placeholder="e.g. Ramesh Mohanty" required autocomplete="name">
+          </div>
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-phone-alt" style="color:var(--portal-gold); margin-right:4px;"></i> Mobile Number (10 Digits) <span style="color:#DC2626;">*</span>
+            </label>
+            <input type="tel" id="manualPhone" class="lead-input-control" placeholder="e.g. 9876543210" required maxlength="15" autocomplete="tel">
+          </div>
+        </div>
+
+        <!-- Row 2: Email and City / Locality -->
+        <div class="form-grid-2">
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-envelope" style="color:var(--portal-gold); margin-right:4px;"></i> Email Address (Optional)
+            </label>
+            <input type="email" id="manualEmail" class="lead-input-control" placeholder="e.g. client@gmail.com" autocomplete="email">
+          </div>
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-map-marker-alt" style="color:var(--portal-gold); margin-right:4px;"></i> Locality / City
+            </label>
+            <input type="text" id="manualCity" class="lead-input-control" placeholder="e.g. Jayadev Vihar, Bhubaneswar" value="Bhubaneswar (Jayadev Vihar)">
+          </div>
+        </div>
+
+        <!-- Row 3: Lead Channel & Pipeline Status -->
+        <div class="form-grid-2">
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-bullhorn" style="color:var(--portal-gold); margin-right:4px;"></i> Inquiry Source / Channel
+            </label>
+            <select id="manualSource" class="lead-input-control" style="cursor:pointer;">
+              <option value="Showroom Walk-in" selected>🏢 Showroom Walk-in (Jayadev Vihar)</option>
+              <option value="Direct Phone Call">📞 Direct Phone Call / Concierge</option>
+              <option value="In-Person Site Visit">🏡 In-Person Site Assessment</option>
+              <option value="Architect / Client Referral">🤝 Architect / Client Referral</option>
+              <option value="VIP / Existing Homeowner">💎 VIP / Existing Homeowner</option>
+              <option value="WhatsApp Direct">💬 WhatsApp Direct</option>
+            </select>
+          </div>
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-tasks" style="color:var(--portal-gold); margin-right:4px;"></i> Initial Pipeline Stage
+            </label>
+            <select id="manualStatus" class="lead-input-control" style="cursor:pointer;">
+              <option value="Contacted" selected>🔵 Contacted (Face-to-Face Meeting)</option>
+              <option value="Assessment Scheduled">🟣 Assessment Scheduled (3D Laser Measurement)</option>
+              <option value="Quotation Sent">🟠 Quotation Sent (Cost Proposal Given)</option>
+              <option value="Converted">🟢 Converted (Contract Signed)</option>
+              <option value="New">🟡 New Lead</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 4: Bathroom Type & Collection Tier -->
+        <div class="form-grid-2">
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-bath" style="color:var(--portal-gold); margin-right:4px;"></i> Bathroom Type
+            </label>
+            <select id="manualBathroomType" class="lead-input-control" style="cursor:pointer;">
+              <option value="Master Bathroom Suite" selected>Master Bathroom Suite</option>
+              <option value="Luxury Powder Room">Luxury Powder Room</option>
+              <option value="Guest / Common Bathroom">Guest / Common Bathroom</option>
+              <option value="Full Home (2-4 Bathrooms)">Full Home (2-4 Bathrooms)</option>
+              <option value="Custom Wet Area Modernization">Custom Wet Area Modernization</option>
+            </select>
+          </div>
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-gem" style="color:var(--portal-gold); margin-right:4px;"></i> Preferred Collection
+            </label>
+            <select id="manualCollection" class="lead-input-control" style="cursor:pointer;">
+              <option value="Prestige Elegance (Brushed Gold / Kohler)" selected>Prestige Elegance (Brushed Gold / Kohler)</option>
+              <option value="Elite Wellness Spa (Rose Gold / Grohe)">Elite Wellness Spa (Rose Gold / Grohe)</option>
+              <option value="Signature Bespoke (Italian Marble / TOTO)">Signature Bespoke (Italian Marble / TOTO)</option>
+              <option value="Aura Minimalist (Matte Black / Jaquar)">Aura Minimalist (Matte Black / Jaquar)</option>
+              <option value="Custom Bespoke Architectural">Custom Bespoke Architectural</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 5: Estimated Budget & Preferred Visit Date -->
+        <div class="form-grid-2">
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-wallet" style="color:var(--portal-gold); margin-right:4px;"></i> Estimated Budget Range
+            </label>
+            <select id="manualBudget" class="lead-input-control" style="cursor:pointer;">
+              <option value="₹3.5L – ₹6.5L (Turnkey Prestige)" selected>₹3.5L – ₹6.5L (Turnkey Prestige)</option>
+              <option value="₹6.5L – ₹12L (Elite Spa Luxury)">₹6.5L – ₹12L (Elite Spa Luxury)</option>
+              <option value="₹12L+ (Signature Bespoke)">₹12L+ (Signature Bespoke)</option>
+              <option value="₹1.5L – ₹3.5L (Cosmetic / Standard)">₹1.5L – ₹3.5L (Cosmetic / Standard)</option>
+              <option value="To be Estimated after 3D Render">To be Estimated after 3D Render</option>
+            </select>
+          </div>
+          <div class="lead-input-group">
+            <label class="lead-input-label">
+              <i class="fas fa-calendar-check" style="color:var(--portal-gold); margin-right:4px;"></i> Assessment / Meeting Date
+            </label>
+            <input type="text" id="manualDate" class="lead-input-control" placeholder="e.g. Tomorrow 4 PM / Saturday" value="Tomorrow (Showroom Follow-up)">
+          </div>
+        </div>
+
+        <!-- Notes Row: Architectural Remarks & Constraints -->
+        <div class="lead-input-group">
+          <label class="lead-input-label">
+            <i class="fas fa-clipboard-list" style="color:var(--portal-gold); margin-right:4px;"></i> Internal Architectural Remarks & Client Preferences
+          </label>
+          <textarea id="manualNotes" rows="3" style="width:100%; padding:0.75rem 0.85rem; border:1.5px solid #CBD5E1; border-radius:10px; font-family:inherit; font-size:0.9rem; outline:none; resize:vertical; background:#F8FAFC;" placeholder="e.g. Client met in Bhubaneswar showroom. Interested in bookmatched Italian Calacatta tiles, wall-hung WC, and thermostatic rain shower. 3D blueprint requested by Friday."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.25rem;">
+          <button type="button" onclick="closeNewLeadModal()" class="btn btn-secondary" style="padding:0.65rem 1.3rem;">Cancel</button>
+          <button type="submit" id="saveManualLeadBtn" class="btn btn-gold" style="padding:0.65rem 1.6rem; font-weight:700;">
+            <i class="fas fa-save"></i> Save Client to Database
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Internal Note Modal -->
   <div id="noteModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeNoteModal()">
@@ -1007,6 +1259,11 @@
             <td>
               <div style="font-weight:700; color:#0F172A; font-size:0.94rem;">${escapeHTML(item.name || "Client")}</div>
               <div style="font-size:0.78rem; color:#64748B;"><i class="fas fa-map-marker-alt" style="color:var(--portal-gold);"></i> ${escapeHTML(item.city || "Bhubaneswar")}</div>
+              ${item.source ? `
+                <span class="source-badge ${getSourceClass(item.source)}">
+                  <i class="${getSourceIcon(item.source)}"></i> ${escapeHTML(item.source)}
+                </span>
+              ` : ''}
             </td>
             <td>
               <div style="display:flex; flex-direction:column; gap:4px;">
@@ -1015,12 +1272,22 @@
                     <i class="fas fa-phone-alt"></i> ${escapeHTML(item.phone)}
                   </a>
                 ` : '<span style="color:#94A3B8;">--</span>'}
+                ${item.email ? `
+                  <a href="mailto:${escapeHTML(item.email)}" style="font-size:0.75rem; color:#475569; text-decoration:none; display:inline-flex; align-items:center; gap:4px; max-width:145px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHTML(item.email)}">
+                    <i class="fas fa-envelope" style="color:var(--portal-gold); font-size:0.75rem;"></i> ${escapeHTML(item.email)}
+                  </a>
+                ` : ''}
               </div>
             </td>
             <td>
               <div style="font-weight:700; color:#0F172A; margin-bottom:3px; font-size:0.9rem;">
                 ${escapeHTML(item.requirements || "Turnkey Luxury Bathroom Renovation")}
               </div>
+              ${item.budget ? `
+                <span style="display:inline-block; font-size:0.74rem; font-weight:700; color:#9A7726; background:rgba(197,157,66,0.12); border:1px solid rgba(197,157,66,0.25); border-radius:4px; padding:1px 6px; margin-bottom:4px;">
+                  <i class="fas fa-tag"></i> ${escapeHTML(item.budget)}
+                </span>
+              ` : ''}
               ${item.notes ? `
                 <div class="inquiry-notes-preview">
                   <span><i class="fas fa-sticky-note"></i> <strong>Note:</strong> ${escapeHTML(item.notes)}</span>
@@ -1062,6 +1329,171 @@
           </tr>
         `;
       }).join("");
+    }
+
+    // --- Lead Source Helpers ---
+    function getSourceClass(src) {
+      const s = (src || "").toLowerCase();
+      if (s.includes("walk-in") || s.includes("showroom")) return "source-walkin";
+      if (s.includes("phone") || s.includes("call")) return "source-phone";
+      if (s.includes("site") || s.includes("inspection")) return "source-site";
+      return "source-web";
+    }
+
+    function getSourceIcon(src) {
+      const s = (src || "").toLowerCase();
+      if (s.includes("walk-in") || s.includes("showroom")) return "fas fa-store";
+      if (s.includes("phone") || s.includes("call")) return "fas fa-phone";
+      if (s.includes("site") || s.includes("inspection")) return "fas fa-hard-hat";
+      if (s.includes("whatsapp")) return "fab fa-whatsapp";
+      if (s.includes("referral")) return "fas fa-handshake";
+      return "fas fa-globe";
+    }
+
+    // --- Manual Walk-in Client Registration ---
+    function openNewLeadModal() {
+      const modal = document.getElementById("newLeadModal");
+      if (!modal) return;
+      const errBox = document.getElementById("manualLeadError");
+      const succBox = document.getElementById("manualLeadSuccess");
+      if (errBox) errBox.style.display = "none";
+      if (succBox) succBox.style.display = "none";
+
+      document.getElementById("manualName").value = "";
+      document.getElementById("manualPhone").value = "";
+      document.getElementById("manualEmail").value = "";
+      document.getElementById("manualCity").value = "Bhubaneswar (Jayadev Vihar)";
+      document.getElementById("manualSource").value = "Showroom Walk-in";
+      document.getElementById("manualStatus").value = "Contacted";
+      document.getElementById("manualBathroomType").value = "Master Bathroom Suite";
+      document.getElementById("manualCollection").value = "Prestige Elegance (Brushed Gold / Kohler)";
+      document.getElementById("manualBudget").value = "₹3.5L – ₹6.5L (Turnkey Prestige)";
+      document.getElementById("manualDate").value = "Tomorrow (Showroom Follow-up)";
+      document.getElementById("manualNotes").value = "";
+
+      modal.style.display = "flex";
+      setTimeout(() => document.getElementById("manualName").focus(), 100);
+    }
+
+    function closeNewLeadModal() {
+      const modal = document.getElementById("newLeadModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    async function submitManualClientLead(e) {
+      e.preventDefault();
+      const name = document.getElementById("manualName").value.trim();
+      const phone = document.getElementById("manualPhone").value.trim();
+      const email = document.getElementById("manualEmail").value.trim();
+      const city = document.getElementById("manualCity").value.trim();
+      const source = document.getElementById("manualSource").value;
+      const status = document.getElementById("manualStatus").value;
+      const bathroomType = document.getElementById("manualBathroomType").value;
+      const collectionTier = document.getElementById("manualCollection").value;
+      const budget = document.getElementById("manualBudget").value;
+      const preferredDate = document.getElementById("manualDate").value.trim();
+      const notes = document.getElementById("manualNotes").value.trim();
+
+      const errBox = document.getElementById("manualLeadError");
+      const errText = document.getElementById("manualLeadErrorText");
+      const succBox = document.getElementById("manualLeadSuccess");
+      const succText = document.getElementById("manualLeadSuccessText");
+      const saveBtn = document.getElementById("saveManualLeadBtn");
+
+      if (errBox) errBox.style.display = "none";
+      if (succBox) succBox.style.display = "none";
+
+      if (!name) {
+        if (errBox && errText) {
+          errText.textContent = "Please enter client's full name.";
+          errBox.style.display = "block";
+        }
+        return;
+      }
+
+      const cleanPhone = phone.replace(/[^0-9]/g, "");
+      if (cleanPhone.length < 10) {
+        if (errBox && errText) {
+          errText.textContent = "Please provide a valid 10-digit mobile number.";
+          errBox.style.display = "block";
+        }
+        return;
+      }
+
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving Client to Database...';
+      }
+
+      const payload = {
+        name,
+        phone: cleanPhone,
+        email,
+        city: city || "Bhubaneswar",
+        source,
+        status,
+        bathroomType,
+        collectionTier,
+        budget,
+        preferredDate: preferredDate || "Earliest Available",
+        notes,
+        requirements: `${bathroomType} • ${collectionTier} (${budget})`
+      };
+
+      try {
+        const res = await fetch("/api/inquiries", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders()
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          const newLead = data.data;
+          if (succBox && succText) {
+            succText.innerHTML = `Client <strong>${escapeHTML(newLead.name)}</strong> recorded successfully (#${escapeHTML(newLead.refId)})!`;
+            succBox.style.display = "block";
+          }
+
+          // Prepend to current inquiries list so owner sees it at top
+          allInquiries.unshift(newLead);
+          updateStatCards();
+          applyFilters();
+
+          showToast(`✅ Registered in-person client: <strong>${escapeHTML(newLead.name)}</strong> (#${escapeHTML(newLead.refId)})`);
+
+          // Highlight row smoothly
+          setTimeout(() => {
+            closeNewLeadModal();
+            const rowId = "row-" + (newLead.id || newLead.refId);
+            const rowEl = document.getElementById(rowId);
+            if (rowEl) {
+              rowEl.classList.add("row-highlight");
+              rowEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }, 850);
+        } else {
+          if (errBox && errText) {
+            errText.textContent = data.message || "Failed to save client data. Please check inputs.";
+            errBox.style.display = "block";
+          }
+        }
+      } catch (err) {
+        console.error("Error saving manual client lead:", err);
+        if (errBox && errText) {
+          errText.textContent = "Network error connecting to backend API.";
+          errBox.style.display = "block";
+        }
+      } finally {
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Client to Database';
+        }
+      }
     }
 
     // --- Toast Notification Helper ---

@@ -33,6 +33,31 @@ const inquirySchema = new mongoose.Schema(
       default: "Turnkey Luxury Bathroom Renovation",
       trim: true
     },
+    email: {
+      type: String,
+      default: "",
+      trim: true
+    },
+    source: {
+      type: String,
+      default: "Website Form",
+      trim: true
+    },
+    budget: {
+      type: String,
+      default: "",
+      trim: true
+    },
+    bathroomType: {
+      type: String,
+      default: "",
+      trim: true
+    },
+    collectionTier: {
+      type: String,
+      default: "",
+      trim: true
+    },
     status: {
       type: String,
       enum: ["New", "Contacted", "Assessment Scheduled", "Quotation Sent", "Converted", "Archived", "Deleted"],

@@ -76,7 +76,7 @@ function initHeroSlideshow() {
 
   let currentIndex = 0;
   const totalSlides = slides.length;
-  const slideDuration = 10000; // Exactly 10 seconds per slide as requested
+  const slideDuration = 5000; // Exactly 5 seconds per slide as requested
   let autoPlayTimer = null;
 
   // Preload all bathroom design images into browser memory immediately

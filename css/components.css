@@ -1558,10 +1558,15 @@
    7. BRAND PARTNERS MARQUEE
    ------------------------------------------------------------- */
 .brands-section {
-  padding: 4rem 0;
-  background: var(--bg-dark);
+  padding: 5rem 0;
+  background: linear-gradient(180deg, rgba(8, 12, 18, 0.95) 0%, rgba(13, 20, 31, 0.85) 50%, rgba(8, 12, 18, 0.95) 100%);
   border-top: 1px solid var(--gold-border-subtle);
   border-bottom: 1px solid var(--gold-border-subtle);
+  position: relative;
+}
+
+.brands-header {
+  margin-bottom: 3.25rem;
 }
 
 .brands-grid {
@@ -1571,43 +1576,146 @@
 }
 
 .brand-card {
-  background: rgba(14, 20, 30, 0.6);
-  border: 1px solid var(--gold-border-subtle);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
+  background: rgba(14, 21, 33, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 157, 66, 0.18);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 1.5rem 1.75rem;
   text-align: center;
-  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 190px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 199, 122, 0), transparent);
+  transition: background 0.35s ease;
 }
 
 .brand-card:hover {
-  border-color: var(--gold-border);
-  background: rgba(20, 30, 46, 0.8);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-color: rgba(197, 157, 66, 0.45);
+  background: rgba(18, 28, 44, 0.85);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 25px rgba(197, 157, 66, 0.12);
 }
 
-.brand-name {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-pure);
-  letter-spacing: 0.04em;
-  margin-bottom: 0.25rem;
+.brand-card:hover::before {
+  background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+}
+
+.brand-logo-wrap {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1.25rem;
+  padding: 0 0.5rem;
+}
+
+.brand-logo-img {
+  max-height: 40px;
+  max-width: 140px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0.92) contrast(1.05);
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+/* Individual logo optic adjustments */
+.brand-logo-jaquar {
+  max-height: 38px;
+  max-width: 125px;
+}
+
+.brand-logo-kohler {
+  max-height: 28px;
+  max-width: 135px;
+}
+
+.brand-logo-grohe {
+  max-height: 42px;
+  max-width: 125px;
+}
+
+.brand-logo-somany {
+  max-height: 36px;
+  max-width: 135px;
+}
+
+.brand-logo-kajaria {
+  max-height: 30px;
+  max-width: 135px;
+}
+
+.brand-logo-johnson {
+  max-height: 34px;
+  max-width: 135px;
+}
+
+.brand-logo-hindware {
+  max-height: 36px;
+  max-width: 130px;
+}
+
+.brand-logo-cera {
+  max-height: 28px;
+  max-width: 110px;
+}
+
+.brand-card:hover .brand-logo-img {
+  transform: scale(1.06);
+  filter: brightness(1) drop-shadow(0 0 12px rgba(245, 199, 122, 0.3));
+}
+
+.brand-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .brand-tagline {
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.01em;
 }
 
 .brand-tier {
-  display: inline-block;
-  margin-top: 0.65rem;
-  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--gold-light);
   letter-spacing: 0.08em;
+  background: rgba(200, 137, 58, 0.1);
+  border: 1px solid rgba(200, 137, 58, 0.25);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.brand-card:hover .brand-tier {
+  background: rgba(200, 137, 58, 0.2);
+  border-color: rgba(200, 137, 58, 0.5);
+  color: #FFF;
+  box-shadow: 0 0 12px rgba(200, 137, 58, 0.25);
 }
 
 /* -------------------------------------------------------------

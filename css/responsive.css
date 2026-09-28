@@ -155,12 +155,15 @@
   }
 
   .hero-metrics-bar {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     padding: 1.15rem 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .metric-item {
     padding: 0.2rem 0.35rem;
+    min-width: 0;
   }
 
   .metric-number {
@@ -173,6 +176,7 @@
     letter-spacing: 0.01em;
     font-weight: 400;
     text-transform: none;
+    white-space: normal;
   }
 
   /* Hero Showcase Slider Mobile (Clean Unobstructed Photography) */
@@ -429,12 +433,15 @@
   }
 
   .hero-metrics-bar {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     padding: 0.95rem 0.35rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .metric-item {
     padding: 0.15rem 0.25rem;
+    min-width: 0;
   }
 
   .hero-metrics-bar .metric-number {

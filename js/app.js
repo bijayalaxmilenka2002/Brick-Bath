@@ -1079,10 +1079,71 @@ function showToast(message, type = "info") {
    ------------------------------------------------------------- */
 function initMoodboardPalette() {
   const currentSelections = {
-    tile: "Italian Statuario White",
-    finish: "Brushed Champagne Gold",
-    vanity: "Fluted Dark Walnut"
+    tileKey: "statuario",
+    tileName: "Italian Statuario White",
+    finishKey: "gold",
+    finishName: "Brushed Champagne Gold",
+    vanityKey: "walnut",
+    vanityName: "Fluted Dark Walnut"
   };
+
+  // Aesthetic image resolver for every combination of Tile + Finish + Vanity
+  // Using ultra-optimized WebP renders (~78KB - 169KB) for instant loading
+  const SUITE_COMBOS = {
+    // Statuario Marble suites
+    "statuario_gold_walnut": "assets/services/elite.webp",
+    "statuario_gold_oak": "assets/services/elite.webp",
+    "statuario_gold_slate": "assets/services/elite.webp",
+    "statuario_black_slate": "assets/materials/statuario_black_suite.webp",
+    "statuario_black_walnut": "assets/materials/statuario_black_suite.webp",
+    "statuario_black_oak": "assets/materials/statuario_black_suite.webp",
+    "statuario_chrome_walnut": "assets/materials/statuario_chrome_suite.webp",
+    "statuario_chrome_oak": "assets/materials/statuario_chrome_suite.webp",
+    "statuario_chrome_slate": "assets/materials/statuario_chrome_suite.webp",
+
+    // Charcoal Fluted suites
+    "charcoal_black_slate": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_black_walnut": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_black_oak": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_gold_walnut": "assets/materials/charcoal_gold_suite.webp",
+    "charcoal_gold_oak": "assets/materials/charcoal_gold_suite.webp",
+    "charcoal_gold_slate": "assets/materials/charcoal_gold_suite.webp",
+    "charcoal_chrome_slate": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_chrome_walnut": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_chrome_oak": "assets/materials/charcoal_fluted_suite.webp",
+
+    // Travertine Stone suites
+    "travertine_gold_oak": "assets/materials/travertine_gold_suite.webp",
+    "travertine_gold_walnut": "assets/materials/travertine_gold_suite.webp",
+    "travertine_gold_slate": "assets/materials/travertine_gold_suite.webp",
+    "travertine_black_walnut": "assets/materials/travertine_black_suite.webp",
+    "travertine_black_slate": "assets/materials/travertine_black_suite.webp",
+    "travertine_black_oak": "assets/materials/travertine_black_suite.webp",
+    "travertine_chrome_walnut": "assets/materials/travertine_chrome_suite.webp",
+    "travertine_chrome_oak": "assets/materials/travertine_chrome_suite.webp",
+    "travertine_chrome_slate": "assets/materials/travertine_chrome_suite.webp"
+  };
+
+  // Fallback 2-key map
+  const SUITE_FALLBACK = {
+    "statuario_gold": "assets/services/elite.webp",
+    "statuario_black": "assets/materials/statuario_black_suite.webp",
+    "statuario_chrome": "assets/materials/statuario_chrome_suite.webp",
+    "charcoal_black": "assets/materials/charcoal_fluted_suite.webp",
+    "charcoal_gold": "assets/materials/charcoal_gold_suite.webp",
+    "charcoal_chrome": "assets/materials/charcoal_fluted_suite.webp",
+    "travertine_gold": "assets/materials/travertine_gold_suite.webp",
+    "travertine_black": "assets/materials/travertine_black_suite.webp",
+    "travertine_chrome": "assets/materials/travertine_chrome_suite.webp"
+  };
+
+  // 1. Immediately preload all unique WebP suite images in browser memory
+  // This guarantees 0ms delay when the user clicks ANY icon
+  const uniqueImages = Array.from(new Set(Object.values(SUITE_COMBOS)));
+  uniqueImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
 
   const swatchBtns = document.querySelectorAll(".swatch-btn");
   const mbHeading = document.getElementById("moodboard-heading");
@@ -1092,32 +1153,70 @@ function initMoodboardPalette() {
   const mbImg = document.getElementById("moodboard-img");
   const bookPaletteBtn = document.getElementById("book-palette-btn");
 
+  function renderPalettePreview() {
+    const fullKey = `${currentSelections.tileKey}_${currentSelections.finishKey}_${currentSelections.vanityKey}`;
+    const pairKey = `${currentSelections.tileKey}_${currentSelections.finishKey}`;
+    const targetSrc = SUITE_COMBOS[fullKey] || SUITE_FALLBACK[pairKey] || "assets/services/elite.webp";
+
+    if (mbHeading) {
+      mbHeading.textContent = `${currentSelections.tileName} & ${currentSelections.finishName} Suite`;
+    }
+    if (mbTile) mbTile.textContent = currentSelections.tileName;
+    if (mbFinish) mbFinish.textContent = currentSelections.finishName;
+    if (mbVanity) mbVanity.textContent = currentSelections.vanityName;
+
+    if (mbImg) {
+      const currentSrc = mbImg.getAttribute("src");
+      if (currentSrc === targetSrc) {
+        // Quick subtle pulse to acknowledge click
+        mbImg.classList.add("switching");
+        setTimeout(() => mbImg.classList.remove("switching"), 120);
+        return;
+      }
+
+      // Smooth instant switch with cross-fade
+      mbImg.classList.add("switching");
+      const tempImg = new Image();
+      tempImg.onload = () => {
+        mbImg.src = targetSrc;
+        setTimeout(() => {
+          mbImg.classList.remove("switching");
+        }, 60);
+      };
+      tempImg.onerror = () => {
+        mbImg.src = targetSrc;
+        mbImg.classList.remove("switching");
+      };
+      tempImg.src = targetSrc;
+    }
+  }
+
   swatchBtns.forEach(btn => {
     btn.addEventListener("click", function () {
       const type = this.dataset.type;
+      const key = this.dataset.key;
       const name = this.dataset.name;
-      const img = this.dataset.img;
 
       // Deselect siblings in the same group
       const parentGroup = this.closest(".swatch-pills");
-      parentGroup.querySelectorAll(".swatch-btn").forEach(b => b.classList.remove("active"));
+      if (parentGroup) {
+        parentGroup.querySelectorAll(".swatch-btn").forEach(b => b.classList.remove("active"));
+      }
       this.classList.add("active");
 
       if (type === "tile") {
-        currentSelections.tile = name;
-        if (mbTile) mbTile.textContent = name;
-        if (mbImg && img) mbImg.src = img;
+        currentSelections.tileKey = key || "statuario";
+        currentSelections.tileName = name;
       } else if (type === "finish") {
-        currentSelections.finish = name;
-        if (mbFinish) mbFinish.textContent = name;
+        currentSelections.finishKey = key || "gold";
+        currentSelections.finishName = name;
       } else if (type === "vanity") {
-        currentSelections.vanity = name;
-        if (mbVanity) mbVanity.textContent = name;
+        currentSelections.vanityKey = key || "walnut";
+        currentSelections.vanityName = name;
       }
 
-      if (mbHeading) {
-        mbHeading.textContent = `${currentSelections.tile} & ${currentSelections.finish} Suite`;
-      }
+      // Re-render preview immediately for ANY click
+      renderPalettePreview();
     });
   });
 
@@ -1127,7 +1226,7 @@ function initMoodboardPalette() {
       const reqInput = document.getElementById("booking-requirements");
       if (booking) booking.scrollIntoView({ behavior: "smooth" });
       if (reqInput) {
-        reqInput.value = `Selected Palette: ${currentSelections.tile} + ${currentSelections.finish} fittings + ${currentSelections.vanity} vanity.`;
+        reqInput.value = `Selected Palette: ${currentSelections.tileName} + ${currentSelections.finishName} fittings + ${currentSelections.vanityName} vanity.`;
         reqInput.focus();
       }
       showToast("Palette loaded into consultation form!", "success");

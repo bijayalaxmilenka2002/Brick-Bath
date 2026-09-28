@@ -2960,20 +2960,27 @@
 }
 
 .moodboard-visual {
-  height: 280px;
+  height: 310px;
   position: relative;
   overflow: hidden;
+  background: #0b0f17;
 }
 
 .moodboard-visual img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow);
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out, transform var(--transition-slow);
 }
 
-.moodboard-card:hover .moodboard-visual img {
-  transform: scale(1.04);
+.moodboard-visual img.switching {
+  opacity: 0.4;
+  filter: blur(2px);
+}
+
+.moodboard-card:hover .moodboard-visual img:not(.switching) {
+  transform: scale(1.03);
 }
 
 .moodboard-details {

@@ -182,7 +182,7 @@
   }
 
   .hero-stage-viewport {
-    aspect-ratio: 16 / 10.8;
+    aspect-ratio: 16 / 10.4;
     height: auto;
     min-height: 240px;
     border-radius: 20px;
@@ -453,7 +453,7 @@
 
   .hero-stage-viewport {
     height: auto;
-    aspect-ratio: 16 / 10.8;
+    aspect-ratio: 16 / 10.4;
     min-height: 240px;
   }
 
@@ -525,7 +525,7 @@
 @media (max-width: 360px) {
   .hero-stage-viewport {
     height: auto;
-    aspect-ratio: 16 / 10.8;
+    aspect-ratio: 16 / 10.4;
     min-height: 200px;
   }
 

@@ -37,7 +37,7 @@ function initMobileDrawer() {
   const drawer = document.getElementById("mobile-drawer");
   const overlay = document.getElementById("mobile-drawer-overlay");
   const closeBtn = document.getElementById("drawer-close-btn");
-  const drawerLinks = document.querySelectorAll(".drawer-link");
+  const drawerAllLinks = drawer ? drawer.querySelectorAll("a, button:not(#drawer-close-btn)") : [];
 
   function openDrawer() {
     drawer.classList.add("active");
@@ -55,8 +55,14 @@ function initMobileDrawer() {
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (overlay) overlay.addEventListener("click", closeDrawer);
 
-  drawerLinks.forEach(link => {
+  drawerAllLinks.forEach(link => {
     link.addEventListener("click", closeDrawer);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer && drawer.classList.contains("active")) {
+      closeDrawer();
+    }
   });
 }
 
@@ -331,7 +337,7 @@ function initCollections() {
           `).join('')}
         </ul>
 
-        <div style="background: rgba(14, 22, 34, 0.75); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem;">
+        <div style="background: rgba(14, 22, 34, 0.75); border: 1px solid var(--gold-border); border-radius: var(--radius-md); padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.75rem;">
           <div>
             <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Estimated Package Budget</span>
             <div style="font-family: var(--font-serif); font-size: 1.35rem; font-weight: 700; color: var(--gold-bright);">${collection.idealBudgetRange}</div>

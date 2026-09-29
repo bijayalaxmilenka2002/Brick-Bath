@@ -416,9 +416,13 @@
 .mobile-drawer {
   position: fixed;
   top: 0;
-  right: -320px;
-  width: 300px;
+  right: -360px;
+  width: min(320px, 86vw);
+  max-width: 86vw;
   height: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--bg-surface);
   border-left: 1px solid var(--gold-border);
   z-index: 1200;
@@ -429,7 +433,8 @@
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
 }
 
-.mobile-drawer.active {
+.mobile-drawer.active,
+.mobile-drawer.open {
   right: 0;
 }
 
@@ -1915,6 +1920,7 @@
 .book-ambient-glow {
   position: absolute;
   width: 380px;
+  max-width: 100%;
   height: 480px;
   background: radial-gradient(circle, rgba(200, 137, 58, 0.22) 0%, rgba(200, 137, 58, 0.05) 50%, transparent 70%);
   filter: blur(35px);
@@ -2374,7 +2380,7 @@
   padding: 0.85rem 1.15rem;
   color: var(--text-pure);
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: 1rem;
   transition: all var(--transition-fast);
 }
 

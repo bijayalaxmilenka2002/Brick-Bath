@@ -899,20 +899,31 @@
     const drawerOverlay = document.getElementById("mobile-drawer-overlay");
 
     if (hamburgerBtn && mobileDrawer && drawerOverlay) {
-      hamburgerBtn.addEventListener("click", () => {
-        mobileDrawer.classList.add("open");
+      const openDrawer = () => {
+        mobileDrawer.classList.add("active", "open");
         drawerOverlay.classList.add("active");
         document.body.style.overflow = "hidden";
-      });
+      };
 
       const closeDrawer = () => {
-        mobileDrawer.classList.remove("open");
+        mobileDrawer.classList.remove("active", "open");
         drawerOverlay.classList.remove("active");
         document.body.style.overflow = "";
       };
 
+      hamburgerBtn.addEventListener("click", openDrawer);
       if (drawerCloseBtn) drawerCloseBtn.addEventListener("click", closeDrawer);
       drawerOverlay.addEventListener("click", closeDrawer);
+
+      mobileDrawer.querySelectorAll("a, button:not(#drawer-close-btn)").forEach(el => {
+        el.addEventListener("click", closeDrawer);
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileDrawer.classList.contains("active")) {
+          closeDrawer();
+        }
+      });
     }
 
     // Filter Careers

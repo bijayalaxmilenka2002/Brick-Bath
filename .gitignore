@@ -5,3 +5,5 @@ backend/data/*.sqlite
 .vercel
 .DS_Store
 Thumbs.db
+scratch/
+

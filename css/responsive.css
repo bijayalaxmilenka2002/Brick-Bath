@@ -1377,3 +1377,214 @@ img, picture, video, iframe {
     font-size: 0.58rem;
   }
 }
+
+/* -------------------------------------------------------------
+   7. CRAFTSMANSHIP & HUMAN TOUCH RESPONSIVE MASTER RULES
+   ------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .craftsmanship-section {
+    padding: 4.5rem 0;
+  }
+
+  .craftsmen-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem;
+  }
+
+  .human-guarantees-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem;
+  }
+
+  .architect-letter-box {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem;
+    padding: 2.25rem 1.75rem;
+  }
+
+  .architect-seal-column {
+    border-right: none;
+    border-bottom: 1px solid var(--gold-border-subtle);
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+  }
+
+  .architect-signature-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .architect-direct-desk {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .craftsmanship-section {
+    padding: 3.5rem 0;
+  }
+
+  .craftsmen-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem;
+  }
+
+  .craftsman-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .human-guarantees-wrapper {
+    margin-top: 3rem;
+    padding: 1.75rem 1.25rem;
+  }
+
+  .human-guarantees-header h3 {
+    font-size: 1.45rem !important;
+  }
+
+  .human-guarantees-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .guarantee-box {
+    padding: 1.35rem 1.15rem;
+  }
+
+  .architect-letter-box {
+    margin-top: 2.5rem;
+    padding: 1.6rem 1.25rem;
+  }
+
+  .architect-letter-title {
+    font-size: 1.25rem;
+  }
+
+  .architect-letter-body {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+  .hero-hallmark-seal {
+    font-size: 0.78rem !important;
+    padding: 0.6rem 0.85rem !important;
+    margin-top: 1rem !important;
+    flex-direction: column;
+    text-align: center;
+    align-items: center !important;
+  }
+
+  .verified-renovation-tag {
+    font-size: 0.68rem;
+    padding: 0.18rem 0.45rem;
+  }
+
+  .live-studio-pill {
+    font-size: 0.7rem;
+    padding: 0.18rem 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .craftsmen-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .human-guarantees-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .human-guarantees-wrapper {
+    padding: 1.75rem 1.15rem;
+  }
+
+  .architect-letter-box {
+    padding: 1.6rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .craftsman-header {
+
+    gap: 0.75rem;
+  }
+
+  .craftsman-avatar-wrap {
+    width: 48px;
+    height: 48px;
+    font-size: 1.05rem;
+  }
+
+  .craftsman-name {
+    font-size: 1.05rem;
+  }
+
+  .craftsman-role {
+    font-size: 0.75rem;
+  }
+
+  .craftsman-reg {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .craftsman-quote {
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+
+  .signature-handwritten {
+    font-size: 1.35rem;
+  }
+
+  .signature-name {
+    font-size: 0.8rem;
+  }
+
+  .signature-title {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: 1.65rem !important;
+  }
+
+  .section-title {
+    font-size: 1.55rem !important;
+  }
+
+  .craftsman-card {
+    padding: 1.25rem 1rem !important;
+  }
+
+  .human-guarantees-wrapper {
+    padding: 1.25rem 0.85rem !important;
+  }
+
+  .guarantee-box {
+    padding: 1.1rem 0.85rem !important;
+  }
+
+  .architect-letter-box {
+    padding: 1.25rem 0.95rem !important;
+  }
+
+  .architect-wax-seal {
+    width: 74px !important;
+    height: 74px !important;
+  }
+
+  .seal-monogram {
+    font-size: 1.2rem !important;
+  }
+
+  .signature-handwritten {
+    font-size: 1.2rem !important;
+  }
+}
+
+

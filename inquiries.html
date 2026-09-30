@@ -1781,20 +1781,13 @@
           customDetails = parts.slice(2).join(" • ");
         }
       } else if (rawReq) {
-        const lower = rawReq.toLowerCase();
-        const isConversational = lower.startsWith("i want") || lower.startsWith("please") || lower.startsWith("we need") || lower.startsWith("can you") || lower.startsWith("kindly");
-        if (isConversational) {
-          roomType = "Custom Renovation Inquiry";
-          customDetails = rawReq;
-        } else if (rawReq.length <= 70) {
-          roomType = rawReq;
-        } else {
-          roomType = "Turnkey Luxury Renovation";
-          customDetails = rawReq;
-        }
+        // Display exactly what the client submitted without artificial auto-generated labels
+        roomType = rawReq;
+        customDetails = "";
       } else {
         roomType = "Turnkey Luxury Bathroom Renovation";
       }
+
 
       if (budget) {
         roomType = roomType.replace(`(${budget})`, "").trim();

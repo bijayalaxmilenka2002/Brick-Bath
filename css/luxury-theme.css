@@ -17,6 +17,10 @@
   --gold-glow: rgba(200, 137, 58, 0.25);
   --gold-gradient: linear-gradient(135deg, #DFB15B 0%, #C8893A 50%, #A46922 100%);
   --gold-gradient-hover: linear-gradient(135deg, #F3C97C 0%, #DFB15B 50%, #B87A2B 100%);
+  --gold-gradient-light: linear-gradient(135deg, #FFFFFF 0%, #FFF2D1 25%, #FCE092 50%, #F5C77A 75%, #E5B458 100%);
+  --gold-champagne: #FCE092;
+  --gold-alabaster-pearl: #FFF5E1;
+  --gold-gradient-pearl: linear-gradient(135deg, #FFFFFF 0%, #FFF5E1 45%, #FDE8BD 80%, #F5CE85 100%);
 
   /* Rich Obsidian & Dark Canvas */
   --bg-darkest: #070A0F;

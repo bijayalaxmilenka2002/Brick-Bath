@@ -393,19 +393,268 @@
     .btn-action-del { background: transparent; color: #DC2626; border: 1px solid #FCA5A5; padding: 6px 8px; }
     .btn-action-del:hover { background: #FEE2E2; }
 
-    /* Notes preview */
-    .inquiry-notes-preview {
-      margin-top: 6px;
-      padding: 6px 10px;
-      background: #FFFBEB;
-      border-left: 3px solid var(--portal-gold);
+    /* Renovation Scope & Remarks User-Friendly Styling */
+    .scope-cell-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 270px;
+      max-width: 400px;
+    }
+    .scope-primary-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.35;
+    }
+    .scope-icon {
+      color: var(--portal-gold);
+      font-size: 0.84rem;
+      flex-shrink: 0;
+    }
+    .scope-style-subtitle {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.3;
+    }
+    .scope-brief-desc {
+      font-size: 0.77rem;
+      color: #64748B;
+      font-style: italic;
+      line-height: 1.35;
+      background: #F8FAFC;
       border-radius: 4px;
-      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-left: 2px solid #CBD5E1;
+    }
+    .scope-meta-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .scope-pill-budget {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: #9A7726;
+      background: rgba(197, 157, 66, 0.12);
+      border: 1px solid rgba(197, 157, 66, 0.28);
+      border-radius: 6px;
+      padding: 2px 7px;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .scope-pill-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.73rem;
+      font-weight: 600;
       color: #78350F;
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+      border-radius: 6px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scope-pill-note:hover {
+      background: #FDE68A;
+      border-color: #FCD34D;
+      transform: translateY(-1px);
+    }
+    .note-pill-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #D97706;
+      display: inline-block;
+    }
+    .scope-pill-add-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: #64748B;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scope-pill-add-note:hover {
+      background: #E2E8F0;
+      color: #1E293B;
+    }
+    .scope-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--portal-gold-dark);
+      background: rgba(197, 157, 66, 0.08);
+      border: 1px solid rgba(197, 157, 66, 0.25);
+      border-radius: 6px;
+      padding: 2px 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scope-toggle-btn:hover {
+      background: rgba(197, 157, 66, 0.18);
+      border-color: var(--portal-gold);
+    }
+    .scope-toggle-btn.active {
+      background: var(--portal-gold);
+      color: #FFFFFF;
+      border-color: var(--portal-gold-dark);
+    }
+    .scope-toggle-all-btn {
+      background: rgba(197, 157, 66, 0.12);
+      border: 1px solid rgba(197, 157, 66, 0.3);
+      color: var(--portal-gold-dark);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-transform: none;
+      letter-spacing: normal;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .scope-toggle-all-btn:hover {
+      background: var(--portal-gold);
+      color: #FFFFFF;
+      border-color: var(--portal-gold);
+    }
+
+    /* Expandable Scope Drawer */
+    .scope-details-drawer {
+      margin-top: 8px;
+      animation: fadeInSlide 0.22s ease-out;
+    }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .scope-drawer-inner {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-left: 3px solid var(--portal-gold);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.8rem;
+    }
+    .scope-drawer-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.35;
+    }
+    .scope-drawer-label {
+      color: #64748B;
+      font-weight: 700;
+      font-size: 0.72rem;
+      min-width: 100px;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .scope-drawer-val {
+      color: #1E293B;
+      font-weight: 600;
+    }
+    .scope-drawer-val-budget {
+      color: #9A7726;
+      font-weight: 700;
+    }
+    .scope-drawer-val-desc {
+      color: #334155;
+      font-weight: 500;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      padding: 6px 9px;
+      border-radius: 6px;
+      display: block;
+      width: 100%;
+      line-height: 1.4;
+    }
+    .scope-drawer-note-card {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-top: 2px;
+    }
+    .scope-drawer-note-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #78350F;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .scope-drawer-note-text {
+      font-size: 0.78rem;
+      color: #451A03;
+      line-height: 1.4;
+    }
+    .btn-note-edit-mini {
+      background: none;
+      border: none;
+      color: #78350F;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 2px 5px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: background 0.15s;
+    }
+    .btn-note-edit-mini:hover {
+      background: rgba(120, 53, 15, 0.1);
+      text-decoration: underline;
+    }
+    .btn-scope-dossier {
+      background: none;
+      border: 1px dashed rgba(197, 157, 66, 0.5);
+      border-radius: 6px;
+      color: var(--portal-gold-dark);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-scope-dossier:hover {
+      background: rgba(197, 157, 66, 0.12);
+      border-color: var(--portal-gold);
+      transform: translateY(-1px);
     }
 
     /* Modals */
@@ -755,7 +1004,14 @@
               <th style="width: 140px;">Ref ID & Date</th>
               <th style="width: 175px;">Client Info</th>
               <th style="width: 155px;">Contact Channels</th>
-              <th>Renovation Scope & Internal Remarks</th>
+              <th style="min-width: 270px; max-width: 400px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                  <span>Renovation Scope & Remarks</span>
+                  <button type="button" class="scope-toggle-all-btn" id="toggleAllScopesBtn" onclick="toggleAllScopes()" title="Expand or collapse all scope details">
+                    <i class="fas fa-chevron-down"></i> Expand All
+                  </button>
+                </div>
+              </th>
               <th style="width: 145px;">Preferred Date</th>
               <th style="width: 165px;">Status</th>
               <th style="width: 135px; text-align: right;">Quick Actions</th>
@@ -967,6 +1223,128 @@
     </div>
   </div>
 
+  <!-- Consultation Dossier / Full Scope Modal -->
+  <div id="consultationDossierModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeConsultationDossier()">
+    <div class="portal-modal-card" style="max-width: 640px; padding: 2.2rem; border-radius: 20px;">
+      <button type="button" class="modal-close-btn" onclick="closeConsultationDossier()">&times;</button>
+      
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem; border-bottom:1px solid #E2E8F0; padding-bottom:1rem; flex-wrap:wrap; gap:10px;">
+        <div style="display:flex; align-items:center; gap:0.85rem;">
+          <div style="width:48px; height:48px; border-radius:14px; background:rgba(197,157,66,0.15); color:var(--portal-gold); display:flex; align-items:center; justify-content:center; font-size:1.35rem; flex-shrink:0;">
+            <i class="fas fa-bath"></i>
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h4 style="margin:0; font-size:1.3rem; font-weight:800; color:#0F172A;" id="dossierClientName">Client Name</h4>
+              <span id="dossierRefId" style="font-size:0.82rem; font-weight:800; color:var(--portal-gold-dark); background:rgba(197,157,66,0.12); padding:2px 8px; border-radius:6px;">#BNB-2026-0000</span>
+            </div>
+            <p style="margin:2px 0 0; font-size:0.82rem; color:#64748B;">
+              Submitted on <span id="dossierSubmittedAt">Recent</span> • Channel: <span id="dossierSource" style="font-weight:600; color:#1E293B;">Showroom Walk-in</span>
+            </p>
+          </div>
+        </div>
+        <div>
+          <select id="dossierStatus" class="status-badge-select status-new" onchange="onDossierStatusChange(this)">
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Assessment Scheduled">Assessment Scheduled</option>
+            <option value="Quotation Sent">Quotation Sent</option>
+            <option value="Converted">Converted</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Contact Bar -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:10px 14px; margin-bottom:1.25rem;">
+        <div style="flex:1; min-width:160px; display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-phone-alt" style="color:var(--portal-gold); font-size:0.9rem;"></i>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Phone</div>
+            <a id="dossierPhoneLink" href="#" style="color:#0F172A; font-weight:700; font-size:0.88rem; text-decoration:none;">
+              <span id="dossierPhone">--</span>
+            </a>
+          </div>
+        </div>
+        <div style="flex:1; min-width:160px; display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-envelope" style="color:var(--portal-gold); font-size:0.9rem;"></i>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Email</div>
+            <a id="dossierEmailLink" href="#" style="color:#0F172A; font-weight:600; font-size:0.86rem; text-decoration:none;">
+              <span id="dossierEmail">--</span>
+            </a>
+          </div>
+        </div>
+        <div style="flex:1; min-width:160px; display:flex; align-items:center; gap:8px;">
+          <i class="fas fa-map-marker-alt" style="color:var(--portal-gold); font-size:0.9rem;"></i>
+          <div>
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Locality / City</div>
+            <span id="dossierCity" style="color:#0F172A; font-weight:600; font-size:0.86rem;">Bhubaneswar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scope Breakdown Grid -->
+      <div style="margin-bottom:1.25rem;">
+        <h5 style="font-size:0.82rem; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.6rem; display:flex; align-items:center; gap:6px;">
+          <i class="fas fa-ruler-combined" style="color:var(--portal-gold);"></i> Renovation Scope & Specifications
+        </h5>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px;">
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Bathroom Type</div>
+            <div id="dossierRoomType" style="font-size:0.92rem; font-weight:700; color:#0F172A; margin-top:2px;">Master Bathroom Suite</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px;">
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Collection Tier / Theme</div>
+            <div id="dossierCollection" style="font-size:0.92rem; font-weight:700; color:#0F172A; margin-top:2px;">Aura Minimalist (Jaquar)</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px;">
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Estimated Budget</div>
+            <div id="dossierBudget" style="font-size:0.92rem; font-weight:800; color:#9A7726; margin-top:2px;">₹6.5L – ₹12L</div>
+          </div>
+          <div style="background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px; padding:10px 12px;">
+            <div style="font-size:0.72rem; color:#64748B; font-weight:700; text-transform:uppercase;">Preferred Assessment Date</div>
+            <div id="dossierDate" style="font-size:0.92rem; font-weight:700; color:#0F172A; margin-top:2px;">Tomorrow</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client Project Requirements / Notes -->
+      <div style="margin-bottom:1.25rem;">
+        <h5 style="font-size:0.82rem; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.45rem;">
+          <i class="fas fa-file-alt" style="color:var(--portal-gold); margin-right:4px;"></i> Client Requirements / Consultation Details
+        </h5>
+        <div id="dossierRequirements" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:10px 14px; font-size:0.88rem; color:#334155; line-height:1.5;">
+          --
+        </div>
+      </div>
+
+      <!-- Internal Team Remarks -->
+      <div style="margin-bottom:1.4rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.45rem;">
+          <h5 style="font-size:0.82rem; font-weight:800; color:#78350F; text-transform:uppercase; letter-spacing:0.05em; margin:0;">
+            <i class="fas fa-sticky-note" style="color:var(--portal-gold); margin-right:4px;"></i> Internal Architectural Remarks
+          </h5>
+          <button type="button" id="dossierEditNoteBtn" style="background:none; border:none; color:var(--portal-gold-dark); font-weight:700; font-size:0.8rem; cursor:pointer; text-decoration:underline;">
+            <i class="fas fa-pen"></i> Edit Remarks
+          </button>
+        </div>
+        <div id="dossierNoteText" style="background:#FFFBEB; border-left:3px solid var(--portal-gold); border-radius:8px; padding:10px 14px; font-size:0.86rem; color:#78350F; line-height:1.45;">
+          No internal remarks added yet.
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; border-top:1px solid #E2E8F0; padding-top:1.1rem;">
+        <a id="dossierWaBtn" href="#" target="_blank" class="btn-action btn-action-wa" style="padding:8px 16px; font-size:0.88rem;">
+          <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+        <button type="button" onclick="closeConsultationDossier()" class="btn btn-secondary" style="padding:8px 18px;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Delete Confirmation Modal -->
   <div id="deleteConfirmModal" class="portal-modal-backdrop" onclick="if(event.target === this) closeDeleteModal()">
     <div class="portal-modal-card" style="max-width: 440px; text-align: center; padding: 2.2rem 1.75rem;">
@@ -1077,6 +1455,8 @@
     let isFetching = false;
     let activeInquiryForNote = null;
     let pendingDeleteId = null;
+    let expandedScopeIds = new Set();
+    let allScopesExpanded = false;
 
     // --- JWT Authentication Check ---
     function getAuthToken() {
@@ -1339,26 +1719,7 @@
               </div>
             </td>
             <td>
-              <div style="font-weight:700; color:#0F172A; margin-bottom:3px; font-size:0.9rem;">
-                ${escapeHTML(item.requirements || "Turnkey Luxury Bathroom Renovation")}
-              </div>
-              ${item.budget ? `
-                <span style="display:inline-block; font-size:0.74rem; font-weight:700; color:#9A7726; background:rgba(197,157,66,0.12); border:1px solid rgba(197,157,66,0.25); border-radius:4px; padding:1px 6px; margin-bottom:4px;">
-                  <i class="fas fa-tag"></i> ${escapeHTML(item.budget)}
-                </span>
-              ` : ''}
-              ${item.notes ? `
-                <div class="inquiry-notes-preview">
-                  <span><i class="fas fa-sticky-note"></i> <strong>Note:</strong> ${escapeHTML(item.notes)}</span>
-                  ${!isDeleted ? `<button type="button" onclick="openNoteModal('${itemId}')" style="background:none; border:none; cursor:pointer; color:#78350F; font-size:0.78rem; text-decoration:underline;">Edit</button>` : ''}
-                </div>
-              ` : `
-                ${!isDeleted ? `
-                  <button type="button" onclick="openNoteModal('${itemId}')" style="background:none; border:none; cursor:pointer; color:#94A3B8; font-size:0.75rem; margin-top:4px; padding:0; display:inline-flex; align-items:center; gap:3px;">
-                    <i class="fas fa-plus-circle"></i> Add internal note
-                  </button>
-                ` : ''}
-              `}
+              ${renderScopeCell(item, itemId, isDeleted)}
             </td>
             <td>
               <span style="font-size:0.84rem; color:#334155; font-weight:600;">
@@ -1388,6 +1749,280 @@
           </tr>
         `;
       }).join("");
+    }
+
+    // --- Renovation Scope & Details Parsing Helper ---
+    function parseScopeInfo(item) {
+      let roomType = (item.bathroomType || "").trim();
+      let collection = (item.collectionTier || "").trim();
+      let budget = (item.budget || "").trim();
+      let customDetails = "";
+      const rawReq = (item.requirements || "").trim();
+
+      if (roomType && collection) {
+        const standardConcat = `${roomType} • ${collection}`;
+        const standardWithBudget = budget ? `${standardConcat} (${budget})` : standardConcat;
+        if (rawReq && rawReq !== standardConcat && rawReq !== standardWithBudget) {
+          customDetails = rawReq;
+        }
+      } else if (rawReq.includes("•")) {
+        const parts = rawReq.split("•").map(p => p.trim()).filter(Boolean);
+        if (parts.length >= 1) roomType = parts[0];
+        if (parts.length >= 2) {
+          let part2 = parts[1];
+          const budgetMatch = part2.match(/\((₹[^)]+)\)/);
+          if (budgetMatch) {
+            if (!budget) budget = budgetMatch[1];
+            part2 = part2.replace(budgetMatch[0], "").trim();
+          }
+          collection = part2;
+        }
+        if (parts.length >= 3) {
+          customDetails = parts.slice(2).join(" • ");
+        }
+      } else if (rawReq) {
+        const lower = rawReq.toLowerCase();
+        const isConversational = lower.startsWith("i want") || lower.startsWith("please") || lower.startsWith("we need") || lower.startsWith("can you") || lower.startsWith("kindly");
+        if (isConversational) {
+          roomType = "Custom Renovation Inquiry";
+          customDetails = rawReq;
+        } else if (rawReq.length <= 70) {
+          roomType = rawReq;
+        } else {
+          roomType = "Turnkey Luxury Renovation";
+          customDetails = rawReq;
+        }
+      } else {
+        roomType = "Turnkey Luxury Bathroom Renovation";
+      }
+
+      if (budget) {
+        roomType = roomType.replace(`(${budget})`, "").trim();
+        collection = collection.replace(`(${budget})`, "").trim();
+      }
+
+      return {
+        roomType: roomType || "Luxury Bathroom Renovation",
+        collection: collection,
+        budget: budget,
+        customDetails: customDetails,
+        rawRequirements: rawReq,
+        notes: (item.notes || "").trim()
+      };
+    }
+
+    // --- Render Scope Cell with Compact Mode & Show More ---
+    function renderScopeCell(item, itemId, isDeleted) {
+      const scope = parseScopeInfo(item);
+      const isExpanded = expandedScopeIds.has(String(itemId));
+      const hasDetailsToExpand = Boolean(scope.collection || scope.budget || scope.customDetails || scope.notes);
+
+      return `
+        <div class="scope-cell-wrap">
+          <!-- Primary Scope Headline -->
+          <div class="scope-primary-title" title="${escapeHTML(scope.roomType)}">
+            <i class="fas fa-bath scope-icon"></i>
+            <span>${escapeHTML(scope.roomType)}</span>
+          </div>
+
+          <!-- Collection or Style Subtitle (if available) -->
+          ${scope.collection ? `
+            <div class="scope-style-subtitle" title="${escapeHTML(scope.collection)}">
+              <i class="fas fa-gem" style="color:var(--portal-gold); font-size:0.72rem;"></i>
+              <span>${escapeHTML(scope.collection)}</span>
+            </div>
+          ` : ''}
+
+          <!-- Brief description snippet if custom client request -->
+          ${scope.customDetails ? `
+            <div class="scope-brief-desc" title="${escapeHTML(scope.customDetails)}">
+              "${escapeHTML(scope.customDetails.length > 55 ? scope.customDetails.slice(0, 52) + '...' : scope.customDetails)}"
+            </div>
+          ` : ''}
+
+          <!-- Compact Badges & Show More Bar -->
+          <div class="scope-meta-strip">
+            ${scope.budget ? `
+              <span class="scope-pill-budget" title="Budget Range: ${escapeHTML(scope.budget)}">
+                <i class="fas fa-tag"></i> ${escapeHTML(scope.budget.length > 24 ? scope.budget.slice(0, 22) + '...' : scope.budget)}
+              </span>
+            ` : ''}
+
+            ${scope.notes ? `
+              <button type="button" class="scope-pill-note" onclick="openNoteModal('${itemId}')" title="Internal Remark: ${escapeHTML(scope.notes)}. Click to edit.">
+                <i class="fas fa-sticky-note"></i> Note <span class="note-pill-indicator"></span>
+              </button>
+            ` : (!isDeleted ? `
+              <button type="button" class="scope-pill-add-note" onclick="openNoteModal('${itemId}')" title="Add internal follow-up remark">
+                <i class="fas fa-plus"></i> Note
+              </button>
+            ` : '')}
+
+            ${hasDetailsToExpand ? `
+              <button type="button" class="scope-toggle-btn ${isExpanded ? 'active' : ''}" id="scope-btn-${itemId}" onclick="toggleScopeDetails('${itemId}')" aria-expanded="${isExpanded ? 'true' : 'false'}">
+                <span>${isExpanded ? 'Show less' : 'Show more'}</span>
+                <i class="fas ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}"></i>
+              </button>
+            ` : ''}
+
+            <button type="button" class="btn-scope-dossier" onclick="openConsultationDossier('${itemId}')" title="View Full Consultation Dossier">
+              <i class="fas fa-expand-alt"></i>
+            </button>
+          </div>
+
+          <!-- Expandable Details Drawer -->
+          ${hasDetailsToExpand ? `
+            <div class="scope-details-drawer" id="scope-drawer-${itemId}" style="display: ${isExpanded ? 'block' : 'none'};">
+              <div class="scope-drawer-inner">
+                ${scope.collection ? `
+                  <div class="scope-drawer-row">
+                    <span class="scope-drawer-label"><i class="fas fa-gem" style="color:var(--portal-gold);"></i> Collection:</span>
+                    <span class="scope-drawer-val">${escapeHTML(scope.collection)}</span>
+                  </div>
+                ` : ''}
+
+                ${scope.budget ? `
+                  <div class="scope-drawer-row">
+                    <span class="scope-drawer-label"><i class="fas fa-wallet" style="color:var(--portal-gold);"></i> Budget:</span>
+                    <span class="scope-drawer-val scope-drawer-val-budget">${escapeHTML(scope.budget)}</span>
+                  </div>
+                ` : ''}
+
+                ${scope.customDetails ? `
+                  <div class="scope-drawer-row" style="flex-direction:column; gap:3px;">
+                    <span class="scope-drawer-label"><i class="fas fa-clipboard-list" style="color:var(--portal-gold);"></i> Client Request / Details:</span>
+                    <span class="scope-drawer-val scope-drawer-val-desc">${escapeHTML(scope.customDetails)}</span>
+                  </div>
+                ` : ''}
+
+                <!-- Internal Architectural Remarks Card -->
+                <div class="scope-drawer-note-card">
+                  <div class="scope-drawer-note-header">
+                    <span><i class="fas fa-sticky-note" style="color:var(--portal-gold);"></i> <strong>Internal Remark:</strong></span>
+                    ${!isDeleted ? `<button type="button" class="btn-note-edit-mini" onclick="openNoteModal('${itemId}')"><i class="fas fa-pen"></i> Edit</button>` : ''}
+                  </div>
+                  <div class="scope-drawer-note-text">
+                    ${scope.notes ? escapeHTML(scope.notes) : '<em style="color:#94A3B8;">No internal remarks added yet. Click edit to add remarks.</em>'}
+                  </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; margin-top:4px;">
+                  <button type="button" class="btn-scope-dossier" onclick="openConsultationDossier('${itemId}')">
+                    <i class="fas fa-id-card"></i> View Full Consultation Dossier
+                  </button>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // --- Toggle Scope Details Drawer ---
+    function toggleScopeDetails(id) {
+      const strId = String(id);
+      const drawer = document.getElementById(`scope-drawer-${strId}`);
+      const btn = document.getElementById(`scope-btn-${strId}`);
+      if (!drawer) return;
+
+      const isCurrentlyOpen = drawer.style.display !== "none";
+      if (isCurrentlyOpen) {
+        drawer.style.display = "none";
+        expandedScopeIds.delete(strId);
+        if (btn) {
+          btn.classList.remove("active");
+          btn.innerHTML = '<span>Show more</span> <i class="fas fa-chevron-down"></i>';
+          btn.setAttribute("aria-expanded", "false");
+        }
+      } else {
+        drawer.style.display = "block";
+        expandedScopeIds.add(strId);
+        if (btn) {
+          btn.classList.add("active");
+          btn.innerHTML = '<span>Show less</span> <i class="fas fa-chevron-up"></i>';
+          btn.setAttribute("aria-expanded", "true");
+        }
+      }
+    }
+
+    // --- Toggle All Scopes at once ---
+    function toggleAllScopes() {
+      allScopesExpanded = !allScopesExpanded;
+      const toggleBtn = document.getElementById("toggleAllScopesBtn");
+
+      if (allScopesExpanded) {
+        allInquiries.forEach(i => expandedScopeIds.add(String(i.id || i.refId)));
+        if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Collapse All';
+      } else {
+        expandedScopeIds.clear();
+        if (toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Expand All';
+      }
+
+      applyFilters();
+    }
+
+    // --- Consultation Dossier Modal Logic ---
+    function openConsultationDossier(id) {
+      const item = allInquiries.find(i => String(i.id) === String(id) || String(i.refId) === String(id));
+      if (!item) return;
+
+      const modal = document.getElementById("consultationDossierModal");
+      if (!modal) return;
+
+      const scope = parseScopeInfo(item);
+      const cleanPhone = (item.phone || "").replace(/[^0-9]/g, "");
+      const waPhone = cleanPhone.length === 10 ? "91" + cleanPhone : cleanPhone;
+      const waText = encodeURIComponent(`Namaskar ${item.name || 'Client'}, thank you for contacting Brick & Bath regarding your luxury bathroom renovation inquiry (${item.refId}). When would be a convenient time to schedule your free 3D photorealistic design assessment?`);
+
+      document.getElementById("dossierRefId").textContent = "#" + (item.refId || item.id);
+      document.getElementById("dossierClientName").textContent = item.name || "Valued Client";
+      document.getElementById("dossierPhone").textContent = item.phone || "--";
+      document.getElementById("dossierPhoneLink").href = item.phone ? `tel:${item.phone}` : '#';
+      document.getElementById("dossierEmail").textContent = item.email || "Not specified";
+      document.getElementById("dossierEmailLink").href = item.email ? `mailto:${item.email}` : '#';
+      document.getElementById("dossierCity").textContent = item.city || "Bhubaneswar";
+      document.getElementById("dossierSource").textContent = item.source || "Website Form";
+      document.getElementById("dossierDate").textContent = item.preferredDate || "Earliest Available";
+
+      const d = item.createdAt || item.receivedAt ? new Date(item.createdAt || item.receivedAt) : null;
+      document.getElementById("dossierSubmittedAt").textContent = d && !isNaN(d.getTime()) ? d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "Recent";
+
+      const statusEl = document.getElementById("dossierStatus");
+      const curStatus = item.status || "New";
+      statusEl.value = curStatus;
+      statusEl.setAttribute("data-item-id", String(item.id || item.refId));
+      statusEl.className = "status-badge-select " + getStatusClass(curStatus);
+
+      document.getElementById("dossierRoomType").textContent = scope.roomType;
+      document.getElementById("dossierCollection").textContent = scope.collection || "Custom Architectural";
+      document.getElementById("dossierBudget").textContent = scope.budget || "To be estimated after 3D render";
+      document.getElementById("dossierRequirements").textContent = scope.customDetails || scope.rawRequirements || "Turnkey Luxury Bathroom Renovation";
+
+      const noteBox = document.getElementById("dossierNoteText");
+      noteBox.textContent = item.notes || "No internal remarks recorded yet.";
+
+      const editNoteBtn = document.getElementById("dossierEditNoteBtn");
+      editNoteBtn.onclick = () => {
+        closeConsultationDossier();
+        openNoteModal(String(item.id || item.refId));
+      };
+
+      const waBtn = document.getElementById("dossierWaBtn");
+      waBtn.href = `https://wa.me/${waPhone}?text=${waText}`;
+
+      modal.style.display = "flex";
+    }
+
+    function closeConsultationDossier() {
+      const modal = document.getElementById("consultationDossierModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function onDossierStatusChange(selectEl) {
+      const itemId = selectEl.getAttribute("data-item-id");
+      if (itemId) {
+        updateInquiryStatus(itemId, selectEl.value, selectEl);
+      }
     }
 
     // --- Lead Source Helpers ---

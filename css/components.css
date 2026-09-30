@@ -581,12 +581,18 @@
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
 }
 
-.hero-title span.gold-text {
-  background: var(--gold-gradient);
+.hero-title span.gold-text,
+.gold-text {
+  color: #FFF5E1;
+  background: var(--gold-gradient-pearl, linear-gradient(135deg, #FFFFFF 0%, #FFF5E1 45%, #FDE8BD 80%, #F5CE85 100%));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-style: italic;
   font-weight: 600;
+  display: inline-block;
+  text-shadow: none;
+  filter: drop-shadow(0 0 18px rgba(245, 199, 122, 0.55)) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.8));
 }
 
 .hero-description {
